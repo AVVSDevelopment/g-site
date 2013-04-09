@@ -1,0 +1,121 @@
+body {
+  background: #093D62;
+  color: white;
+}
+
+.navbar-inner {
+  color: white;
+  border-bottom: solid 1px #aaaaaa;
+  .gradient(top, #12a1ca, #11729f);
+  #logo {
+    display: block;
+    padding: 10px 20px 10px 5px;
+    font-size: 20px;
+  }
+  #userpanel, #sitepanel {
+    .border-box;
+    display: block;
+    padding: 10px;
+    height: 63px;
+    div, a {
+      position: relative;
+      left: 0;
+      display: block;
+      float: left;
+      margin: 0 10px 0 0;
+    }
+  }
+}
+
+.user-block {
+  .avatar.small {
+    width: 38px;
+    height: 38px;
+  }
+  .username, .xp {
+    float: left;
+    clear: both;
+  }
+}
+
+.coins-block {
+  img {
+    float: left;
+    margin-top: 4px;
+  }
+  .coins {
+    margin-top: 5px;
+    margin-left: 6px;
+  }
+}
+
+@game_img_margin: 5px;
+@game_img_min_size: 141px;
+@game_img_max_size: 150px;
+
+.content{
+  padding: 68px 5px 0px 5px;
+}
+
+#games {
+  line-height: 0px;
+  display: inline;
+  .imagesInRow(2);
+  .imagesInRow(3);
+  .imagesInRow(4);
+  .imagesInRow(5);
+  .imagesInRow(6);
+  .imagesInRow(7);
+  .imagesInRow(8);
+  .imagesInRow(9);
+  .imagesInRow(10);
+  .imagesInRow(11);
+  .imagesInRow(12);
+  .imagesInRow(13);
+  .imagesInRow(14);
+  .imagesInRow(15);
+  .imagesInRow(16);
+  .game {
+    display: inline-block;
+    padding: @game_img_margin;
+    .border-box();
+    img {
+      width: 100%;
+      height: 100%;
+      min-width: @game_img_min_size;
+      max-width: @game_img_max_size;
+    }
+
+
+    &:last-child{
+
+    }
+  }
+}
+
+.imagesInRow (@img:6) {
+  @min: @img * (@game_img_max_size)+1;
+  @max: (@img + 1)* (@game_img_max_size);
+  @media (min-width:@min) and (max-width: @max) {
+    .game {
+      width: 100% / @img;
+      height: auto;
+      max-width: @game_img_max_size + 2*@game_img_margin;
+      //min-width: @game_img_min_size;
+    }
+  }
+}
+
+.border-box () {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.gradient (@origin: top, @start: #ffffff, @stop: #ffffff) {
+  background-color: @start;
+  background-image: -webkit-linear-gradient(@origin, @start, @stop);
+  background-image: -moz-linear-gradient(@origin, @start, @stop);
+  background-image: -o-linear-gradient(@origin, @start, @stop);
+  background-image: -ms-linear-gradient(@origin, @start, @stop);
+  background-image: linear-gradient(@origin, @start, @stop);
+}
