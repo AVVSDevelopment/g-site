@@ -1,5 +1,5 @@
 class AppView extends Backbone.View
-  el: $ "div#appView"
+  #el: $ "div#appView"
   initialize: ()->
     this.el = $ "div#appView"
     return

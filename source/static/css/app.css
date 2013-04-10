@@ -56,108 +56,108 @@ body {
   padding: 68px 5px 0px 5px;
 }
 #games {
-  line-height: 0px;
   display: inline;
+  line-height: 0px;
 }
-@media (min-width: 301px) and (max-width: 450px) {
+@media (min-width: 320px) and (max-width: 471px) {
   #games .game {
     width: 50%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 451px) and (max-width: 600px) {
+@media (min-width: 470px) and (max-width: 621px) {
   #games .game {
     width: 33.333333333333336%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 601px) and (max-width: 750px) {
+@media (min-width: 620px) and (max-width: 771px) {
   #games .game {
     width: 25%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 751px) and (max-width: 900px) {
+@media (min-width: 770px) and (max-width: 921px) {
   #games .game {
     width: 20%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 901px) and (max-width: 1050px) {
+@media (min-width: 920px) and (max-width: 1071px) {
   #games .game {
     width: 16.666666666666668%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 1051px) and (max-width: 1200px) {
+@media (min-width: 1070px) and (max-width: 1221px) {
   #games .game {
     width: 14.285714285714286%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 1201px) and (max-width: 1350px) {
+@media (min-width: 1220px) and (max-width: 1371px) {
   #games .game {
     width: 12.5%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 1351px) and (max-width: 1500px) {
+@media (min-width: 1370px) and (max-width: 1521px) {
   #games .game {
     width: 11.11111111111111%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 1501px) and (max-width: 1650px) {
+@media (min-width: 1520px) and (max-width: 1671px) {
   #games .game {
     width: 10%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 1651px) and (max-width: 1800px) {
+@media (min-width: 1670px) and (max-width: 1821px) {
   #games .game {
     width: 9.090909090909092%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 1801px) and (max-width: 1950px) {
+@media (min-width: 1820px) and (max-width: 1971px) {
   #games .game {
     width: 8.333333333333334%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 1951px) and (max-width: 2100px) {
+@media (min-width: 1970px) and (max-width: 2121px) {
   #games .game {
     width: 7.6923076923076925%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 2101px) and (max-width: 2250px) {
+@media (min-width: 2120px) and (max-width: 2271px) {
   #games .game {
     width: 7.142857142857143%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 2251px) and (max-width: 2400px) {
+@media (min-width: 2270px) and (max-width: 2421px) {
   #games .game {
     width: 6.666666666666667%;
     height: auto;
     max-width: 160px;
   }
 }
-@media (min-width: 2401px) and (max-width: 2550px) {
+@media (min-width: 2420px) and (max-width: 2571px) {
   #games .game {
     width: 6.25%;
     height: auto;
@@ -167,12 +167,42 @@ body {
 #games .game {
   display: inline-block;
   padding: 5px;
+  position: relative;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
+}
+#games .game > a {
+  overflow: hidden;
+  display: block;
+  color: #ffffff;
+  position: relative;
+  min-width: 141px;
+  min-height: 141px;
+  max-width: 150px;
+  max-height: 150px;
 }
 #games .game img {
   width: 100%;
   height: 100%;
   min-width: 141px;
+  min-height: 141px;
   max-width: 150px;
+  max-height: 150px;
+}
+#games .game .name {
+  text-align: center;
+  vertical-align: bottom;
+  word-break: break-word;
+  line-height: 20px;
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  right: 0;
+  padding: 5px;
+  background: rgba(0, 0, 0, 0.64);
+  transition: all 1s ease;
+  -moz-transition: all 1s ease;
+}
+#games .game > a:hover .name {
+  bottom: 0;
 }

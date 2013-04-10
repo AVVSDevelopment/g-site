@@ -1,14 +1,33 @@
 class GamesView extends Backbone.View
+
   initialize: (games)->
-    this.el = $ "#games"
-    this.model = games
-    this.listenTo games, 'add', this.renderNewGame
+    _.bindAll(@, "render");
+    @el = $ "#games"
+    @collection = games
+    @listenTo @collection, 'add', @appendGame
+    @infiniScroll = new Backbone.InfiniScroll @collection, {
+      strict: false
+      scrollOffset: 200
+      error: ()=> #fetch will be error
+        i =0
+        while i<20
+          @collection.add new Game()
+          i++
+    }
+
   render: ()->
-    return this
-  renderNewGame: (game, games, options)->
+    @collection.forEach (game)->
+      @renderNewGame(game)
+    return @el
+
+  appendGame: (game, games, options)->
     gameview = new GameView(game);
-    $(this.el).append gameview.render()
-    return this.el
+    $(@el).append gameview.render()
+    return @el
+
+  remove: ()->
+    @infiniScroll.destroy()
+    return Backbone.View.prototype.remove.call @
 
 
 
