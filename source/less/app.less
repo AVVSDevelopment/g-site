@@ -109,8 +109,7 @@ body {
       right: 0;
       padding: 5px;
       background: rgba(0, 0, 0, 0.64);
-      transition:all 1s ease;
-      -moz-transition:all 1s ease;
+      .transition(all 0.2s ease-in-out);
     }
     >a:hover .name {
       bottom: 0;
@@ -142,4 +141,13 @@ body {
   background-image: -o-linear-gradient(@origin, @start, @stop);
   background-image: -ms-linear-gradient(@origin, @start, @stop);
   background-image: linear-gradient(@origin, @start, @stop);
+}
+
+
+.transition (...) {
+  transition: @arguments;
+  -webkit-transition: @arguments;
+  -moz-transition: @arguments;
+  -o-transition: @arguments;
+  -ms-transition: @arguments;
 }

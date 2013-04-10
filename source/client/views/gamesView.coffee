@@ -7,7 +7,7 @@ class GamesView extends Backbone.View
     @listenTo @collection, 'add', @appendGame
     @infiniScroll = new Backbone.InfiniScroll @collection, {
       strict: false
-      scrollOffset: 200
+      scrollOffset: 600
       error: ()=> #fetch will be error
         i =0
         while i<20

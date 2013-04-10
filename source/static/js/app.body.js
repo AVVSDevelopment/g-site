@@ -130,7 +130,7 @@ GamesView = (function(_super) {
     this.listenTo(this.collection, 'add', this.appendGame);
     return this.infiniScroll = new Backbone.InfiniScroll(this.collection, {
       strict: false,
-      scrollOffset: 200,
+      scrollOffset: 600,
       error: function() {
         var i, _results;
 
@@ -189,7 +189,7 @@ $(function() {
       return;
     }
     i = 0;
-    while (i < 40) {
+    while (i < 50) {
       games.add(new Game());
       i++;
     }

@@ -15,7 +15,7 @@ $ ()->
   initFullScreen = ()=>
     if $("body").height() > $(window).height() then return
     i = 0
-    while i<40
+    while i<50
       games.add new Game()
       i++
     setTimeout initFullScreen, 100
