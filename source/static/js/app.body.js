@@ -101,7 +101,7 @@ GameView = (function(_super) {
   };
 
   GameView.prototype.render = function() {
-    $(this.el).append("<a href='#'><img class='thumb' src='" + this.model.thumbnail + "'><div class='name'>" + this.model.name + "</div></a>");
+    $(this.el).append("<a href='#'><img class='thumb' src='" + this.model.thumbnail + "'><div class='name'>" + this.model.name + " " + this.model.name + " " + this.model.name + "</div></a>");
     return this.el;
   };
 
