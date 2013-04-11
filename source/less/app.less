@@ -50,8 +50,8 @@ body {
 }
 
 @game_img_margin: 5px;
-@game_img_min_size: 141px;
-@game_img_max_size: 150px;
+@game_img_min_size: 139px;
+@game_img_max_size: 152px;
 
 .content{
   padding: 68px @game_img_margin 0px @game_img_margin;
@@ -60,6 +60,7 @@ body {
 #games {
   display: inline;
   line-height: 0px;
+  text-align: center;
   .imagesInRow(2);
   .imagesInRow(3);
   .imagesInRow(4);
@@ -82,9 +83,11 @@ body {
     .border-box();
     > a {
       overflow: hidden;
-      display: block;
+      display: inline-block;
       color: #ffffff;
       position: relative;
+      width: 100%;
+      height: auto;
       min-width: @game_img_min_size;
       min-height: @game_img_min_size;
       max-width: @game_img_max_size;
@@ -118,8 +121,17 @@ body {
 }
 
 .imagesInRow (@img:6) {
-  @min: @img * (@game_img_max_size)+20;
-  @max: (@img + 1)* (@game_img_max_size)+21;
+  @min: @img * (@game_img_max_size)+1;
+  @image_max: (@img) * (@game_img_max_size + 2*8px); //when expand stoped
+  @max: (@img + 1)* (@game_img_max_size);
+  @media (min-width:@image_max) and (max-width: @max) {
+    .game {
+      padding: 0 8px !important;
+      margin: 8px 0px !important;
+      max-width: @game_img_max_size + 2*10px !important;
+    }
+  }
+
   @media (min-width:@min) and (max-width: @max) {
     .game {
       width: 100% / @img;
