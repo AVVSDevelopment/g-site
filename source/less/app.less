@@ -50,7 +50,7 @@ body {
 }
 
 @game_img_margin: 5px;
-@game_img_min_size: 139px;
+@game_img_min_size: 138px;
 @game_img_max_size: 152px;
 
 .content{
@@ -79,11 +79,10 @@ body {
   .game {
     display: inline-block;
     padding: @game_img_margin;
-    position: relative;
     .border-box();
     > a {
       overflow: hidden;
-      display: inline-block;
+      display: block;
       color: #ffffff;
       position: relative;
       width: 100%;
@@ -102,20 +101,19 @@ body {
       max-height: @game_img_max_size;
     }
     .name {
-      text-align: center;
-      vertical-align: bottom;
       word-break: break-word;
       line-height: 20px;
       position: absolute;
-      bottom: -100%;
       left: 0;
       right: 0;
+      bottom: -60%;
       padding: 5px;
+      background: black;
       background: rgba(0, 0, 0, 0.64);
-      .transition(all 0.2s ease-in-out);
+      .transition(all 0.5s cubic-bezier(0.710, 0.000, 0.295, 1.000));
     }
     >a:hover .name {
-      bottom: 0;
+      bottom: 0px;
     }
   }
 }
@@ -128,7 +126,7 @@ body {
     .game {
       padding: 0 8px !important;
       margin: 8px 0px !important;
-      max-width: @game_img_max_size + 2*10px !important;
+      max-width: @game_img_max_size + 2*8px !important;
     }
   }
 
