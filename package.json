@@ -2,7 +2,8 @@
   "name": "node-example",
   "version": "0.0.1",
   "dependencies": {
-    "express": "2.5.x"
+    "express": "2.5.x",
+    "dot" : "1.x.x"
   },
   "devDependencies": {
     "grunt": "0.4.x",

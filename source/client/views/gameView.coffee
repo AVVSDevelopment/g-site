@@ -1,13 +1,15 @@
 class GameView extends Backbone.View
   tagName: "div"
-  className: "game"
-  initialize: (game)->
-    @model = game
+  className : "game"
+  templateStr:'<a href="/games/{{=it.link}}">
+      <img class="thumb" src="{{=it.thumbnail}}">
+      <div class="name">{{=it.name}}</div>
+    </a>'
+  template: doT.template @::templateStr, undefined, {}
   render: ()->
-    $(@el).append "<a href='#'><img class='thumb' src='#{@model.thumbnail}'><div class='name'>#{@model.name}</div></a>"
-    #$(@el).append "<img class='thumb' src='#{@model.thumbnail}'><div class='name'>#{@model.name}</div>"
-    #$(@el).append "<img class='thumb' src='#{@model.thumbnail}'>"
-    return @el
+    @$el.append @template @model
+    return @$el
+
 
 
 

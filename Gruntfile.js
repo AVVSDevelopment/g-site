@@ -15,21 +15,26 @@ module.exports = function(grunt) {
         cssmin: {
             compress: {
                 files: {
-                    "source/static/css/app.concat.css": ["source/static/css/app.css"]
+                    "source/static/css/app.concat.css": ["source/static/css/app.css"],
+                    "source/static/css/typicons.min.css": ["source/static/css/typicons.css"]
+
                 }
             }
         },
         concat: {
             dist: {
-                src: ["source/static/css/bootstrap.min.css", "source/static/css/app.concat.css"],
+                src: ["source/static/css/bootstrap.min.css", "source/static/css/bootstrap-resonsive.min.css",
+                    "source/static/css/typicons.min.css", "source/static/css/app.concat.css"
+                ],
                 dest: "source/static/css/app.min.css"
             }
         },
         coffee : {
             compile: {
                 files : {
-                    //'source/static/js/coffee.js': ["source/client/models/*.coffee", "source/client/collections/*.coffee", "source/client/views/**/**.coffee", "source/client/app.coffee"]
-                    'source/static/js/app.body.js':["source/client/models/*.coffee", "source/client/collections/*.coffee", "source/client/views/**/**.coffee", "source/client/app.coffee"]
+                    'source/static/js/app.body.js':["source/client/models/*.coffee", "source/client/collections/*.coffee",
+                        "source/client/views/**/**.coffee", "source/client/app.coffee"
+                    ]
                 },
                 options: {
                     bare: true
@@ -39,7 +44,9 @@ module.exports = function(grunt) {
         uglify : {
             head: {
                 files : {
-                    "source/static/js/app.head.js" :["source/static/js/jquery-1.9.1.min.js", "source/static/js/underscore.js", "source/static/js/backbone.js", "source/static/js/infiniScroll.js"]
+                    "source/static/js/app.head.js" :["source/static/js/jquery-1.9.1.min.js", "source/static/js/underscore.js",
+                        "source/static/js/backbone.js", "source/static/js/infiniScroll.js", "source/static/js/dot.min.js"
+                    ]
                 }
             }
             /*,
