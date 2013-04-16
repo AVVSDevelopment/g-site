@@ -45,7 +45,8 @@ module.exports = function(grunt) {
             head: {
                 files : {
                     "source/static/js/app.head.js" :["source/static/js/jquery-1.9.1.min.js", "source/static/js/underscore.js",
-                        "source/static/js/backbone.js", "source/static/js/infiniScroll.js", "source/static/js/dot.min.js"
+                        "source/static/js/backbone.js", "source/static/js/infiniScroll.js", "source/static/js/dot.min.js",
+                        "source/static/js/swfobject.js"
                     ]
                 }
             }

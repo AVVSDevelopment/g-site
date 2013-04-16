@@ -31,9 +31,17 @@ class App extends Backbone.Router
 
   index:()->
     @gamePageView.$el.modal 'hide'
+    @gamePageView.deleteSwfObject()
   gamepage: (game_link)->
-    @gamePageView.model = @games.find (game)-> return game.link == game_link
+    #fetch from server by game_link, but for this moment we just create new one
+    id = game_link.split "-"
+    id = id[id.length-1]
+    @gamePageView.model = new Game()
+    @gamePageView.model.twin id
+    @gamePageView.model.set "link", game_link
+    #@gamePageView.model = @games.find (game)-> return game.get("link") == game_link
     @gamePageView.render().modal 'show'
+    @gamePageView.setupSwfObject()
 
 $ () ->
   app = new App()
@@ -50,3 +58,17 @@ $ () ->
       uri = if Backbone.history._hasPushState then e.currentTarget.getAttribute('href').slice(1) else "!/"+e.currentTarget.getAttribute('href').slice(1)
       app.navigate uri, {trigger:true}
       return false
+
+  $('.search-bar .search-query').typeahead
+    source: (query, process)-> return app.games.search(query)
+    matcher: ()-> true
+    sorter: (items)->
+      items
+    highlighter: (game)->
+      gv = new GameView {model:game}
+      return gv.render()
+    updater: (itemString) =>
+      item = JSON.parse(itemString)
+      app.navigate '/games/'+item.link, {trigger:true}
+      return
+    items: 10
