@@ -345,7 +345,8 @@ App = (function(_super) {
   App.prototype.init = function() {};
 
   App.prototype.index = function() {
-    this.gamePageView.$el.modal('hide');
+    $('#GamePage').hide();
+    $('#GamePageBackdrop').hide();
     return this.gamePageView.deleteSwfObject();
   };
 
@@ -357,8 +358,10 @@ App = (function(_super) {
     this.gamePageView.model = new Game();
     this.gamePageView.model.twin(id);
     this.gamePageView.model.set("link", game_link);
-    this.gamePageView.render().modal('show');
-    return this.gamePageView.setupSwfObject();
+    $('#GamePage').replaceWith(this.gamePageView.render());
+    this.gamePageView.setupSwfObject();
+    $('#GamePageBackdrop').show();
+    return $('#GamePage').show();
   };
 
   return App;
@@ -419,6 +422,6 @@ $(function() {
         trigger: true
       });
     },
-    items: 10
+    items: 8
   });
 });
