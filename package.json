@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "author": "Nikita Lvov",
   "dependencies": {
+    "coffee-script": "1.x.x",
     "express": "3.x.x",
     "express-dot": "git://github.com/david-driscoll/express-dot.git",
     "mongoose": "3.x.x",
