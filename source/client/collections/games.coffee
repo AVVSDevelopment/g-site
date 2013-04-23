@@ -1,18 +1,7 @@
 class GamesCollection extends Backbone.Collection
+  url: '/api/v1.alpha/games'
   model : Game
-  url: '/games'
-  ###
-  fetch : ()->
-    console.log "fetch!"
-    i =0
-    while i<50
-      this.add new Game()
-      i++
-    parm = Backbone.Collection.prototype.fetch.call this
-    return parm
-  ###
 
-  #get from server by name
   popular: ()->
     return [new Game, new Game, new Game, new Game, new Game, new Game]
 

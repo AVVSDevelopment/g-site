@@ -10,26 +10,33 @@ Game = (function(_super) {
     return _ref;
   }
 
-  Game.prototype.idAttribute = "_id";
+  Game.prototype.url = function() {
+    var base;
 
-  Game.prototype.initialize = function() {
-    var picnum;
-
-    picnum = Math.floor(Math.random() * 3) + 1;
-    this.set("_id", Math.floor(Math.random() * 1000000));
-    this.set("thumbnail", '/static/img/thumb150_' + picnum + '.jpg');
-    this.set("name", 'This is long default game name with number ' + this.get("_id"));
-    this.set("link", 'default-game-link-' + this.get("_id"));
-    this.set("swf_link", 'http://www.mousebreaker.com/games/parking/INSKIN__parking-v1.1_Secure.swf');
-    this.set("similar", [Math.floor(Math.random() * 1000000), Math.floor(Math.random() * 1000000), Math.floor(Math.random() * 1000000), Math.floor(Math.random() * 1000000), Math.floor(Math.random() * 1000000)]);
+    base = '/api/v1.alpha/games/';
+    if (this.has("_id")) {
+      return base + this.get("_id");
+    } else if (this.has("slug")) {
+      return base + this.get("slug");
+    } else {
+      return base;
+    }
   };
 
-  Game.prototype.twin = function(id) {
-    this.set("_id", id);
-    this.set("name", 'This is long default game name with number ' + this.get("_id"));
-    this.set("link", 'default-game-link-' + this.get("_id"));
-    this.set("swf_link", 'http://www.mousebreaker.com/games/parking/INSKIN__parking-v1.1_Secure.swf');
-    return this.set("similar", [Math.floor(Math.random() * 1000000), Math.floor(Math.random() * 1000000), Math.floor(Math.random() * 1000000), Math.floor(Math.random() * 1000000), Math.floor(Math.random() * 1000000)]);
+  Game.prototype.idAttribute = "_id";
+
+  Game.prototype.thumbsUp = function(isInc) {
+    return $.ajax({
+      url: this.url() + "?thumbsUp=" + isInc,
+      type: 'PUT'
+    });
+  };
+
+  Game.prototype.thumbsDown = function(isDec) {
+    return $.ajax({
+      url: this.url() + "?thumbsDown=" + isDec,
+      type: 'PUT'
+    });
   };
 
   return Game;
@@ -48,21 +55,9 @@ GamesCollection = (function(_super) {
     return _ref;
   }
 
+  GamesCollection.prototype.url = '/api/v1.alpha/games';
+
   GamesCollection.prototype.model = Game;
-
-  GamesCollection.prototype.url = '/games';
-
-  /*
-  fetch : ()->
-    console.log "fetch!"
-    i =0
-    while i<50
-      this.add new Game()
-      i++
-    parm = Backbone.Collection.prototype.fetch.call this
-    return parm
-  */
-
 
   GamesCollection.prototype.popular = function() {
     return [new Game, new Game, new Game, new Game, new Game, new Game];
@@ -107,12 +102,12 @@ GamePageView = (function(_super) {
   GamePageView.prototype.templateStr = '<div class="game-page-body">\
         <div class="games-list popular">\
           <div class="top">Popular games</div>\
-          <div class="panel-content">{{~it.similar :value}}{{=value}}{{~}}</div>\
+          <div class="panel-content"></div>\
         </div>\
         <div class="game-window">\
           <div class="top">\
             <a href="/" class="typicn previous"></a>\
-            <span class="game-name">{{=it.name}}</span>\
+            <span class="game-name">{{=it.title}}</span>\
             <a href="#" class="typicn thumbsUp"></a>\
             <a href="#" class="typicn thumbsDown"></a>\
             <a href="#" class="typicn heart"></a>\
@@ -129,8 +124,7 @@ GamePageView = (function(_super) {
         </div>\
         <div class="games-list similar">\
           <div class="top">Similar games</div>\
-          <div class="panel-content">{{~it.similar :value}}{{=value}}{{~}}\
-          </div>\
+          <div class="panel-content"></div>\
         </div>\
         <div class="ad">\
           <div class="top">Advertisment</div>\
@@ -152,24 +146,12 @@ GamePageView = (function(_super) {
     var context;
 
     context = this.model.toJSON();
-    context.similar = context.similar.slice(0, 5);
-    context.similar = _.map(context.similar, function(similar_id) {
-      var g, gv;
-
-      g = new Game({
-        _id: similar_id
-      });
-      gv = new GameView({
-        model: g
-      });
-      return gv.render()[0].outerHTML;
-    });
     this.$el.html(this.template(context));
     return this.$el;
   };
 
   GamePageView.prototype.setupSwfObject = function() {
-    return swfobject.embedSWF(this.model.get("swf_link"), "swf-game-wrapper", "100%", "100%", "9.0.0");
+    return swfobject.embedSWF(this.model.get("swf_url"), "swf-game-wrapper", "100%", "100%", "9.0.0");
   };
 
   GamePageView.prototype.deleteSwfObject = function() {
@@ -181,11 +163,11 @@ GamePageView = (function(_super) {
   };
 
   GamePageView.prototype.thumbsUp = function() {
-    return console.log('thumbsUp');
+    return this.model.thumbsUp(true);
   };
 
   GamePageView.prototype.thumbsDown = function() {
-    return console.log('thumbsDown');
+    return this.model.thumbsDown(true);
   };
 
   return GamePageView;
@@ -209,9 +191,9 @@ GameView = (function(_super) {
 
   GameView.prototype.className = "game";
 
-  GameView.prototype.templateStr = '<a href="/games/{{=it.link}}">\
-      <img class="thumb" src="{{=it.thumbnail}}">\
-      <div class="name">{{=it.name}}</div>\
+  GameView.prototype.templateStr = '<a href="/games/{{=it.slug}}">\
+      <img class="thumb" src="{{=it.image_url}}">\
+      <div class="name">{{=it.title}}</div>\
     </a>';
 
   GameView.prototype.template = doT.template(GameView.prototype.templateStr, void 0, {});
@@ -240,25 +222,12 @@ GamesView = (function(_super) {
   GamesView.prototype.el = "div#games";
 
   GamesView.prototype.initialize = function() {
-    var _this = this;
-
     this.listenTo(this.collection, 'add', this.appendGame);
-    this.infiniScroll = new Backbone.InfiniScroll(this.collection, {
-      strict: false,
-      scrollOffset: 600,
-      error: function() {
-        var i, _results;
-
-        i = 0;
-        _results = [];
-        while (i < 20) {
-          _this.collection.add(new Game());
-          _results.push(i++);
-        }
-        return _results;
-      }
+    return this.infiniScroll = new Backbone.InfiniScroll(this.collection, {
+      strict: true,
+      includePage: true,
+      scrollOffset: 600
     });
-    return this.render();
   };
 
   GamesView.prototype.render = function() {
@@ -303,6 +272,22 @@ App = (function(_super) {
 
   App.prototype.initialize = function() {
     this.games = new GamesCollection();
+    _.each($('.game'), function(game_el) {
+      var game, gameView, slug;
+
+      game = new Game;
+      slug = $(game_el).find('a').attr('href');
+      game.set({
+        title: $(game_el).find('div.name').html(),
+        image_url: $(game_el).find('img.thumb').attr('src'),
+        slug: slug.substr(slug.lastIndexOf('/') + 1)
+      });
+      gameView = new GameView({
+        model: game,
+        el: game_el
+      });
+      return this.add(game);
+    }, this.games);
     this.gamesView = new GamesView({
       collection: this.games
     });
@@ -315,7 +300,9 @@ App = (function(_super) {
   App.prototype.center_games = function() {
     var margin;
 
-    this.initFullScreen();
+    if ($("body").height() < $(window).height()) {
+      this.initFullScreen();
+    }
     margin = ($(window).width() - $("#games").width() - 10) / 2;
     if (margin > 40) {
       margin = 0;
@@ -324,15 +311,9 @@ App = (function(_super) {
   };
 
   App.prototype.initFullScreen = function() {
-    var i;
-
+    $(window).scroll();
     if ($("body").height() > $(window).height()) {
       return;
-    }
-    i = 0;
-    while (i < 50) {
-      this.games.add(new Game());
-      i++;
     }
     return setTimeout(this.initFullScreen, 100);
   };
@@ -351,17 +332,21 @@ App = (function(_super) {
   };
 
   App.prototype.gamepage = function(game_link) {
-    var id;
+    var slug,
+      _this = this;
 
-    id = game_link.split("-");
-    id = id[id.length - 1];
-    this.gamePageView.model = new Game();
-    this.gamePageView.model.twin(id);
-    this.gamePageView.model.set("link", game_link);
-    $('#GamePage').replaceWith(this.gamePageView.render());
-    this.gamePageView.setupSwfObject();
-    $('#GamePageBackdrop').show();
-    return $('#GamePage').show();
+    slug = game_link.substr(game_link.lastIndexOf('/') + 1);
+    this.gamePageView.model = new Game({
+      slug: slug
+    });
+    return this.gamePageView.model.fetch({
+      success: function() {
+        $('#GamePage').replaceWith(_this.gamePageView.render());
+        _this.gamePageView.setupSwfObject();
+        $('#GamePageBackdrop').show();
+        return $('#GamePage').show();
+      }
+    });
   };
 
   return App;

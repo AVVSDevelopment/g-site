@@ -2,18 +2,11 @@ class GamesView extends Backbone.View
   el: "div#games"
 
   initialize: ()->
-    #_.bindAll @, "render"
     @listenTo @collection, 'add', @appendGame
-    @infiniScroll = new Backbone.InfiniScroll @collection, {
-      strict: false
+    @infiniScroll = new Backbone.InfiniScroll @collection,
+      strict: true
+      includePage: true
       scrollOffset: 600
-      error: ()=> #fetch will be error
-        i = 0
-        while i<20
-          @collection.add new Game()
-          i++
-    }
-    @render()
 
   render: ()->
     @collection.forEach (game)->

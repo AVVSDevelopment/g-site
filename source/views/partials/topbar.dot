@@ -1,0 +1,22 @@
+<div class="navbar-inner">
+    <a id="logo" class="pull-left" href="/">
+        <img src="http://cdn1.kizi.com/assets/collections/logo-2a5b3e30dcfae3c3cc4c35efbdd17692.png">
+    </a>
+    <div id="userpanel" class="pull-left">
+        <div class="user-block">
+            <div class="avatar small">
+                <img src="http://cdn0.kizi.com/assets/avatars/missing_avatar_medium-edfdb5ed7249ba8a40a58b236cebba42.png" id="user_image" alt="Missing_avatar_medium">
+            </div>
+            <div class="userinfo">
+                <div class="username">Niklv</div>
+                <div class="xp">Level 9000</div>
+            </div>
+        </div>
+    </div>
+    <div id="sitepanel" class="pull-right">
+        <div class="search-bar">
+            <input type="text" class="search-query" placeholder="Find game" data-provide="typeahead">
+            <a href="#" class="search-icon"><img src="http://cdn0.kizi.com/assets/collections/magnifier-87877397619c7e96580debc04f2f9c84.png"></a>
+        </div>
+    </div>
+</div>

@@ -1,9 +1,14 @@
 ﻿{
-  "name": "node-example",
+  "name": "g-site",
   "version": "0.0.1",
+  "author": "Nikita Lvov",
   "dependencies": {
-    "express": "2.5.x",
-    "dot" : "1.x.x"
+    "express": "3.x.x",
+    "express-dot": "git://github.com/david-driscoll/express-dot.git",
+    "mongoose": "3.x.x",
+    "underscore": "1.x.x",
+    "walk": "2.2.x"
+
   },
   "devDependencies": {
     "grunt": "0.4.x",

@@ -5,10 +5,10 @@ module.exports = function(grunt) {
         less: {
             development: {
                 options: {
-                    paths: ["source/less"]
+                    paths: ["source/static/less"]
                 },
                 files: {
-                    "source/static/css/app.css": "source/less/app.less"
+                    "source/static/css/app.css": "source/static/less/app.less"
                 }
             }
         },
@@ -60,7 +60,7 @@ module.exports = function(grunt) {
 
         watch : {
             less: {
-                files: ['source/less/*.less'],
+                files: ['source/static/less/*.less'],
                 tasks: ['less', 'cssmin', 'concat'],
                 options: {
                     interrupt: true
