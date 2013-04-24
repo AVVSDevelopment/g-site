@@ -1,7 +1,7 @@
 class App extends Backbone.Router
   initialize: ()->
-    #init games collection from html
     @games = new GamesCollection()
+    #init games collection from html
     _.each $('.game'), (game_el)->
       game = new Game
       slug = $(game_el).find('a').attr 'href'
@@ -47,15 +47,17 @@ class App extends Backbone.Router
     @gamePageView.deleteSwfObject()
 
   gamepage: (game_link)->
-    #fetch from server by game_link, but for this moment we just create new one
     slug = game_link.substr(game_link.lastIndexOf('/') + 1)
     @gamePageView.model = new Game {slug:slug}
     @gamePageView.model.fetch
       success: ()=>
-        $('#GamePage').replaceWith @gamePageView.render()
-        @gamePageView.setupSwfObject()
-        $('#GamePageBackdrop').show()
-        $('#GamePage').show()
+        @gamePageView.model.fetchPopularAndSimilar
+          success:()=>
+            $('#GamePage').replaceWith @gamePageView.render()
+            @gamePageView.setupSwfObject()
+            $('#GamePageBackdrop').show()
+            $('#GamePage').show()
+          error: ()->
 
 
 
@@ -76,15 +78,14 @@ $ () ->
       return false
 
   $('.search-bar .search-query').typeahead
-    source: (query, process)-> return app.games.search(query)
+    source: app.games.search
     matcher: ()-> true
-    sorter: (items)->
-      items
+    sorter: (items)->items
     highlighter: (game)->
       gv = new GameView {model:game}
       return gv.render()
     updater: (itemString) =>
       item = JSON.parse(itemString)
-      app.navigate '/games/'+item.link, {trigger:true}
+      app.navigate '/games/'+item.slug, {trigger:true}
       return
     items: 8

@@ -15,7 +15,7 @@
     </div>
     <div id="sitepanel" class="pull-right">
         <div class="search-bar">
-            <input type="text" class="search-query" placeholder="Find game" data-provide="typeahead">
+            <input type="text" class="search-query" placeholder="Find a game" data-provide="typeahead">
             <a href="#" class="search-icon"><img src="http://cdn0.kizi.com/assets/collections/magnifier-87877397619c7e96580debc04f2f9c84.png"></a>
         </div>
     </div>

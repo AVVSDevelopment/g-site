@@ -13,7 +13,7 @@ Game = (function(_super) {
   Game.prototype.url = function() {
     var base;
 
-    base = '/api/v1.alpha/games/';
+    base = "/api/v1.alpha/games/";
     if (this.has("_id")) {
       return base + this.get("_id");
     } else if (this.has("slug")) {
@@ -25,16 +25,42 @@ Game = (function(_super) {
 
   Game.prototype.idAttribute = "_id";
 
+  Game.prototype.fetchPopularAndSimilar = function(cb) {
+    var _this = this;
+
+    return $.ajax({
+      url: this.url() + "?popular=5",
+      type: 'GET',
+      success: function(data) {
+        _this.set("popular", data);
+        return $.ajax({
+          url: _this.url() + "?similar=5",
+          type: 'GET',
+          success: function(data) {
+            _this.set("similar", data);
+            return cb.success();
+          },
+          error: function() {
+            return cb.error();
+          }
+        });
+      },
+      error: function() {
+        return cb.error();
+      }
+    });
+  };
+
   Game.prototype.thumbsUp = function(isInc) {
     return $.ajax({
-      url: this.url() + "?thumbsUp=" + isInc,
+      url: this.url() + ("?thumbsUp=" + isInc),
       type: 'PUT'
     });
   };
 
   Game.prototype.thumbsDown = function(isDec) {
     return $.ajax({
-      url: this.url() + "?thumbsDown=" + isDec,
+      url: this.url() + ("?thumbsDown=" + isDec),
       type: 'PUT'
     });
   };
@@ -44,6 +70,7 @@ Game = (function(_super) {
 })(Backbone.Model);
 
 var GamesCollection, _ref,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -51,33 +78,43 @@ GamesCollection = (function(_super) {
   __extends(GamesCollection, _super);
 
   function GamesCollection() {
-    _ref = GamesCollection.__super__.constructor.apply(this, arguments);
+    this.search = __bind(this.search, this);    _ref = GamesCollection.__super__.constructor.apply(this, arguments);
     return _ref;
   }
 
-  GamesCollection.prototype.url = '/api/v1.alpha/games';
+  GamesCollection.prototype.url = "/api/v1.alpha/games/";
 
   GamesCollection.prototype.model = Game;
 
-  GamesCollection.prototype.popular = function() {
-    return [new Game, new Game, new Game, new Game, new Game, new Game];
+  GamesCollection.prototype.initialize = function() {
+    return this.search = _.debounce(this.search, 200);
   };
 
-  GamesCollection.prototype.search = function(query) {
-    return _.map(this.models, function(item) {
-      item.toString = function() {
-        return JSON.stringify(item.toJSON());
-      };
-      item.toLowerCase = function() {
-        return item.name.toLowerCase();
-      };
-      item.indexOf = function(string) {
-        return String.prototype.indexOf.apply(item.name, arguments);
-      };
-      item.replace = function(string) {
-        return String.prototype.replace.apply(item.name, arguments);
-      };
-      return item;
+  GamesCollection.prototype.search = function(query, cb) {
+    console.log("" + this.url + "?query=" + query);
+    return $.ajax({
+      url: "" + this.url + "?query=" + query,
+      type: 'GET',
+      success: function(games) {
+        return cb(_.map(games, function(game) {
+          var item;
+
+          item = new Game(game);
+          item.toString = function() {
+            return JSON.stringify(item.toJSON());
+          };
+          item.toLowerCase = function() {
+            return item.title.toLowerCase();
+          };
+          item.indexOf = function(string) {
+            return String.prototype.indexOf.apply(item.title, arguments);
+          };
+          item.replace = function(string) {
+            return String.prototype.replace.apply(item.title, arguments);
+          };
+          return item;
+        }));
+      }
     });
   };
 
@@ -102,7 +139,16 @@ GamePageView = (function(_super) {
   GamePageView.prototype.templateStr = '<div class="game-page-body">\
         <div class="games-list popular">\
           <div class="top">Popular games</div>\
-          <div class="panel-content"></div>\
+          <div class="panel-content">\
+            {{~it.popular :game}}\
+            <div class="game">\
+              <a href="/games/{{=game.slug}}">\
+                <img class="thumb" src="{{=game.image_url}}">\
+                <div class="name">{{=game.title}}</div>\
+              </a>\
+            </div>\
+            {{~}}\
+           </div>\
         </div>\
         <div class="game-window">\
           <div class="top">\
@@ -124,7 +170,16 @@ GamePageView = (function(_super) {
         </div>\
         <div class="games-list similar">\
           <div class="top">Similar games</div>\
-          <div class="panel-content"></div>\
+          <div class="panel-content">\
+            {{~it.popular :game}}\
+            <div class="game">\
+              <a href="/games/{{=game.slug}}">\
+                <img class="thumb" src="{{=game.image_url}}">\
+                <div class="name">{{=game.title}}</div>\
+              </a>\
+            </div>\
+            {{~}}\
+          </div>\
         </div>\
         <div class="ad">\
           <div class="top">Advertisment</div>\
@@ -341,10 +396,15 @@ App = (function(_super) {
     });
     return this.gamePageView.model.fetch({
       success: function() {
-        $('#GamePage').replaceWith(_this.gamePageView.render());
-        _this.gamePageView.setupSwfObject();
-        $('#GamePageBackdrop').show();
-        return $('#GamePage').show();
+        return _this.gamePageView.model.fetchPopularAndSimilar({
+          success: function() {
+            $('#GamePage').replaceWith(_this.gamePageView.render());
+            _this.gamePageView.setupSwfObject();
+            $('#GamePageBackdrop').show();
+            return $('#GamePage').show();
+          },
+          error: function() {}
+        });
       }
     });
   };
@@ -382,9 +442,7 @@ $(function() {
     }
   });
   return $('.search-bar .search-query').typeahead({
-    source: function(query, process) {
-      return app.games.search(query);
-    },
+    source: app.games.search,
     matcher: function() {
       return true;
     },
@@ -403,7 +461,7 @@ $(function() {
       var item;
 
       item = JSON.parse(itemString);
-      app.navigate('/games/' + item.link, {
+      app.navigate('/games/' + item.slug, {
         trigger: true
       });
     },

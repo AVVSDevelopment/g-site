@@ -3,7 +3,16 @@ class GamePageView extends Backbone.View
   templateStr:'<div class="game-page-body">
         <div class="games-list popular">
           <div class="top">Popular games</div>
-          <div class="panel-content"></div>
+          <div class="panel-content">
+            {{~it.popular :game}}
+            <div class="game">
+              <a href="/games/{{=game.slug}}">
+                <img class="thumb" src="{{=game.image_url}}">
+                <div class="name">{{=game.title}}</div>
+              </a>
+            </div>
+            {{~}}
+           </div>
         </div>
         <div class="game-window">
           <div class="top">
@@ -25,7 +34,16 @@ class GamePageView extends Backbone.View
         </div>
         <div class="games-list similar">
           <div class="top">Similar games</div>
-          <div class="panel-content"></div>
+          <div class="panel-content">
+            {{~it.popular :game}}
+            <div class="game">
+              <a href="/games/{{=game.slug}}">
+                <img class="thumb" src="{{=game.image_url}}">
+                <div class="name">{{=game.title}}</div>
+              </a>
+            </div>
+            {{~}}
+          </div>
         </div>
         <div class="ad">
           <div class="top">Advertisment</div>
@@ -38,6 +56,7 @@ class GamePageView extends Backbone.View
     'click .heart': 'like'
     'click .thumbsUp': 'thumbsUp'
     'click .thumbsDown': 'thumbsDown'
+
   render: ()->
     context = @model.toJSON()
     #context.similar = _.map context.similar, (game)->
