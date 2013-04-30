@@ -1,5 +1,6 @@
 url = require 'url'
 mongoose = require 'mongoose'
+_ = require 'underscore'
 Schema = require '../rest'
 ObjectId = mongoose.Types.ObjectId;
 
@@ -31,54 +32,68 @@ Games = new Schema
     "default": 0
 
 
+
+Games.statics.getBySlugOrId = (id, ctx, cb)->
+  oid = if id?.match "^[0-9A-Fa-f]+$" then new ObjectId id else null
+  @findOne {$or:[{slug:id}, {_id: oid}]}, (err, game)=>
+    if not err? and game?
+      cb game
+    else
+      cb err:"game not found"
+
+Games.statics.getSimilar = (id, count, ctx, cb) ->
+  @find {}, null, {limit: count}, (err, games)=>
+    unless err?
+      cb games
+    else
+      cb err:"similar games not found"
+
+Games.statics.getPopular = (count, ctx, cb) ->
+  @find {}, null, {sort: {thumbs_up: -1}, limit: count}, (err, games)=>
+    unless err?
+      cb games
+    else
+      cb err:"popular games not found"
+
+Games.statics.search = (query, ctx, cb)->
+  @find {title: new RegExp query, "i"}, null, {limit: 20}, (err, games)=>
+    if not err? and games?
+      cb games
+    else
+      cb err:"games not found"
+
+Games.statics.pagination = (page, page_size, ctx, cb)->
+  page = page || 0
+  page_size = page_size || 40
+  @find {}, null, {sort: {thumbs_up: -1}, skip: (page-1)*page_size, limit: page_size }, (err, games)=>
+    if not err? and games?
+      cb games
+    else
+      cb err:"games not found"
+
+
+
+
 Games.statics.get = (req, res)->
   {id} = req.params
   {query, page, page_size, popular, similar}= req.query
-
+  cb = (data)->res.json data
+  ctx = req.ctx
   if popular?
     #get popular games
-    @find {}, null, {sort: {thumbs_up: -1}, limit: popular}, (err, games)=>
-      if not err? and games?
-        res.json games
-      else
-        res.json err:"popular games not found"
-
+    @getPopular popular, ctx, cb
   else if id?
     if similar?
       #get similar games to id
-      @find {}, null, {limit: similar}, (err, games)=>
-        unless err?
-          res.json games
-        else
-          res.json err:"similar games not found"
-
+      @getSimilar id, similar, ctx, cb
     else
       #get by id or slug
-      oid = if id?.match "^[0-9A-Fa-f]+$" then new ObjectId id else null
-      @findOne {$or:[{slug:id}, {_id: oid}]}, (err, game)=>
-        if not err? and game?
-          res.json game
-        else
-          res.json err:"game not found"
-
+      @getBySlugOrId id, ctx, cb
   else if query?
     #search by name
-    @find {title: new RegExp query, "i"}, null, {limit: 20}, (err, games)=>
-      if not err? and games?
-        res.json games
-      else
-        res.json err:"games not found"
-
+    @search query, ctx, cb
   else
-    #pagination
-    page = page || 0
-    page_size = page_size || 40
-    @find {}, null, {sort: {thumbs_up: -1}, skip: (page-1)*page_size, limit: page_size }, (err, games)=>
-      if not err? and games?
-        res.json games
-      else
-        res.json err:"games not found"
-
+    @pagination page, page_size, ctx, cb
 
 
 
@@ -86,8 +101,6 @@ Games.statics.put = (req, res)->
   {id} = req.params
   if id? and id.match "^[0-9A-Fa-f]+$"
     oid = new ObjectId id
-  else
-    return res.json err:"wrong game id"
   thumbsUp = req.query.thumbsUp
   thumbsDown = Boolean req.query.thumbsDown
   changes = {}
@@ -98,7 +111,7 @@ Games.statics.put = (req, res)->
   else
     return res.json err:"unknown action"
 
-  @update {_id:oid}, {$inc: changes}, (err)->
+  @update {$or:[{slug:id}, {_id: oid}]}, {$inc: changes}, (err)->
     unless err?
       res.send success:true
     else

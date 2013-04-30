@@ -8,8 +8,11 @@
     "express-dot": "git://github.com/david-driscoll/express-dot.git",
     "mongoose": "3.x.x",
     "underscore": "1.x.x",
-    "walk": "2.2.x"
-
+    "walk": "2.x.x",
+    "i18n": "0.x.x",
+    "async": "0.x.x",
+    "passport": "0.x.x",
+    "passport-local": "0.x.x"
   },
   "devDependencies": {
     "grunt": "0.4.x",

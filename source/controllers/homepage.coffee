@@ -3,27 +3,38 @@ _ = require 'underscore'
 
 homepage_controller =
   homepage: (req,res)->
-    mongoose.model('games').find {}, null, {sort: {thumbs_up: -1}, limit:40}, (err, games)->
-      unless err?
-        ctx = games : _.map games, (game)-> game.toJSON()
-        res.render 'layout', ctx
+    {ctx} = req
+    mongoose.model('games').pagination 1, 40, ctx, (games)->
+      unless games.err?
+        ctx.games = _.map games, (game)-> game.toJSON()
+        res.render 'index', ctx
       else
-        ctx = err:err
-        res.render 'layout', ctx
+        ctx.err = games.err
+        res.render 'index', ctx
 
   gamepage: (req,res)->
     {slug} = req.params
-    mongoose.model('games').find {}, null, {limit:40}, (err, games)->
-      unless err? or not games?
-        ctx = games : _.map games, (game)-> game.toJSON()
-        mongoose.model('games').find {slug:slug}, (err, game)->
-          unless err? or not game?
-            ctx.gamepage = game
-            res.render 'layout', ctx
+    {ctx} = req
+
+    mongoose.model('games').pagination 1, 40, ctx, (games)->
+      unless games.err?
+        ctx.games = _.map games, (game)-> game.toJSON()
+        mongoose.model('games').getBySlugOrId slug, ctx, (game)->
+          unless game.err? or _.isEmpty game
+            ctx.gamepage = game.toJSON()
+            mongoose.model('games').getSimilar slug, 5, ctx, (similar)->
+              unless similar.err?
+                ctx.gamepage.similar = _.map similar, (game)-> game.toJSON()
+                mongoose.model('games').getPopular 5, ctx, (popular)->
+                  unless popular.err?
+                    ctx.gamepage.popular = _.map popular, (game)-> game.toJSON()
+                  res.render 'index', ctx
+              else
+                res.render 'index', ctx
           else
-            res.render 'layout', ctx
+            res.render 'index', ctx
       else
-        ctx = err:err
-        res.render 'layout', ctx
+        ctx.err = games.err
+        res.render 'index', ctx
 
 module.exports = homepage_controller

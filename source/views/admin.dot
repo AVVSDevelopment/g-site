@@ -1,0 +1,186 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="./">Game sites</a>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="active"><a href="#">Sites</a></li>
+                    <li class="inactive"><a href="#">Ads</a></li>
+                    <li class="inactive"><a href="#">Status</a></li>
+                </ul>
+            </div>
+             <p class="navbar-text pull-right">
+                <a href="/admin/logout/">logout</a>
+             </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="span12">
+            <h1 class="pull-left">games4boys.com <small>(<a href="#">visit site</a>)</small></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#general">General</a></li>
+                <li><a href="#sources">Sources</a></li>
+                <li><a href="#design">Design</a></li>
+                <li><a href="#seo">SEO</a></li>
+                <li><a href="#ads">Ads</a></li>
+                <li><a href="#stats">Stats</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane active" id="general">
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label" for="inputEmail">Domain</label>
+                            <div class="controls">
+                                <input class="input-xlarge" id="inputDomain" type="text">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputPassword">Title</label>
+                            <div class="controls">
+                                <input class="input-xlarge" id="inputTitle" type="text">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputLanguage">Language</label>
+                            <div class="controls">
+                                <input class="input-xlarge" id="inputLanguage" type="text">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="submit" class="btn btn-danger pull-right">Suspend</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane" id="sources">
+                    <div class="row">
+                        <form class="form-inline pull-right well">
+                            <input placeholder="domain: kizi.com" type="text">
+                            <input placeholder="language: es-ES" type="text">
+                            <input placeholder="categories: shooting, cars" type="text">
+                            <input placeholder="tags: ben 10, sonic" type="text">
+                            <button type="submit" class="btn btn-primary">Add source</button>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Domain</th>
+                                    <th>Language</th>
+                                    <th>Categories</th>
+                                    <th>Tags</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="success">
+                                    <td>1</td>
+                                    <td><a href="#">kizi.com</a> <small>(<a href="#">visit site</a>)</small></td>
+                                    <td>en-US</td>
+                                    <td><i>all</i></td>
+                                    <td><i>all</i></td>
+                                </tr>
+                                <tr class="success">
+                                    <td>1</td>
+                                    <td><a href="#">yepi.com</a> <small>(<a href="#">visit site</a>)</small></td>
+                                    <td>en-US</td>
+                                    <td>boys</td>
+                                    <td>ben 10, sonic</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="design">
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label" for="inputLogo">Select logo image</label>
+                            <div class="controls">
+                                <input class="input-xlarge" id="inputLogo" placeholder="fileinput" type="text">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputBackgroundImage">Select background image</label>
+                            <div class="controls">
+                                <input class="input-xlarge" id="inputBackgroundImage" placeholder="fileinput" type="text">
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputBackgroundColor">Background color</label>
+                            <div class="controls">
+                                <input class="input-xlarge" id="inputBackgroundColor" type="text">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane" id="seo">
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            <label class="control-label" for="inputDescription">Description</label>
+                            <div class="controls">
+                                <textarea rows="5" class="span5"></textarea>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputKeywords">Keywords</label>
+                            <div class="controls">
+                                <textarea rows="5" class="span5"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane" id="ads">
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            ADS
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane" id="stats">
+                    <form class="form-horizontal">
+                        <div class="control-group">
+                            Stats
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script type="text/javascript">
+      $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+      })
+    </script>
+
+</div>

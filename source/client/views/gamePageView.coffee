@@ -57,12 +57,16 @@ class GamePageView extends Backbone.View
     'click .thumbsUp': 'thumbsUp'
     'click .thumbsDown': 'thumbsDown'
 
+  initialize: ()->
+    slug =  location.pathname.split "/"
+    slug = slug[slug.length-1]
+    if slug isnt ""
+      @model = new Game {slug:slug}
+      swfobject.registerObject "swf-game-wrapper", "9.0.0"
+
+
   render: ()->
     context = @model.toJSON()
-    #context.similar = _.map context.similar, (game)->
-    #  g = new Game game
-    #  gv = new GameView model:g
-    #  return gv.render()[0].outerHTML
     @$el.html @template context
     return @$el
 

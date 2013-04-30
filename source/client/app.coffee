@@ -66,7 +66,8 @@ $ () ->
   $(window).resize app.center_games
   setTimeout app.center_games, 200
 
-  Backbone.history.start {pushState: true}
+
+  Backbone.history.start {pushState: true, silent: true}
   $(document).delegate "a", "click", (e)->
     if e.currentTarget.getAttribute("nobackbone") then return
     href = e.currentTarget.getAttribute('href')

@@ -197,6 +197,19 @@ GamePageView = (function(_super) {
     'click .thumbsDown': 'thumbsDown'
   };
 
+  GamePageView.prototype.initialize = function() {
+    var slug;
+
+    slug = location.pathname.split("/");
+    slug = slug[slug.length - 1];
+    if (slug !== "") {
+      this.model = new Game({
+        slug: slug
+      });
+      return swfobject.registerObject("swf-game-wrapper", "9.0.0");
+    }
+  };
+
   GamePageView.prototype.render = function() {
     var context;
 
@@ -421,7 +434,8 @@ $(function() {
   $(window).resize(app.center_games);
   setTimeout(app.center_games, 200);
   Backbone.history.start({
-    pushState: true
+    pushState: true,
+    silent: true
   });
   $(document).delegate("a", "click", function(e) {
     var href, uri;

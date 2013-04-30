@@ -8,5 +8,4 @@ api = (app)->
     methods.forEach (method)->
       app[method] "/api/#{api_version}/#{modelName}/:id?", _.bind(model[method], model)
 
-
 module.exports = api

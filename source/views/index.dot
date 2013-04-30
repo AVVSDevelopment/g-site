@@ -1,0 +1,13 @@
+<div id="main-page">
+    {{# def.load("/views/partials/topbar.dot") }}
+    <div class="content">
+        {{? it.games }}
+            {{ {it.games_array=it.games;} }}
+            <div id="games">{{#def.load("/views/partials/games.dot") }}</div>
+        {{?}}
+        {{? !it.games }}
+            Another content
+        {{?}}
+    </div>
+    {{# def.load("/views/partials/gamePage.dot") }}
+</div>

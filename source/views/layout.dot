@@ -4,28 +4,23 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <html>
 <head>
-    <title>{{= this.title }}</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width">
+    <title>Games site</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script type="text/javascript" src="/static/js/app.head.js"></script>
-    <script type="text/javascript" src="/static/js/app.body.js"></script>
-    <link rel="stylesheet" type="text/css" href="/static/css/app.min.css"/>
+    {{? it.admin}}
+        <script type="text/javascript" src="/static/js/admin.body.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/css/admin.min.css"/>
+    {{?}}
+    {{? !it.admin}}
+        <script type="text/javascript" src="/static/js/app.body.js"></script>
+        <link rel="stylesheet" type="text/css" href="/static/css/app.min.css"/>
+    {{?}}
+
 </head>
 <body>
-    <div id="appView">
-        <div id="topbar" class="navbar navbar-fixed-top">
-            {{# def.load("/views/partials/topbar.dot") }}
-        </div>
-        <div class="content">
-            {{? it.games }}
-                <div id="games">{{# def.load("/views/partials/games.dot") }}</div>
-            {{?}}
-            {{? !it.games }}
-                Another content
-            {{?}}
-        </div>
-    </div>
-    {{# def.load("/views/partials/gamePage.dot") }}
+    <span id='view-wrapper'>
+        {{=it.body}}
+    </span>
     <script src="/static/js/bootstrap.min.js"></script>
 </body>
 </html>

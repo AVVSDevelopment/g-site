@@ -26,14 +26,13 @@ body {
   height: 63px;
 }
 .navbar-inner #userpanel div,
-.navbar-inner #sitepanel div,
-.navbar-inner #userpanel a,
-.navbar-inner #sitepanel a {
-  position: relative;
-  left: 0;
-  display: block;
+.navbar-inner #sitepanel div {
   float: left;
   margin: 0 10px 0 0;
+}
+.navbar-inner #userpanel div:last-child,
+.navbar-inner #sitepanel div:last-child {
+  margin: 0;
 }
 .user-block .avatar.small {
   width: 38px;
@@ -52,6 +51,37 @@ body {
   margin-top: 5px;
   margin-left: 6px;
 }
+.locale-selector ul {
+  overflow: hidden;
+  margin: 11px 0px 0px 0px;
+  padding: 1px;
+  height: 24px;
+}
+.locale-selector ul:hover {
+  padding: 0px;
+  height: auto;
+  background-color: #11729f;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border: 1px solid #aaaaaa;
+}
+.locale-selector ul li {
+  display: block;
+}
+.locale-selector ul li a {
+  display: block;
+  padding: 6px;
+}
+.locale-selector ul li a:hover {
+  background-color: #00D6FF;
+}
+.locale-selector ul li a img {
+  display: block;
+}
+.search-bar {
+  position: relative;
+}
 .search-bar .search-query {
   background-color: #115579;
   color: white;
@@ -66,11 +96,10 @@ body {
 .search-bar a.search-icon {
   width: 40px;
   height: 40px;
-  position: absolute !important;
+  position: absolute ;
   right: 0px;
-  left: auto !important;
   top: 1px;
-  margin-right: 0px !important;
+  margin-right: 0px ;
 }
 .typeahead.dropdown-menu {
   -webkit-box-shadow: 2px 1px 2px 0 rgba(0, 0, 0, 0.35);
@@ -85,7 +114,7 @@ body {
   -webkit-border-radius: 9px;
 }
 .typeahead.dropdown-menu li > a {
-  margin: 0px !important;
+  float: left;
   padding: 5px;
   width: 100%;
   background-color: #12a1ca;
@@ -107,14 +136,13 @@ body {
   color: #FFF;
 }
 .typeahead.dropdown-menu li > a .game .thumb {
-  margin: 0px 5px 0px 0px !important;
+  margin: 0px 5px 0px 0px;
   height: 40px;
   width: 40px;
   float: left;
 }
 .typeahead.dropdown-menu li > a .game .name {
-  margin: 0px !important;
-  width: 155px !important;
+  width: 155px;
   word-break: break-word;
   white-space: normal;
 }
