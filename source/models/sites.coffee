@@ -43,6 +43,7 @@ Sites.statics.post = (req, res)->
         #res.redirect "/admin/site/#{domain}"
         res.redirect "/admin/"
       else
+        console.log err
         res.json {err}
   else
     res.json err:'Not authenticated'
@@ -56,6 +57,7 @@ Sites.statics.put = (req, res)->
       unless err?
         res.json null
       else
+        console.log err
         res.json {err}
   else
     res.json err:'Not authenticated'
