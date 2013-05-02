@@ -106,13 +106,13 @@
                         <div class="control-group">
                             <label class="control-label" for="inputBackgroundImage">Select background image</label>
                             <div class="controls">
-                                <input class="input-xlarge" name="background.url" id="inputBackgroundImage" placeholder="fileinput" type="text">
+                                <input class="input-xlarge" name="background.url" id="inputBackgroundImage" placeholder="fileinput" type="text" value="{{=it.site.background.url||""}}">
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="inputBackgroundColor">Background color</label>
                             <div class="controls">
-                                <input class="input-xlarge" name="background.color" id="inputBackgroundColor" type="text">
+                                <input class="input-xlarge" name="background.color" id="inputBackgroundColor" type="text" value="{{=it.site.background.color || ""}}">
                             </div>
                         </div>
                         <div class="form-actions">
@@ -126,13 +126,13 @@
                         <div class="control-group">
                             <label class="control-label" for="inputDescription">Description</label>
                             <div class="controls">
-                                <textarea rows="5" id="inputDescription" name="description" class="span5" value="{{=it.site.description||""}}"></textarea>
+                                <textarea rows="5" id="inputDescription" name="description" class="span5">{{=it.site.description||""}}</textarea>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="inputKeywords">Keywords</label>
                             <div class="controls">
-                                <textarea rows="5" id="inputKeywords" name="keywords" class="span5" value="{{=it.site.keywords||""}}"></textarea>
+                                <textarea rows="5" id="inputKeywords" name="keywords" class="span5">{{=it.site.keywords||""}}</textarea>
                             </div>
                         </div>
                         <div class="form-actions">
