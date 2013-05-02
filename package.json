@@ -4,9 +4,9 @@
   "author": "Nikita Lvov",
   "dependencies": {
     "coffee-script": "1.x.x",
-    "express": "3.x.x",
+    "express": "3.2.0",
     "express-dot": "git://github.com/david-driscoll/express-dot.git",
-    "mongoose": "3.x.x",
+    "mongoose": "3.6.8",
     "underscore": "1.x.x",
     "walk": "2.x.x",
     "i18n": "0.x.x",
