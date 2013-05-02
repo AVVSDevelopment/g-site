@@ -4,8 +4,12 @@ class Rest extends mongoose.Schema
   constructor: (args)->
     super args
     @statics.get = (req, res, next) ->
-      console.log "GET"
-      res.send 'GET'
+      {id} = req.params
+      @findOne {_id:id}, (err, item)->
+        unless err?
+          res.json item
+        else
+          res.json err:err
     @statics.put = (req, res, next) ->
       console.log "PUT"
       res.send 'PUT'

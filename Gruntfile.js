@@ -17,11 +17,12 @@ module.exports = function(grunt) {
             compress: {
                 files: {
                     "source/static/css/app.min.css": [
-                        "source/static/css/bootstrap.min.css", "source/static/css/bootstrap-resonsive.min.css",
-                        "source/static/css/typicons.css", "source/static/css/app.css"
+                        "source/static/css/bootstrap.min.css", "source/static/css/typicons.css",
+                        "source/static/css/app.css"
                     ],
                     "source/static/css/admin.min.css": [
-                        "source/static/css/bootstrap.min.css", "source/static/css/admin.css"
+                        "source/static/css/bootstrap.min.css", "source/static/css/bootstrap-responsive.min.css",
+                        "source/static/css/admin.css"
                     ]
                 }
             }

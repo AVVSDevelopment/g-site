@@ -1,40 +1,37 @@
-mongoose = require 'mongoose'
 _ = require 'underscore'
+async = require 'async'
+mongoose = require 'mongoose'
+gameDB = mongoose.model('games')
+DIR = 'partials/app/'
 
 homepage_controller =
   homepage: (req,res)->
     {ctx} = req
-    mongoose.model('games').pagination 1, 40, ctx, (games)->
-      unless games.err?
+    gameDB.pagination 1, 40, ctx, (err, games)->
+      unless err
         ctx.games = _.map games, (game)-> game.toJSON()
-        res.render 'index', ctx
       else
-        ctx.err = games.err
-        res.render 'index', ctx
+        ctx.err = {err}
+      res.render "#{DIR}index", ctx
 
-  gamepage: (req,res)->
+  gamepage: (req,res)=>
     {slug} = req.params
     {ctx} = req
-
-    mongoose.model('games').pagination 1, 40, ctx, (games)->
-      unless games.err?
-        ctx.games = _.map games, (game)-> game.toJSON()
-        mongoose.model('games').getBySlugOrId slug, ctx, (game)->
-          unless game.err? or _.isEmpty game
-            ctx.gamepage = game.toJSON()
-            mongoose.model('games').getSimilar slug, 5, ctx, (similar)->
-              unless similar.err?
-                ctx.gamepage.similar = _.map similar, (game)-> game.toJSON()
-                mongoose.model('games').getPopular 5, ctx, (popular)->
-                  unless popular.err?
-                    ctx.gamepage.popular = _.map popular, (game)-> game.toJSON()
-                  res.render 'index', ctx
-              else
-                res.render 'index', ctx
-          else
-            res.render 'index', ctx
+    async.auto
+      pagination: (cb)=> gameDB.pagination 1, 40, ctx, cb
+      game      : (cb)=> gameDB.getBySlugOrId slug, ctx, cb
+      similar   : (cb)=> gameDB.getSimilar slug, 5, ctx, cb
+      popular   : (cb)=> gameDB.getPopular( 5, ctx, cb)
+    , (err, data)=>
+      console.log err
+      console.log data
+      unless err
+        ctx.games = _.map data.pagination, (game)-> game.toJSON()
+        ctx.gamepage = data.game.toJSON()
+        ctx.gamepage.similar = _.map data.similar, (game)-> game.toJSON()
+        ctx.gamepage.popular = _.map data.popular, (game)-> game.toJSON()
       else
-        ctx.err = games.err
-        res.render 'index', ctx
+        ctx.err = {err}
+      res.render "#{DIR}index", ctx
 
 module.exports = homepage_controller

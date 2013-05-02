@@ -10,7 +10,13 @@ async     = require 'async'
 _         = require 'underscore'
 passport  = require 'passport'
 localStrategy = require('passport-local').Strategy
+
+#models
 games     = require './models/games'
+
+#controllers
+admin     = require './controllers/adminpage'
+index     = require './controllers/homepage'
 
 
 
@@ -83,17 +89,15 @@ startServer = ()->
         console.log "Listening on " + port
       console.log app.stack
 
-  app.get '/admin', ensureAuthenticated, require('./controllers/adminpage').adminpage
-  app.get '/admin/login', require('./controllers/adminpage').login
-  app.post '/admin/login', passport.authenticate('local'), (req, res)->res.redirect '/admin'
-  app.get '/admin/logout', (req, res)->
-    console.log "logout"
-    req.logout()
-    console.log "redirect"
-    return res.redirect '/admin/login'
+  app.post '/admin/login', passport.authenticate('local'), (req, res)->res.redirect '/admin/'
+  app.get '/admin/', ensureAuthenticated, admin.sites
+  app.get '/admin', (req, res)-> res.redirect '/admin/'
+  app.get '/admin/site/:site', ensureAuthenticated, admin.site_settings
+  app.get '/admin/login', redirectIfAuthenticated, admin.login
+  app.get '/admin/logout', admin.logout
 
-  app.get '/', require('./controllers/homepage').homepage
-  app.get '/games/:slug', require('./controllers/homepage').gamepage
+  app.get '/', index.homepage
+  app.get '/games/:slug', index.gamepage
 
 
 
@@ -141,5 +145,11 @@ ensureAuthenticated = (req, res, next) ->
   if req.isAuthenticated()
     return next()
   res.redirect '/admin/login'
+
+redirectIfAuthenticated = (req, res, next)->
+  unless req.isAuthenticated()
+    return next()
+  res.redirect '/admin/'
+
 
 startServer()

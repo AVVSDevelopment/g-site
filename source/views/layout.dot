@@ -7,20 +7,16 @@
     <title>Games site</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script type="text/javascript" src="/static/js/app.head.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {{? it.admin}}
-        <script type="text/javascript" src="/static/js/admin.body.js"></script>
         <link rel="stylesheet" type="text/css" href="/static/css/admin.min.css"/>
     {{?}}
     {{? !it.admin}}
-        <script type="text/javascript" src="/static/js/app.body.js"></script>
         <link rel="stylesheet" type="text/css" href="/static/css/app.min.css"/>
     {{?}}
 
 </head>
 <body>
-    <span id='view-wrapper'>
-        {{=it.body}}
-    </span>
-    <script src="/static/js/bootstrap.min.js"></script>
+    {{=it.body}}
 </body>
 </html>

@@ -35,41 +35,21 @@ Games = new Schema
 
 Games.statics.getBySlugOrId = (id, ctx, cb)->
   oid = if id?.match "^[0-9A-Fa-f]+$" then new ObjectId id else null
-  @findOne {$or:[{slug:id}, {_id: oid}]}, (err, game)=>
-    if not err? and game?
-      cb game
-    else
-      cb err:"game not found"
+  @findOne {$or:[{slug:id}, {_id: oid}]}, cb
 
 Games.statics.getSimilar = (id, count, ctx, cb) ->
-  @find {}, null, {limit: count}, (err, games)=>
-    unless err?
-      cb games
-    else
-      cb err:"similar games not found"
+  @find {}, null, {limit: count}, cb
 
 Games.statics.getPopular = (count, ctx, cb) ->
-  @find {}, null, {sort: {thumbs_up: -1}, limit: count}, (err, games)=>
-    unless err?
-      cb games
-    else
-      cb err:"popular games not found"
+  @find {}, null, {sort: {thumbs_up: -1}, limit: count}, cb
 
 Games.statics.search = (query, ctx, cb)->
-  @find {title: new RegExp query, "i"}, null, {limit: 20}, (err, games)=>
-    if not err? and games?
-      cb games
-    else
-      cb err:"games not found"
+  @find {title: new RegExp query, "i"}, null, {limit: 20}, cb
 
 Games.statics.pagination = (page, page_size, ctx, cb)->
   page = page || 0
   page_size = page_size || 40
-  @find {}, null, {sort: {thumbs_up: -1}, skip: (page-1)*page_size, limit: page_size }, (err, games)=>
-    if not err? and games?
-      cb games
-    else
-      cb err:"games not found"
+  @find {}, null, {sort: {thumbs_up: -1}, skip: (page-1)*page_size, limit: page_size }, cb
 
 
 
@@ -77,7 +57,11 @@ Games.statics.pagination = (page, page_size, ctx, cb)->
 Games.statics.get = (req, res)->
   {id} = req.params
   {query, page, page_size, popular, similar}= req.query
-  cb = (data)->res.json data
+  cb = (err, data)->
+    unless err
+      res.json data
+    else
+      res.json {err}
   ctx = req.ctx
   if popular?
     #get popular games

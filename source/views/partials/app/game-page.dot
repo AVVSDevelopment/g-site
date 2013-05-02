@@ -4,7 +4,7 @@
 <div class="game-page-body">
     <div class="games-list popular">
         <div class="top">{{=it.__('Popular games')}}</div>
-        <div class="panel-content">{{? it.gamepage.popular}}{{ {it.games_array=it.gamepage.popular;} }}{{# def.load("/views/partials/games.dot") }}{{?}}</div>
+        <div class="panel-content">{{? it.gamepage.popular}}{{var games=it.gamepage.popular;}}{{# def.load("/views/partials/app/games.dot") }}{{?}}</div>
     </div>
     <div class="game-window">
         <div class="top">
@@ -31,7 +31,7 @@
     </div>
     <div class="games-list similar">
         <div class="top">{{=it.__('Similar games')}}</div>
-        <div class="panel-content">{{? it.gamepage.similar}}{{ {it.games_array=it.gamepage.similar;} }}{{# def.load("/views/partials/games.dot") }}{{?}}</div>
+        <div class="panel-content">{{? it.gamepage.similar}}{{var games=it.gamepage.similar;}}{{# def.load("/views/partials/app/games.dot") }}{{?}}</div>
     </div>
     <div class="ad">
         <div class="top">{{=it.__('Advertisement')}}</div>
