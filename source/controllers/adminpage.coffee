@@ -1,5 +1,5 @@
 mongoose = require 'mongoose'
-siteDB = mongoose.model('sites')
+#siteDB = mongoose.model('sites')
 DIR = 'partials/admin/'
 
 
