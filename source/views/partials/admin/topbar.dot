@@ -9,9 +9,9 @@
             <a class="brand" href="/admin">Game sites</a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li class="active"><a href="/admin">Sites</a></li>
-                    <li><a href="/admin">Ads</a></li>
-                    <li><a href="/admin">Status</a></li>
+                    <li {{? it.sites || it.site}}class="active"{{?}}><a href="/admin">Sites</a></li>
+                    <li {{? it.ads}}class="active"{{?}}><a href="/admin/ads/">Ads</a></li>
+                    <li {{? it.status}}class="active"{{?}}><a href="/admin/status/">Status</a></li>
                 </ul>
             </div>
             <div class="nav-collapse collapse">

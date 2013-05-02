@@ -14,14 +14,13 @@ Sites = new Schema
   domain:
     type:String
     required: true
-  title:
-    type: String
-    required: true
+    unique: true
+    lowercase: true
+    trim: true
+  title: String
   description: String
   keywords: String
-  language:
-    type: String
-    required: true
+  language: String
   sources: []
   logo_url: String
   background:
@@ -29,13 +28,37 @@ Sites = new Schema
     color: String
 
 Sites.statics.getByDomain = (domain, ctx, cb)->
-  @findOne {domain}, (err, site)=>
-    if not err? and site?
-      cb site
-    else
-      cb err:"site not found"
+  @findOne {domain}, cb
 
+Sites.statics.getAll = (ctx, cb)->
+  @find {}, null, {sort:{domain:1}}, cb
 
+Sites.statics.post = (req, res)->
+  if req.isAuthenticated()
+    {domain} = req.body
+    site = new (mongoose.model 'sites', Sites)
+    site.domain = domain
+    site.save (err)->
+      unless err
+        #res.redirect "/admin/site/#{domain}"
+        res.redirect "/admin/"
+      else
+        res.json {err}
+  else
+    res.json err:'Not authenticated'
+
+Sites.statics.put = (req, res)->
+  if req.isAuthenticated()
+    {id} = req.params
+    if id? and id.match "^[0-9A-Fa-f]+$"
+      oid = new ObjectId id
+    @update {$or:[{domain:id}, {_id: oid}]}, {$set:req.body}, (err)->
+      unless err
+        res.json null
+      else
+        res.json {err}
+  else
+    res.json err:'Not authenticated'
 ###
 sm = (mongoose.model 'sites', Sites)
 
@@ -72,7 +95,6 @@ s.save (err)->
   console.log err
 ###
 
-
-exports.model = mongoose.model 'sites', Sites
 #exports.methods = ["get","post","delete","put","patch"]
-exports.methods = ["get"]
+exports.model = mongoose.model 'sites', Sites
+exports.methods = ["post", "put"]

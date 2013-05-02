@@ -13,6 +13,7 @@ localStrategy = require('passport-local').Strategy
 
 #models
 games     = require './models/games'
+sites     = require './models/sites'
 
 #controllers
 admin     = require './controllers/adminpage'
@@ -68,6 +69,7 @@ startServer = ()->
       ctx.locales = app.locales
       ctx.domain = {}
       ctx.domain.host = req.headers.host
+      ctx.domain.api = '/api/v1.alpha'
       ctx.__ = i18n.__
       ctx.domain.defaultLocale = 'es'
       if req.cookies.lang in ctx.locales
@@ -93,6 +95,8 @@ startServer = ()->
   app.get '/admin/', ensureAuthenticated, admin.sites
   app.get '/admin', (req, res)-> res.redirect '/admin/'
   app.get '/admin/site/:site', ensureAuthenticated, admin.site_settings
+  app.get '/admin/ads/', ensureAuthenticated, admin.ads_settings
+  app.get '/admin/status/', ensureAuthenticated, admin.status
   app.get '/admin/login', redirectIfAuthenticated, admin.login
   app.get '/admin/logout', admin.logout
 

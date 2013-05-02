@@ -1,8 +1,8 @@
 {{# def.load("/views/partials/admin/topbar.dot") }}
 <div class="container">
     <div class="row">
-    <form class="form-inline pull-right well well-small">
-        <input type="text" placeholder="domain.com">
+    <form class="form-inline pull-right well well-small" method="post" action="{{=it.domain.api}}/sites">
+        <input type="text" name="domain" placeholder="domain.com">
         <button type="submit" class="btn btn-primary">Add site</button>
     </form>
     </div>
@@ -10,52 +10,25 @@
     <table class="table table-hover table-bordered">
         <thead>
             <tr>
-                <th>ID</th>
                 <th>Domain</th>
                 <th>Title</th>
                 <th>Language</th>
                 <th>Number of games</th>
                 <th>Active?</th>
-                <th>Actions</th>
+                <th style="width: 91px;">Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr class="success">
-                <td>1</td>
-                <td><a href="site/footballgames.com">footballgames.com</a> <small>(<a href="#">visit site</a>)</small></td>
-                <td>Football Games</td>
-                <td>en</td>
-                <td>650</td>
-                <td>Yes</td>
-                <td><button class="btn btn-mini btn-danger" type="button">Update sources</button></td>
-            </tr>
-            <tr class="success">
-                <td>2</td>
-                <td><a href="site/juegosninas.es">juegosninas.es</a> <small>(<a href="#">visit site</a>)</small></td>
-                <td>Juegos de niñas</td>
-                <td>es_ES</td>
-                <td>550</td>
-                <td>Yes</td>
-                <td><button class="btn btn-mini btn-danger" type="button">Update sources</button></td>
-            </tr>
-            <tr class="error">
-                <td>3</td>
-                <td><a href="site/jogoscarros.com.br">jogoscarros.com.br</a> <small>(<a href="#">visit site</a>)</small></td>
-                <td>Jogos de Carros</td>
-                <td>pt_BR</td>
-                <td>350</td>
-                <td>No</td>
-                <td><button class="btn btn-mini btn-danger" type="button">Update sources</button></td>
-            </tr>
-            <tr class="success">
-                <td>4</td>
-                <td><a href="site/shootinggames.co.uk">shootinggames.co.uk</a> <small>(<a href="#">visit site</a>)</small></td>
-                <td>Shooting Games</td>
-                <td>en_UK</td>
-                <td>750</td>
-                <td>Yes</td>
-                <td><button class="btn btn-mini btn-danger" type="button">Update sources</button></td>
-            </tr>
+            {{~it.sites :site}}
+                <tr class="{{?site.enable}}success{{??}}error{{?}}">
+                    <td><a href="site/{{=site.domain}}">{{=site.domain}}</a> <small>(<a href="http://{{=site.domain}}" target="_blank">visit site</a>)</small></td>
+                    <td>{{=site.title || ""}}</td>
+                    <td>{{=site.language || ""}}</td>
+                    <td>{{=site.games_number || ""}}</td>
+                    <td>{{?site.enable}}Yes{{??}}No{{?}}</td>
+                    <td><button class="btn btn-mini btn-danger" type="button">Update sources</button></td>
+                </tr>
+            {{~}}
         </tbody>
     </table>
 

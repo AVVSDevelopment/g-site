@@ -51,7 +51,8 @@ Games.statics.pagination = (page, page_size, ctx, cb)->
   page_size = page_size || 40
   @find {}, null, {sort: {thumbs_up: -1}, skip: (page-1)*page_size, limit: page_size }, cb
 
-
+Games.statics.countGames = (site_id, ctx, cb)->
+  @count {}, cb
 
 
 Games.statics.get = (req, res)->
@@ -91,7 +92,7 @@ Games.statics.put = (req, res)->
   if thumbsUp?
     changes.thumbs_up   = if thumbsUp.localeCompare('true') is 0 then 1 else -1
   else if thumbsDown?
-    changes.thumbs_down = if thumbsDown.localeCompare('true') is 0  then 1 else -1
+    changes.thumbs_down = if thumbsDown.localeCompare('true') is 0 then 1 else -1
   else
     return res.json err:"unknown action"
 
