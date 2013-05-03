@@ -62,13 +62,15 @@ $(".save").click (e)->
   $(@).parent().parent().find("textarea").each ()->
     trimInput $ @
     changes[$(@).attr("name")] = $(@).val()
+  $(@).parent().parent().find("select").each ()->
+    changes[$(@).attr("name")] = $(@).val()
 
-
-  unless $.trim($("#inputDomain").val()).length > 0
-    $("#inputDomain").parent().parent().addClass "error"
-    return false
-  else
-    $("#inputDomain").parent().parent().removeClass "error"
+  if changes.domain?
+    if changes.domain.length > 0
+      $("#inputDomain").parent().parent().removeClass "error"
+    else
+      $("#inputDomain").parent().parent().addClass "error"
+      return
 
   $.ajax
     type:'PUT'
@@ -77,9 +79,16 @@ $(".save").click (e)->
     success: (err)=>
       unless err
         buttonSuccess @, ()=> $(@).html("Save").removeClass("disabled")
+        if changes.domain?
+          history.pushState {}, '', changes.domain
+          $('.domain-name').html "#{changes.domain} <small>(<a href='http://#{changes.domain}' target='_blank'>visit site</a>)</small>"
       else
-        buttonError @, ()-> $(@).html("Save").removeClass("disabled")
+        buttonError @, ()=> $(@).html("Save").removeClass("disabled")
     error: ()=>
-      buttonError @, ()-> $(@).html("Save").removeClass("disabled")
+      buttonError @, ()=> $(@).html("Save").removeClass("disabled")
 
   return false
+
+#color picker
+$('#cp1').colorpicker().on 'changeColor', (ev)->
+  $('#inputBackgroundColor').val ev.color.toHex()

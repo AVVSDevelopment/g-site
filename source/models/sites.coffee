@@ -54,8 +54,8 @@ Sites.statics.put = (req, res)->
     oid = null
     if id? and id.match "^[0-9A-Fa-f]+$"
       oid = new ObjectId id
-    @update {$or:[{domain:id}, {_id: oid}]}, {$set:req.body}, (err)->
-      unless err?
+    @update {$or:[{domain:id}, {_id: oid}]}, {$set:req.body}, {multi:false}, (err,numAffected)->
+      unless err? or !numAffected
         res.json null
       else
         res.json {err}

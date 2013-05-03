@@ -51,6 +51,9 @@ body {
   margin-top: 5px;
   margin-left: 6px;
 }
+.locale-selector {
+  display: none;
+}
 .locale-selector ul {
   overflow: hidden;
   margin: 11px 0px 0px 0px;

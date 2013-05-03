@@ -96,7 +96,7 @@ Games.statics.put = (req, res)->
   else
     return res.json err:"unknown action"
 
-  @update {$or:[{slug:id}, {_id: oid}]}, {$inc: changes}, (err)->
+  @update {$or:[{slug:id}, {_id: oid}]}, {$inc: changes}, {multi:false}, (err)->
     unless err?
       res.send success:true
     else

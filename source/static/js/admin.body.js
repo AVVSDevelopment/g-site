@@ -91,11 +91,16 @@ $(".save").click(function(e) {
     trimInput($(this));
     return changes[$(this).attr("name")] = $(this).val();
   });
-  if (!($.trim($("#inputDomain").val()).length > 0)) {
-    $("#inputDomain").parent().parent().addClass("error");
-    return false;
-  } else {
-    $("#inputDomain").parent().parent().removeClass("error");
+  $(this).parent().parent().find("select").each(function() {
+    return changes[$(this).attr("name")] = $(this).val();
+  });
+  if (changes.domain != null) {
+    if (changes.domain.length > 0) {
+      $("#inputDomain").parent().parent().removeClass("error");
+    } else {
+      $("#inputDomain").parent().parent().addClass("error");
+      return;
+    }
   }
   $.ajax({
     type: 'PUT',
@@ -103,20 +108,28 @@ $(".save").click(function(e) {
     data: changes,
     success: function(err) {
       if (!err) {
-        return buttonSuccess(_this, function() {
+        buttonSuccess(_this, function() {
           return $(_this).html("Save").removeClass("disabled");
         });
+        if (changes.domain != null) {
+          history.pushState({}, '', changes.domain);
+          return $('.domain-name').html("" + changes.domain + " <small>(<a href='http://" + changes.domain + "' target='_blank'>visit site</a>)</small>");
+        }
       } else {
         return buttonError(_this, function() {
-          return $(this).html("Save").removeClass("disabled");
+          return $(_this).html("Save").removeClass("disabled");
         });
       }
     },
     error: function() {
       return buttonError(_this, function() {
-        return $(this).html("Save").removeClass("disabled");
+        return $(_this).html("Save").removeClass("disabled");
       });
     }
   });
   return false;
+});
+
+$('#cp1').colorpicker().on('changeColor', function(ev) {
+  return $('#inputBackgroundColor').val(ev.color.toHex());
 });

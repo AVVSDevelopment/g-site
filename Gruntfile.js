@@ -22,7 +22,7 @@ module.exports = function(grunt) {
                     ],
                     "source/static/css/admin.min.css": [
                         "source/static/css/bootstrap.min.css", "source/static/css/bootstrap-responsive.min.css",
-                        "source/static/css/admin.css"
+                        "source/static/css/bootstrap-colorpicker.css", "source/static/css/admin.css"
                     ]
                 }
             }
