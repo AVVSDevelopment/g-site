@@ -4,7 +4,7 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <html>
 <head>
-    <title>Games site</title>
+    <title>{{=it.title}}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="public" />
@@ -14,7 +14,7 @@
         <link rel="stylesheet" type="text/css" href="/static/css/app.min.css"/>
     {{?}}
     <script>
-        var api = "{{=it.domain.api}}";
+        var api = "{{=it.api}}";
     </script>
     <script type="text/javascript" src="/static/js/app.head.js"></script>
 </head>

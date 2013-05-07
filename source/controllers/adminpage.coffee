@@ -7,11 +7,11 @@ DIR = 'partials/admin/'
 
 
 admin_controller =
-
   sites: (req,res)=>
     {ctx} = req
     ctx.admin = true
-    siteDB.getAll ctx, (err, sites)->
+    ctx.title = "Admin : Sites"
+    siteDB.getAll (err, sites)->
       sites = _.map sites, (site)-> site.toJSON()
       async.each sites, (it, cb)->
         gameDB.countGames it._id, ctx, (err, number)->
@@ -28,26 +28,29 @@ admin_controller =
     {ctx} = req
     ctx.admin = true
     {site} = req.params
-    siteDB.getByDomain site, ctx, (err, site)->
+    siteDB.getByDomain site, (err, site)->
+      ctx.title = "Admin : " + site.domain
       ctx.site = site
       res.render "#{DIR}site-settings", ctx
 
   ads_settings: (req, res)->
     {ctx} = req
     ctx.admin = true
+    ctx.title = "Admin : Ads Settings"
     ctx.ads = {}
     res.render "#{DIR}ads", ctx
 
   status: (req, res)->
     {ctx} = req
     ctx.admin = true
+    ctx.title = "Admin : Status"
     ctx.status = {}
     res.render "#{DIR}status", ctx
 
   login: (req, res)=>
     {ctx} = req
     ctx.admin = true
-    console.log "there"
+    ctx.title = "Admin : Login"
     res.render "#{DIR}login", ctx
 
   logout: (req, res)->

@@ -12,7 +12,11 @@ homepage_controller =
         ctx.games = _.map games, (game)-> game.toJSON()
       else
         ctx.err = {err}
-      res.render "#{DIR}index", ctx
+      res.render "#{DIR}index", ctx, (err, html)->
+        unless err? or req.isAuthenticated()
+          req.app.mem.set "#{ctx.locale}/#{ctx.domain}#{req.url}", html, ()->
+            console.log "#{ctx.locale}/#{ctx.domain}#{req.url} cached!"
+        res.send html
 
   gamepage: (req,res)=>
     {slug} = req.params
@@ -23,8 +27,6 @@ homepage_controller =
       similar   : (cb)=> gameDB.getSimilar slug, 5, ctx, cb
       popular   : (cb)=> gameDB.getPopular( 5, ctx, cb)
     , (err, data)=>
-      console.log err
-      console.log data
       unless err
         ctx.games = _.map data.pagination, (game)-> game.toJSON()
         ctx.gamepage = data.game.toJSON()
@@ -32,6 +34,10 @@ homepage_controller =
         ctx.gamepage.popular = _.map data.popular, (game)-> game.toJSON()
       else
         ctx.err = {err}
-      res.render "#{DIR}index", ctx
+      res.render "#{DIR}index", ctx, (err, html)->
+        unless err? or req.isAuthenticated()
+          req.app.mem.set "#{ctx.locale}/#{ctx.domain}#{req.url}", html, ()->
+            console.log "#{ctx.locale}/#{ctx.domain}#{req.url} cached!"
+        res.send html
 
 module.exports = homepage_controller

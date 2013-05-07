@@ -9,6 +9,7 @@ dot       = require 'express-dot'
 async     = require 'async'
 _         = require 'underscore'
 passport  = require 'passport'
+memjs     = require 'memjs'
 localStrategy = require('passport-local').Strategy
 
 #models
@@ -19,22 +20,12 @@ sites     = require './models/sites'
 admin     = require './controllers/adminpage'
 index     = require './controllers/homepage'
 
+#for development
+process.env.MEMCACHIER_SERVERS  = process.env.MEMCACHIER_SERVERS  || "mc2.dev.ec2.memcachier.com:11211"
+process.env.MEMCACHIER_USERNAME = process.env.MEMCACHIER_USERNAME || "bb3435"
+process.env.MEMCACHIER_PASSWORD = process.env.MEMCACHIER_PASSWORD || "00b4bfbba300aa89e4bc"
+process.env.MONGOLAB_URI        = process.env.MONGOLAB_URI        || 'mongodb://gsite_app:temp_passw0rd@ds041327.mongolab.com:41327/heroku_app14575890'
 
-
-passport.use new localStrategy (username, password, done)->
-  if username is 'admin'
-    if password is 'admin'
-      return done null, username
-    else
-      return done null, false, message: 'Incorrect password.'
-  else
-    return done null, false, message: 'Incorrect username.'
-
-passport.serializeUser (user, done)->
-  done null, user
-
-passport.deserializeUser (id, done)->
-  done null, id
 
 
 app = express()
@@ -54,42 +45,51 @@ startServer = ()->
     app.use express.errorHandler
       dumpExceptions: true,
       showStack: true
-
     app.use express.session secret:'super-puper-secret-key'
     app.use passport.initialize()
     app.use passport.session()
     app.use i18n.init
     app.use (req, res, next)->
       #######LOGGING#######
-      #console.log "_________________________________________"
-      console.log req.url
-      #console.log req.cookies
+      #console.log req.url
       #####################
-      ctx = {}
-      ctx.locales = app.locales
-      ctx.domain = {}
-      ctx.domain.host = req.headers.host
-      ctx.domain.api = '/api/v1.alpha'
-      ctx.__ = i18n.__
-      ctx.domain.defaultLocale = 'es'
-      if req.cookies.lang in ctx.locales
-        ctx.locale = req.cookies.lang
-      else if i18n.getLocale req in ctx.locales
-        ctx.locale = i18n.getLocale req
+      req.ctx = {}
+      req.ctx.__ = i18n.__
+      req.ctx.locales = app.locales
+      req.ctx.api = '/api/v1.alpha'
+      domain = if req.headers.host isnt 'localhost:5000' then req.headers.host else 'g-sites.herokuapp.com'
+      key = domain
+      app.mem.get key, (err, val)->
+        if !err and val
+          _.extend req.ctx, JSON.parse val
+          next()
+        else
+          mongoose.model('sites').getByDomain domain, (err, domain)->
+            if !err? and domain?
+              _.extend req.ctx, domain
+              app.mem.set key, JSON.stringify(domain)
+              next()
+            else
+              res.send 404
+
+    #if site suspended
+    app.use (req, res, next)->
+      req.ctx.locale = req.ctx.language
+      if req.ctx.enable or (req.url.match "^\/admin")? or (req.headers.referer?.match "\/admin")?
+        next()
       else
-        ctx.locale = ctx.domain.defaultLocale
-      req.ctx = ctx
-      next()
+        res.send 404
+
 
     async.auto
-      createApi: createApi
-      createLocales: createLocales
+      api: createApi
+      locales: createLocales
       mongo: connectToMongo
+      memcache: connectToMemcache
     , ()->
       port = process.env.PORT || 5000
       app.listen port, ()->
         console.log "Listening on " + port
-      console.log app.stack
 
   app.post '/admin/login', passport.authenticate('local'), (req, res)->res.redirect '/admin/'
   app.get '/admin/', ensureAuthenticated, admin.sites
@@ -100,8 +100,10 @@ startServer = ()->
   app.get '/admin/login', redirectIfAuthenticated, admin.login
   app.get '/admin/logout', admin.logout
 
-  app.get '/', index.homepage
-  app.get '/games/:slug', index.gamepage
+  app.get '/', isInCache, index.homepage
+  app.get '/games/:slug', isInCache, index.gamepage
+
+
 
 
 
@@ -118,7 +120,7 @@ createApi = (cb)->
       app.models[modelName] = require './models/'+ modelName
   walker.on "end", ()->
     require('./api') app
-    console.log "generate api routes - Ok!"
+    console.log "generate api routes    - Ok!"
     cb()
 
 #generate locales for i18n
@@ -132,19 +134,54 @@ createLocales = (cb)->
     i18n.configure
       locales: app.locales
       directory: './source/static/locales'
-    console.log "search for locales - Ok!"
+    console.log "search for locales     - Ok!"
     cb()
 
 #mongo connection
-connectToMongo = (cb)->
-  mongoose.connect 'mongodb://gsite_app:temp_passw0rd@ds041327.mongolab.com:41327/heroku_app14575890'
+connectToMongo = (cb)=>
+  mongoose.connect process.env.MONGOLAB_URI
   db = mongoose.connection
   db.on 'error', console.error.bind console, 'connection error:'
   db.once 'open', ()->
-    console.log "connection to mongo - Ok!"
+    console.log "connection to mongo    - Ok!"
     cb()
 
+#memcache
+connectToMemcache = (cb)=>
+  app.mem = memjs.Client.create(undefined, expires:60*60)
+  console.log  "connection to memcache - Ok!"
+  cb()
 
+
+
+
+
+
+
+
+#Auth
+passport.use new localStrategy (username, password, done)->
+  if username is 'admin'
+    if password is 'admin'
+      return done null, username
+    else
+      return done null, false, message: 'Incorrect password.'
+  else
+    return done null, false, message: 'Incorrect username.'
+
+passport.serializeUser (user, done)->
+  done null, user
+
+passport.deserializeUser (id, done)->
+  done null, id
+
+
+
+
+
+
+
+#Other middleware
 ensureAuthenticated = (req, res, next) ->
   if req.isAuthenticated()
     return next()
@@ -155,5 +192,12 @@ redirectIfAuthenticated = (req, res, next)->
     return next()
   res.redirect '/admin/'
 
+isInCache = (req, res, next)->
+  app.mem.get "#{req.ctx.locale}/#{req.ctx.domain}#{req.url}", (err, val)->
+    if !err and val
+      res.set 'Content-Type', 'text/html'
+      res.send val
+    else
+      next()
 
 startServer()

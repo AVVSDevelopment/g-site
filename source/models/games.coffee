@@ -51,34 +51,43 @@ Games.statics.pagination = (page, page_size, ctx, cb)->
   page_size = page_size || 40
   @find {}, null, {sort: {thumbs_up: -1}, skip: (page-1)*page_size, limit: page_size }, cb
 
-Games.statics.countGames = (site_id, ctx, cb)->
+Games.statics.countGames = (site_id, ctx, cb)-> #TODO: count for specific site
   @count {}, cb
 
 
 Games.statics.get = (req, res)->
+  {ctx} = req
   {id} = req.params
   {query, page, page_size, popular, similar}= req.query
-  cb = (err, data)->
-    unless err
-      res.json data
+  key = "#{ctx.locale}/#{ctx.domain}/"
+  if id?
+    key += id
+  key += JSON.stringify req.query
+  req.app.mem.get key, (err, val)=>
+    if !err and val
+      res.json JSON.parse val
     else
-      res.json {err}
-  ctx = req.ctx
-  if popular?
-    #get popular games
-    @getPopular popular, ctx, cb
-  else if id?
-    if similar?
-      #get similar games to id
-      @getSimilar id, similar, ctx, cb
-    else
-      #get by id or slug
-      @getBySlugOrId id, ctx, cb
-  else if query?
-    #search by name
-    @search query, ctx, cb
-  else
-    @pagination page, page_size, ctx, cb
+      cb = (err, data)->
+        unless err
+          req.app.mem.set key, JSON.stringify data
+          res.json data
+        else
+          res.json {err}
+      if popular?
+        #get popular games
+        @getPopular popular, ctx, cb
+      else if id?
+        if similar?
+          #get similar games to id
+          @getSimilar id, similar, ctx, cb
+        else
+          #get by id or slug
+          @getBySlugOrId id, ctx, cb
+      else if query?
+        #search by name
+        @search query, ctx, cb
+      else
+        @pagination page, page_size, ctx, cb
 
 
 

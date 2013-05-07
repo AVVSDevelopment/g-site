@@ -1,7 +1,7 @@
 <div id="topbar" class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <a id="logo" class="pull-left" href="/">
-            <img src="http://cdn1.kizi.com/assets/collections/logo-2a5b3e30dcfae3c3cc4c35efbdd17692.png">
+            <img src="{{=it.logo_url}}">
         </a>
         <div id="userpanel" class="pull-left">
             <div class="user-block">

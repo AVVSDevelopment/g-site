@@ -6,6 +6,7 @@
     "coffee-script": "1.x.x",
     "express": "3.2.0",
     "express-dot": "git://github.com/david-driscoll/express-dot.git",
+    "memjs": "0.x.x",
     "mongoose": "3.x.x",
     "underscore": "1.x.x",
     "walk": "2.x.x",
