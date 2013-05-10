@@ -153,7 +153,7 @@ connectToMongo = (cb)=>
 
 #memcache
 connectToMemcache = (cb)=>
-  app.mem = memjs.Client.create(undefined, expires:5, expires:60*60)
+  app.mem = memjs.Client.create(undefined, expires:60*60)
   console.log  "connection to memcache - Ok!"
   cb()
 
