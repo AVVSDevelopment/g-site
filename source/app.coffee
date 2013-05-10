@@ -38,7 +38,8 @@ startServer = ()->
     app.engine 'dot', dot.__express
 
     #stack
-    app.use "/static", express.static './source/static'
+    app.use express.compress()
+    app.use "/static", express.static './source/static', {maxAge: 86400000}
     app.use express.cookieParser()
     app.use express.bodyParser()
     app.use express.methodOverride()
@@ -148,7 +149,7 @@ connectToMongo = (cb)=>
 
 #memcache
 connectToMemcache = (cb)=>
-  app.mem = memjs.Client.create(undefined, expires:60*60)
+  app.mem = memjs.Client.create(undefined, expires:5)#expires:60*60)
   console.log  "connection to memcache - Ok!"
   cb()
 

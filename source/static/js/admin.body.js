@@ -131,5 +131,13 @@ $(".save").click(function(e) {
 });
 
 $('#cp1').colorpicker().on('changeColor', function(ev) {
+  return $('#inputToolbarTopColor').val(ev.color.toHex());
+});
+
+$('#cp2').colorpicker().on('changeColor', function(ev) {
+  return $('#inputToolbarBottomColor').val(ev.color.toHex());
+});
+
+$('#cp3').colorpicker().on('changeColor', function(ev) {
   return $('#inputBackgroundColor').val(ev.color.toHex());
 });

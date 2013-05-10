@@ -22,14 +22,12 @@
 
 
 body {
-  background: #093D62;
   color: white;
 }
 
 .navbar-inner {
   color: white;
   border-bottom: solid 1px #aaaaaa;
-  .gradient(top, #12a1ca, #11729f);
   #logo {
     display: block;
     padding: 10px 20px 10px 5px;
@@ -107,7 +105,6 @@ body {
 .search-bar {
   position: relative;
   .search-query {
-    background-color: #115579;
     color:white;
     border: none;
     height: 34px;
@@ -136,10 +133,7 @@ body {
     float: left;
     padding: 5px;
     width:100%;
-    .gradient(top, #12a1ca, #11729f);
-    &:hover {
-      .gradient(top, #00D6FF,#008FFF);
-    }
+    .transition(0.2s);
     .game{
       a{
         color: #FFF;
@@ -216,7 +210,6 @@ body {
 
 #GamePage{
   overflow: hidden;
-  background: #11729f;
   position: fixed;
   top: 11%;
   left: 50%;
@@ -235,13 +228,12 @@ body {
     > div {
       float: left;
       height: 100%;
-      border-right: 1px solid #115579;
+      border-right: 1px solid rgba(0,0,0,.3);
       position:relative;
       .top {
-        .gradient(top, #12a1ca, #11729f);
         height: @gp_panel_top_h;
         width: 100%;
-        border-bottom: 1px solid #115579;
+        border-bottom: 1px solid rgba(0,0,0,.5);
         text-align: center;
         line-height: @gp_panel_top_h;
         font-weight: bold;
@@ -263,27 +255,24 @@ body {
           font-size: 33px;
           vertical-align: middle;
         }
-        .typicn:hover{
-          .gradient(top, #11729f, #12a1ca);
-        }
         .previous{
           left:0px;
-          border-right: 1px solid #115579;
+          border-right: 1px solid rgba(0,0,0,.4);
           color: #ffff00;
         }
         .thumbsUp{
           right:@gp_panel_top_h*2;
-          border-left: 1px solid #115579;
+          border-left: 1px solid rgba(0,0,0,.4);
           color: #25dd45;
         }
         .thumbsDown{
           right:@gp_panel_top_h;
-          border-left: 1px solid #115579;
+          border-left: 1px solid rgba(0,0,0,.4);
           color: #dd5731;
         }
         .heart{
           right:0px;
-          border-left: 1px solid #115579;
+          border-left: 1px solid rgba(0,0,0,.4);
           color: #ee4270;
         }
       }

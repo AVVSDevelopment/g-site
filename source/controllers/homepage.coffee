@@ -14,8 +14,7 @@ homepage_controller =
         ctx.err = {err}
       res.render "#{DIR}index", ctx, (err, html)->
         unless err? or req.isAuthenticated()
-          req.app.mem.set "#{ctx.locale}/#{ctx.domain}#{req.url}", html, ()->
-            console.log "#{ctx.locale}/#{ctx.domain}#{req.url} cached!"
+          req.app.mem.set "#{ctx.locale}/#{ctx.domain}#{req.url}", html
         res.send html
 
   gamepage: (req,res)=>
@@ -36,8 +35,7 @@ homepage_controller =
         ctx.err = {err}
       res.render "#{DIR}index", ctx, (err, html)->
         unless err? or req.isAuthenticated()
-          req.app.mem.set "#{ctx.locale}/#{ctx.domain}#{req.url}", html, ()->
-            console.log "#{ctx.locale}/#{ctx.domain}#{req.url} cached!"
+          req.app.mem.set "#{ctx.locale}/#{ctx.domain}#{req.url}", html
         res.send html
 
 module.exports = homepage_controller

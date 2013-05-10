@@ -2,7 +2,7 @@ class GamePageView extends Backbone.View
   id: "GamePage"
   templateStr:'<div class="game-page-body">
         <div class="games-list popular">
-          <div class="top">Popular games</div>
+          <div class="top">{{=locale["Popular games"]}}</div>
           <div class="panel-content">
             {{~it.popular :game}}
             <div class="game">
@@ -33,9 +33,9 @@ class GamePageView extends Backbone.View
           </div>
         </div>
         <div class="games-list similar">
-          <div class="top">Similar games</div>
+          <div class="top">{{=locale["Similar games"]}}</div>
           <div class="panel-content">
-            {{~it.popular :game}}
+            {{~it.similar :game}}
             <div class="game">
               <a href="/games/{{=game.slug}}">
                 <img class="thumb" src="{{=game.image_url}}">
@@ -46,7 +46,7 @@ class GamePageView extends Backbone.View
           </div>
         </div>
         <div class="ad">
-          <div class="top">Advertisment</div>
+          <div class="top">{{=locale["Advertisement"]}}</div>
           <div class="panel-content"></div>
         </div>
       </div>'

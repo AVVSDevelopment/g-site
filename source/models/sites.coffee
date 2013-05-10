@@ -17,6 +17,9 @@ Sites = new Schema
   language: String
   sources: []
   logo_url: String
+  toolbar:
+    start_color: String
+    stop_color: String
   background:
     url: String
     color: String

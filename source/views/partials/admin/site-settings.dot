@@ -108,21 +108,43 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label class="control-label" for="inputBackgroundImage">Select background image</label>
+                            <label class="control-label" for="inputToolbarTopColor">Toolbar top color</label>
                             <div class="controls">
-                                <input class="input-xlarge" name="background.url" id="inputBackgroundImage" placeholder="fileinput" type="text" value="{{=it.site.background.url||""}}">
+                                <div class="input-prepend color" id="cp1" data-color="{{=it.site.toolbar.start_color || ""}}" placeholder="#FFFFFF" data-color-format="hex">
+                                    <span class="add-on">
+                                        <i style="background-color: {{=it.site.toolbar.start_color || ""}}"></i>
+                                    </span>
+                                    <input type="text" id="inputToolbarTopColor" name="toolbar.start_color" value="{{=it.site.toolbar.start_color || ""}}" >
+
+                                </div><span class="help-inline">e.g. #ffffff</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputToolbarBottomColor">Toolbar bottom color</label>
+                            <div class="controls">
+                                <div class="input-prepend color" id="cp2" data-color="{{=it.site.toolbar.stop_color || ""}}" placeholder="#FFFFFF" data-color-format="hex">
+                                    <span class="add-on">
+                                        <i style="background-color: {{=it.site.toolbar.stop_color || ""}}"></i>
+                                    </span>
+                                    <input type="text" id="inputToolbarBottomColor" name="toolbar.stop_color" value="{{=it.site.toolbar.stop_color || ""}}" >
+                                </div>
                             </div>
                         </div>
                         <div class="control-group">
                             <label class="control-label" for="inputBackgroundColor">Background color</label>
                             <div class="controls">
-                                <div class="input-prepend color" id="cp1" data-color="{{=it.site.background.color || ""}}" placeholder="#FFFFFF" data-color-format="hex">
+                                <div class="input-prepend color" id="cp3" data-color="{{=it.site.background.color || ""}}" placeholder="#FFFFFF" data-color-format="hex">
                                     <span class="add-on">
                                         <i style="background-color: {{=it.site.background.color || ""}}"></i>
                                     </span>
                                     <input type="text" id="inputBackgroundColor" name="background.color" value="{{=it.site.background.color || ""}}" >
-
-                                </div><span class="help-inline">e.g. #ffffff</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inputBackgroundImage">Select background image</label>
+                            <div class="controls">
+                                <input class="input-xlarge" name="background.url" id="inputBackgroundImage" placeholder="fileinput" type="text" value="{{=it.site.background.url||""}}">
                             </div>
                         </div>
                         <div class="form-actions">

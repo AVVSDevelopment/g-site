@@ -91,4 +91,10 @@ $(".save").click (e)->
 
 #color picker
 $('#cp1').colorpicker().on 'changeColor', (ev)->
+  $('#inputToolbarTopColor').val ev.color.toHex()
+
+$('#cp2').colorpicker().on 'changeColor', (ev)->
+  $('#inputToolbarBottomColor').val ev.color.toHex()
+
+$('#cp3').colorpicker().on 'changeColor', (ev)->
   $('#inputBackgroundColor').val ev.color.toHex()

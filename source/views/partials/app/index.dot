@@ -12,4 +12,8 @@
     {{# def.load("/views/partials/app/game-page.dot") }}
 </div>
 <script src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var locale = {};
+    $.getJSON('/static/locales/{{=it.locale}}.json', function(data) {locale = data;});
+</script>
 <script type="text/javascript" src="/static/js/app.body.js"></script>
