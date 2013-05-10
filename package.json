@@ -22,7 +22,8 @@
     "grunt-contrib-less": "*",
     "grunt-contrib-cssmin": "*",
     "grunt-contrib-coffee": "*",
-    "grunt-dotjs": "*"
+    "grunt-dotjs": "*",
+    "nodetime":"*"
   },
   "engines": {
     "node": "0.10.x",

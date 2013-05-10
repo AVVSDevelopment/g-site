@@ -24,7 +24,7 @@
                     <td><a href="site/{{=site.domain}}">{{=site.domain}}</a> <small>(<a href="http://{{=site.domain}}" target="_blank">visit site</a>)</small></td>
                     <td>{{=site.title || ""}}</td>
                     <td>{{=site.language || ""}}</td>
-                    <td>{{=site.games_number || ""}}</td>
+                    <td>{{=site.games_number || "0"}}</td>
                     <td>{{?site.enable}}Yes{{??}}No{{?}}</td>
                     <td><button class="btn btn-mini btn-danger" type="button">Update sources</button></td>
                 </tr>

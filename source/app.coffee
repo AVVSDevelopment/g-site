@@ -1,3 +1,15 @@
+#for development
+process.env.NODETIME_ACCOUNT_KEY=process.env.NODETIME_ACCOUNT_KEY || "43389b1b19e9d19f93e815650663c4aeb1279b7e"
+process.env.MEMCACHIER_SERVERS  = process.env.MEMCACHIER_SERVERS  || "mc2.dev.ec2.memcachier.com:11211"
+process.env.MEMCACHIER_USERNAME = process.env.MEMCACHIER_USERNAME || "bb3435"
+process.env.MEMCACHIER_PASSWORD = process.env.MEMCACHIER_PASSWORD || "00b4bfbba300aa89e4bc"
+process.env.MONGOLAB_URI        = process.env.MONGOLAB_URI        || 'mongodb://gsite_app:temp_passw0rd@ds041327.mongolab.com:41327/heroku_app14575890'
+
+if process.env.NODETIME_ACCOUNT_KEY
+  require('nodetime').profile
+    accountKey: process.env.NODETIME_ACCOUNT_KEY
+    appName: 'g-sites'
+
 root      = __dirname
 express   = require 'express'
 i18n      = require 'i18n'
@@ -19,14 +31,6 @@ sites     = require './models/sites'
 #controllers
 admin     = require './controllers/adminpage'
 index     = require './controllers/homepage'
-
-#for development
-process.env.MEMCACHIER_SERVERS  = process.env.MEMCACHIER_SERVERS  || "mc2.dev.ec2.memcachier.com:11211"
-process.env.MEMCACHIER_USERNAME = process.env.MEMCACHIER_USERNAME || "bb3435"
-process.env.MEMCACHIER_PASSWORD = process.env.MEMCACHIER_PASSWORD || "00b4bfbba300aa89e4bc"
-process.env.MONGOLAB_URI        = process.env.MONGOLAB_URI        || 'mongodb://gsite_app:temp_passw0rd@ds041327.mongolab.com:41327/heroku_app14575890'
-
-
 
 app = express()
 
@@ -149,7 +153,7 @@ connectToMongo = (cb)=>
 
 #memcache
 connectToMemcache = (cb)=>
-  app.mem = memjs.Client.create(undefined, expires:5)#expires:60*60)
+  app.mem = memjs.Client.create(undefined, expires:5, expires:60*60)
   console.log  "connection to memcache - Ok!"
   cb()
 

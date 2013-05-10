@@ -12,6 +12,7 @@ Games = new Schema
   slug:
     type: String
     required: true
+    trim: true
   image_url:
     type: String
     required: true
@@ -30,30 +31,29 @@ Games = new Schema
   thumbs_down:
     type:Number
     "default": 0
-
+  site: Schema.Types.ObjectId
 
 
 Games.statics.getBySlugOrId = (id, ctx, cb)->
   oid = if id?.match "^[0-9A-Fa-f]+$" then new ObjectId id else null
-  @findOne {$or:[{slug:id}, {_id: oid}]}, cb
+  @findOne {$or:[{slug:id}, {_id: oid}], site:ctx._id}, cb
 
 Games.statics.getSimilar = (id, count, ctx, cb) ->
-  @find {}, null, {limit: count}, cb
+  @find {site:ctx._id}, null, {limit: count}, cb
 
 Games.statics.getPopular = (count, ctx, cb) ->
-  @find {}, null, {sort: {thumbs_up: -1}, limit: count}, cb
+  @find {site:ctx._id}, null, {sort: {thumbs_up: -1}, limit: count}, cb
 
 Games.statics.search = (query, ctx, cb)->
-  @find {title: new RegExp query, "i"}, null, {limit: 20}, cb
+  @find {title: new RegExp query, "i", site:ctx._id}, null, {limit: 20}, cb
 
 Games.statics.pagination = (page, page_size, ctx, cb)->
   page = page || 0
   page_size = page_size || 40
-  @find {}, null, {sort: {thumbs_up: -1}, skip: (page-1)*page_size, limit: page_size }, cb
+  @find {site:ctx._id}, null, {sort: {thumbs_up: -1}, skip: (page-1)*page_size, limit: page_size }, cb
 
-Games.statics.countGames = (site_id, ctx, cb)-> #TODO: count for specific site
-  @count {}, cb
-
+Games.statics.countGames = (site_id, ctx, cb)->
+  @count {site:site_id}, cb
 
 Games.statics.get = (req, res)->
   {ctx} = req
@@ -92,6 +92,7 @@ Games.statics.get = (req, res)->
 
 
 Games.statics.put = (req, res)->
+  {ctx} = req
   {id} = req.params
   if id? and id.match "^[0-9A-Fa-f]+$"
     oid = new ObjectId id
@@ -105,7 +106,7 @@ Games.statics.put = (req, res)->
   else
     return res.json err:"unknown action"
 
-  @update {$or:[{slug:id}, {_id: oid}]}, {$inc: changes}, {multi:false}, (err)->
+  @update {$or:[{slug:id}, {_id: oid}], site:ctx._id}, {$inc: changes}, {multi:false}, (err)->
     unless err?
       res.send success:true
     else
