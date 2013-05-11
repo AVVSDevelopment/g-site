@@ -36,7 +36,7 @@ admin     = require './controllers/adminpage'
 index     = require './controllers/homepage'
 
 #logger
-log = logentries.logger token:'e5a5c8c3-db86-4495-83c4-e81f8714b71c'
+log = logentries.logger token:'703440f5-1d7b-4523-885c-76516d11102c'
 log.debug "debug test"
 log.info "info test"
 log.notice "notice test"
