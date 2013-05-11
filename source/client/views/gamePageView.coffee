@@ -49,7 +49,8 @@ class GamePageView extends Backbone.View
           <div class="top">{{=locale["Advertisement"]}}</div>
           <div class="panel-content"></div>
         </div>
-      </div>'
+      </div>
+      <div class="fb-comments" data-href="http://{{=window.location.hostname}}/games/{{=it.slug}}" data-num-posts="10"></div>'
   template: doT.template(@::templateStr, undefined, {})
   swfObject: null
   events:

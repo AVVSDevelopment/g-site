@@ -25,6 +25,13 @@ body {
   color: white;
 }
 
+body.no-scroll {
+  overflow: hidden;
+  #GamePageBackdrop{
+    overflow-y: auto;
+  }
+}
+
 .navbar-inner {
   color: white;
   border-bottom: solid 1px #aaaaaa;
@@ -201,7 +208,7 @@ body {
 
 #GamePageBackdrop{
   position:fixed;
-  top: 64px;
+  top: 63px;
   bottom:0px;
   right:0px;
   left:0px;
@@ -210,12 +217,9 @@ body {
 
 #GamePage{
   overflow: hidden;
-  position: fixed;
-  top: 11%;
-  left: 50%;
+  margin: 10px auto;
   z-index: 1020;
   width: 560px;
-  margin-left: -280px;
   border: 1px solid #999;
   border: 1px solid rgba(0, 0, 0, 0.3);
   outline: 0;
@@ -225,6 +229,7 @@ body {
 
   .game-page-body{
     padding: 0px;
+    border-bottom: 1px solid rgba(0,0,0,.3);
     > div {
       float: left;
       height: 100%;
@@ -308,7 +313,9 @@ body {
   @media (min-width: @modal_max_w) {
     @modal_size: @base_size + @gp_game_wmax;
     width: @modal_size;
-    margin-left: -@modal_size / 2;
+    .fb-comments{
+      width: 770px;
+    }
     .game-page-body{
       height: @gp_game_hmax + @gp_panel_top_h + 2 * @gp_padding;
     }
@@ -320,7 +327,9 @@ body {
   @media (max-width: @modal_max_w) {
     @modal_size: @base_size + @gp_game_wmin;
     width: @modal_size;
-    margin-left: -@modal_size / 2;
+    .fb-comments{
+      width: 761px;
+    }
     .game-page-body{
       height: @gp_game_hmin + @gp_panel_top_h + 2 * @gp_padding;
       .games-list .panel-content .game:last-child {
@@ -331,6 +340,18 @@ body {
       width: @gp_game_wmin + 2 * @gp_padding;
     }
   }
+  .fb-comments{
+    //background-color: white;
+    display:none;
+    margin-left: 150px;
+    padding: 20px;
+    border-left: 1px solid rgba(0,0,0,.6);
+    border-right: 1px solid rgba(0,0,0,.6);
+    span, span iframe {
+      width: 100% !important;
+    }
+  }
+
 }
 
 

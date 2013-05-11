@@ -42,11 +42,13 @@ class App extends Backbone.Router
     return
 
   index: ()->
+    $('body').removeClass "no-scroll"
     $('#GamePage').hide()
     $('#GamePageBackdrop').hide()
     @gamePageView.deleteSwfObject()
 
   gamepage: (game_link)->
+    $('#GamePageBackdrop').show()
     slug = game_link.substr(game_link.lastIndexOf('/') + 1)
     @gamePageView.model = new Game {slug:slug}
     @gamePageView.model.fetch
@@ -55,9 +57,12 @@ class App extends Backbone.Router
           success:()=>
             $('#GamePage').replaceWith @gamePageView.render()
             @gamePageView.setupSwfObject()
-            $('#GamePageBackdrop').show()
             $('#GamePage').show()
+            $('body').addClass "no-scroll"
           error: ()->
+            $('#GamePageBackdrop').hide()
+      error: ()->
+        $('#GamePageBackdrop').hide()
 
 
 

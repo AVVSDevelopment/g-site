@@ -185,7 +185,8 @@ GamePageView = (function(_super) {
           <div class="top">{{=locale["Advertisement"]}}</div>\
           <div class="panel-content"></div>\
         </div>\
-      </div>';
+      </div>\
+      <div class="fb-comments" data-href="http://{{=window.location.hostname}}/games/{{=it.slug}}" data-num-posts="10"></div>';
 
   GamePageView.prototype.template = doT.template(GamePageView.prototype.templateStr, void 0, {});
 
@@ -394,6 +395,7 @@ App = (function(_super) {
   App.prototype.init = function() {};
 
   App.prototype.index = function() {
+    $('body').removeClass("no-scroll");
     $('#GamePage').hide();
     $('#GamePageBackdrop').hide();
     return this.gamePageView.deleteSwfObject();
@@ -403,6 +405,7 @@ App = (function(_super) {
     var slug,
       _this = this;
 
+    $('#GamePageBackdrop').show();
     slug = game_link.substr(game_link.lastIndexOf('/') + 1);
     this.gamePageView.model = new Game({
       slug: slug
@@ -413,11 +416,16 @@ App = (function(_super) {
           success: function() {
             $('#GamePage').replaceWith(_this.gamePageView.render());
             _this.gamePageView.setupSwfObject();
-            $('#GamePageBackdrop').show();
-            return $('#GamePage').show();
+            $('#GamePage').show();
+            return $('body').addClass("no-scroll");
           },
-          error: function() {}
+          error: function() {
+            return $('#GamePageBackdrop').hide();
+          }
         });
+      },
+      error: function() {
+        return $('#GamePageBackdrop').hide();
       }
     });
   };

@@ -38,6 +38,11 @@
         <div class="panel-content"></div>
     </div>
 </div>
+<div class="fb-comments" data-href="http://{{=it.domain}}/games/{{=it.gamepage.slug}}" data-num-posts="10" data-colorscheme="light"></div>
+<script>
+    $('body').addClass("no-scroll");
+    $('#GamePage').focus();
+</script>
 {{?}}
     </div>
 </div>

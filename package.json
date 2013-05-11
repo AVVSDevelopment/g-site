@@ -14,7 +14,8 @@
     "async": "0.x.x",
     "passport": "0.x.x",
     "passport-local": "0.x.x",
-    "nodetime":"*"
+    "nodetime":"*",
+    "node-logentries": "x.0.0"
   },
   "devDependencies": {
     "grunt": "0.4.x",

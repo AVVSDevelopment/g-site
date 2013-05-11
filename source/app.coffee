@@ -1,27 +1,30 @@
 #for development
-process.env.NODETIME_ACCOUNT_KEY=process.env.NODETIME_ACCOUNT_KEY || "43389b1b19e9d19f93e815650663c4aeb1279b7e"
-process.env.MEMCACHIER_SERVERS  = process.env.MEMCACHIER_SERVERS  || "mc2.dev.ec2.memcachier.com:11211"
-process.env.MEMCACHIER_USERNAME = process.env.MEMCACHIER_USERNAME || "bb3435"
-process.env.MEMCACHIER_PASSWORD = process.env.MEMCACHIER_PASSWORD || "00b4bfbba300aa89e4bc"
-process.env.MONGOLAB_URI        = process.env.MONGOLAB_URI        || 'mongodb://gsite_app:temp_passw0rd@ds041327.mongolab.com:41327/heroku_app14575890'
+process.env.NODETIME_ACCOUNT_KEY = process.env.NODETIME_ACCOUNT_KEY || "43389b1b19e9d19f93e815650663c4aeb1279b7e"
+process.env.MEMCACHIER_SERVERS   = process.env.MEMCACHIER_SERVERS   || "mc2.dev.ec2.memcachier.com:11211"
+process.env.MEMCACHIER_USERNAME  = process.env.MEMCACHIER_USERNAME  || "bb3435"
+process.env.MEMCACHIER_PASSWORD  = process.env.MEMCACHIER_PASSWORD  || "00b4bfbba300aa89e4bc"
+process.env.MONGOLAB_URI         = process.env.MONGOLAB_URI         || 'mongodb://gsite_app:temp_passw0rd@ds041327.mongolab.com:41327/heroku_app14575890'
 
+#profiler
 if process.env.NODETIME_ACCOUNT_KEY
   require('nodetime').profile
     accountKey: process.env.NODETIME_ACCOUNT_KEY
     appName: 'g-sites'
 
-root      = __dirname
-express   = require 'express'
-i18n      = require 'i18n'
-url       = require 'url'
-mongoose  = require 'mongoose'
-walk      = require 'walk'
-fs        = require 'fs'
-dot       = require 'express-dot'
-async     = require 'async'
-_         = require 'underscore'
-passport  = require 'passport'
-memjs     = require 'memjs'
+#requires
+root          = __dirname
+express       = require 'express'
+i18n          = require 'i18n'
+url           = require 'url'
+mongoose      = require 'mongoose'
+walk          = require 'walk'
+fs            = require 'fs'
+dot           = require 'express-dot'
+async         = require 'async'
+_             = require 'underscore'
+passport      = require 'passport'
+memjs         = require 'memjs'
+logentries    = require 'node-logentries'
 localStrategy = require('passport-local').Strategy
 
 #models
@@ -32,8 +35,18 @@ sites     = require './models/sites'
 admin     = require './controllers/adminpage'
 index     = require './controllers/homepage'
 
-app = express()
+#logger
+log = logentries.logger token:'e5a5c8c3-db86-4495-83c4-e81f8714b71c'
+log.debug "debug test"
+log.info "info test"
+log.notice "notice test"
+log.warning "warning test"
+log.err "err test"
+log.crit "crit test"
+log.emerg "ermerg test"
+log.log "test end"
 
+app = express()
 startServer = ()->
   app.configure ()->
     #dot
@@ -105,6 +118,8 @@ startServer = ()->
   app.get '/admin/login', redirectIfAuthenticated, admin.login
   app.get '/admin/logout', admin.logout
 
+  #app.get '/', index.homepage
+  #app.get '/games/:slug', index.gamepage
   app.get '/', isInCache, index.homepage
   app.get '/games/:slug', isInCache, index.gamepage
 
