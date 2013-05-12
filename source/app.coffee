@@ -78,7 +78,8 @@ startServer = ()->
       req.ctx.__ = i18n.__
       req.ctx.locales = app.locales
       req.ctx.api = '/api/v1.alpha'
-      domain = if req.headers.host isnt 'localhost:5000' then req.headers.host.split(".").slice(-2).join "." else 'g-sites.herokuapp.com'
+      domain = req.headers.host.replace(/^www\./, "").replace /^search\./, ""
+      domain = domain.replace "localhost:5000", "g-sites.herokuapp.com" #for development
       key = domain
       app.mem.get key, (err, val)->
         if !err and val
@@ -91,7 +92,7 @@ startServer = ()->
               app.mem.set key, JSON.stringify(domain)
               next()
             else
-              log.warning "domain #{domain} not found in sites db"
+              log.warning "domain #{req.headers.host} not found in sites db"
               res.send 404
 
     #if site suspended

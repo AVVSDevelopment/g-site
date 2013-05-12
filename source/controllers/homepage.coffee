@@ -26,16 +26,18 @@ homepage_controller =
       similar   : (cb)=> gameDB.getSimilar slug, 5, ctx, cb
       popular   : (cb)=> gameDB.getPopular( 5, ctx, cb)
     , (err, data)=>
-      unless err
+      if !err and data.game
         ctx.games = _.map data.pagination, (game)-> game.toJSON()
         ctx.gamepage = data.game.toJSON()
         ctx.gamepage.similar = _.map data.similar, (game)-> game.toJSON()
         ctx.gamepage.popular = _.map data.popular, (game)-> game.toJSON()
-      else
-        ctx.err = {err}
-      res.render "#{DIR}index", ctx, (err, html)->
+        res.render "#{DIR}index", ctx, (err, html)->
         unless err? or req.isAuthenticated()
           req.app.mem.set "#{ctx.locale}/#{ctx.domain}#{req.url}", html
         res.send html
+      else
+        ctx.err = {err}
+        res.send 404
+
 
 module.exports = homepage_controller
