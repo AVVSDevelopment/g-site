@@ -48,6 +48,7 @@ log.emerg "ermerg test"
 log.log "test end"
 ###
 
+
 app = express()
 startServer = ()->
   app.configure ()->
@@ -77,7 +78,7 @@ startServer = ()->
       req.ctx.__ = i18n.__
       req.ctx.locales = app.locales
       req.ctx.api = '/api/v1.alpha'
-      domain = if req.headers.host isnt 'localhost:5000' then req.headers.host else 'g-sites.herokuapp.com'
+      domain = if req.headers.host isnt 'localhost:5000' then req.headers.host.split(".").slice(-2).join "." else 'g-sites.herokuapp.com'
       key = domain
       app.mem.get key, (err, val)->
         if !err and val
@@ -90,6 +91,7 @@ startServer = ()->
               app.mem.set key, JSON.stringify(domain)
               next()
             else
+              log.warning "domain #{domain} not found in sites db"
               res.send 404
 
     #if site suspended
@@ -142,7 +144,7 @@ createApi = (cb)->
       app.models[modelName] = require './models/'+ modelName
   walker.on "end", ()->
     require('./api') app
-    console.log "generate api routes    - Ok!"
+    log.info "generate api routes    - Ok!"
     cb()
 
 #generate locales for i18n
@@ -156,7 +158,7 @@ createLocales = (cb)->
     i18n.configure
       locales: app.locales
       directory: './source/static/locales'
-    console.log "search for locales     - Ok!"
+    log.info "search for locales     - Ok!"
     cb()
 
 #mongo connection
@@ -165,13 +167,13 @@ connectToMongo = (cb)=>
   db = mongoose.connection
   db.on 'error', console.error.bind console, 'connection error:'
   db.once 'open', ()->
-    console.log "connection to mongo    - Ok!"
+    log.info "connection to mongo    - Ok!"
     cb()
 
 #memcache
 connectToMemcache = (cb)=>
   app.mem = memjs.Client.create(undefined, expires:60*60)
-  console.log  "connection to memcache - Ok!"
+  log.info  "connection to memcache - Ok!"
   cb()
 
 
