@@ -24,6 +24,7 @@ async         = require 'async'
 _             = require 'underscore'
 passport      = require 'passport'
 memjs         = require 'memjs'
+crypto        = require 'crypto'
 logentries    = require 'node-logentries'
 localStrategy = require('passport-local').Strategy
 
@@ -47,7 +48,6 @@ log.crit "crit test"
 log.emerg "ermerg test"
 log.log "test end"
 ###
-
 
 app = express()
 startServer = ()->
@@ -78,7 +78,7 @@ startServer = ()->
       req.ctx.__ = i18n.__
       req.ctx.locales = app.locales
       req.ctx.api = '/api/v1.alpha'
-      domain = req.headers.host.replace(/^www\./, "").replace /^search\./, ""
+      domain = req.headers.host.replace(/^www\./, "")#.replace /^search\./, ""
       domain = domain.replace "localhost:5000", "g-sites.herokuapp.com" #for development
       key = domain
       app.mem.get key, (err, val)->
@@ -88,6 +88,7 @@ startServer = ()->
         else
           mongoose.model('sites').getByDomain domain, (err, domain)->
             if !err? and domain?
+              domain.hash = crypto.createHash('md5').update(domain.toString()).digest "hex"
               _.extend req.ctx, domain
               app.mem.set key, JSON.stringify(domain)
               next()
@@ -218,7 +219,7 @@ redirectIfAuthenticated = (req, res, next)->
   res.redirect '/admin/'
 
 isInCache = (req, res, next)->
-  app.mem.get "#{req.ctx.locale}/#{req.ctx.domain}#{req.url}", (err, val)->
+  app.mem.get "#{req.ctx.locale}/#{req.ctx.hash}#{req.url}", (err, val)->
     if !err and val
       res.set 'Content-Type', 'text/html'
       res.send val

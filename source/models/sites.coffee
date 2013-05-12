@@ -14,7 +14,9 @@ Sites = new Schema
   title: String
   description: String
   keywords: String
-  language: String
+  language:
+    type:String
+    'default':'en'
   sources: []
   logo_url: String
   toolbar:

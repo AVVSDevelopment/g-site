@@ -59,7 +59,7 @@ Games.statics.get = (req, res)->
   {ctx} = req
   {id} = req.params
   {query, page, page_size, popular, similar}= req.query
-  key = "#{ctx.locale}/#{ctx.domain}/"
+  key = "#{ctx.locale}/#{ctx.hash}/"
   if id?
     key += id
   key += JSON.stringify req.query
@@ -112,11 +112,11 @@ Games.statics.put = (req, res)->
     else
       return res.send err:err
 
-###
-gm = (mongoose.model 'games', Games)
 
+gm = (mongoose.model 'games', Games)
+###
 i = 0
-while i<100
+while i<123
   game_rnd = Math.floor(Math.random() * 100000000)
   picnum = Math.floor(Math.random() * 3) + 1
   g = new gm
@@ -125,6 +125,7 @@ while i<100
   g.slug = "game_slug_" + game_rnd
   g.image_url = '/static/img/thumb150_' + picnum + '.jpg'
   g.swf_url = 'http://www.mousebreaker.com/games/parking/INSKIN__parking-v1.1_Secure.swf'
+  g.site = "518f72b56e98bc0200000001"
   console.log g
   g.save (err, it)->
     console.log err
