@@ -21,7 +21,7 @@
         <div class="span12">
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane active" id="general">
-                    <form class="form-horizontal" action="{{=it.domain.api}}/sites" method="post">
+                    <form class="form-horizontal" action="{{=it.api}}/sites" method="post">
                         <div class="control-group">
                             <label class="control-label" for="inputDomain">Domain</label>
                             <div class="controls">

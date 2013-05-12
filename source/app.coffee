@@ -37,6 +37,7 @@ index     = require './controllers/homepage'
 
 #logger
 log = logentries.logger token:'703440f5-1d7b-4523-885c-76516d11102c'
+###
 log.debug "debug test"
 log.info "info test"
 log.notice "notice test"
@@ -45,6 +46,7 @@ log.err "err test"
 log.crit "crit test"
 log.emerg "ermerg test"
 log.log "test end"
+###
 
 app = express()
 startServer = ()->
