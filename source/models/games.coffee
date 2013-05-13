@@ -45,7 +45,7 @@ Games.statics.getPopular = (count, ctx, cb) ->
   @find {site:ctx._id}, null, {sort: {thumbs_up: -1}, limit: count}, cb
 
 Games.statics.search = (query, ctx, cb)->
-  @find {title: new RegExp query, "i", site:ctx._id}, null, {limit: 20}, cb
+  @find {site:ctx._id, title: new RegExp(query, "i")}, null, {limit: 20}, cb
 
 Games.statics.pagination = (page, page_size, ctx, cb)->
   page = page || 0
