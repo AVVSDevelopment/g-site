@@ -14,7 +14,7 @@
         <link rel="stylesheet" type="text/css" href="/static/css/admin.min.css"/>
     {{??}}
         <link rel="stylesheet" type="text/css" href="/static/css/app.min.css"/>
-        <style>{{# def.load("/views/partials/app/style.dot") }}</style>
+        <link rel="stylesheet" type="text/css" href="/static/css/site-settings.css"/>
         <script src="//connect.facebook.net/en_US/all.js"></script>
     {{?}}
     <script type="text/javascript">

@@ -1,8 +1,10 @@
 <div id="topbar" class="navbar navbar-fixed-top">
     <div class="navbar-inner">
+        {{? it.logo_url}}
         <a id="logo" class="pull-left" href="/">
             <img src="{{=it.logo_url}}">
         </a>
+        {{?}}
         <div id="userpanel" class="pull-left">
             <div class="user-block">
                 <div class="avatar small">

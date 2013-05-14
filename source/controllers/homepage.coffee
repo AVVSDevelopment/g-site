@@ -17,6 +17,15 @@ homepage_controller =
           req.app.mem.set "#{ctx.locale}/#{ctx.hash}#{req.url}", html
         res.send html
 
+  site_css: (req, res)->
+    {ctx} = req
+    ctx.layout = false
+    res.render "#{DIR}style", ctx, (err, css)->
+      unless err?
+        req.app.mem.set "#{ctx.locale}/#{ctx.hash}#{req.url}", css
+      res.set 'Content-Type', 'text/css'
+      res.send css
+
   gamepage: (req,res)=>
     {slug} = req.params
     {ctx} = req

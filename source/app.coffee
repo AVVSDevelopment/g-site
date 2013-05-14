@@ -88,7 +88,8 @@ startServer = ()->
         else
           mongoose.model('sites').getByDomain domain, (err, domain)->
             if !err? and domain?
-              domain.hash = crypto.createHash('md5').update(domain.toString()).digest "hex"
+              domain = domain.toJSON()
+              domain.hash = crypto.createHash('md5').update(JSON.stringify(domain)).digest "hex"
               _.extend req.ctx, domain
               app.mem.set key, JSON.stringify(domain)
               next()
@@ -125,8 +126,10 @@ startServer = ()->
   app.get '/admin/logout', admin.logout
 
   #app.get '/', index.homepage
+  #app.get '/static/css/site-settings.css', index.site_css
   #app.get '/games/:slug', index.gamepage
   app.get '/', isInCache, index.homepage
+  app.get '/static/css/site-settings.css', isInCache, index.site_css
   app.get '/games/:slug', isInCache, index.gamepage
 
 
@@ -221,6 +224,10 @@ redirectIfAuthenticated = (req, res, next)->
 isInCache = (req, res, next)->
   app.mem.get "#{req.ctx.locale}/#{req.ctx.hash}#{req.url}", (err, val)->
     if !err and val
+      extension = req.url.split '.'
+      if extension?[extension.length-1] is 'css'
+        res.set 'Content-Type', 'text/css'
+      else
       res.set 'Content-Type', 'text/html'
       res.send val
     else

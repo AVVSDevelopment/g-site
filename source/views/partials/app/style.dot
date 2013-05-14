@@ -1,3 +1,5 @@
+{{ it.toolbar = it.toolbar || {}; }}
+{{ it.background = it.background || {}; }}
 {{ it.toolbar.start_color = it.toolbar.start_color || "#12a1ca"; }}
 {{ it.toolbar.stop_color = it.toolbar.stop_color || "#11729f"; }}
 {{ it.background.color = it.background.color || "#093D62"; }}
