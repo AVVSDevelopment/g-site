@@ -4,6 +4,7 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <html>
 <head>
+    <meta name="robots" content="noindex,nofollow" />
     <title>{{=it.title || ""}}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
     {{? it.keywords}}<meta name="keywords" content="{{=it.keywords}}" />{{?}}
     {{? it.admin}}
         <link rel="stylesheet" type="text/css" href="/static/css/{{=it.version || ""}}admin.min.css"/>
+        <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
     {{??}}
         <link rel="stylesheet" type="text/css" href="/static/css/{{=it.version || ""}}app.min.css"/>
         <link rel="stylesheet" type="text/css" href="/static/css/site-settings.css"/>
