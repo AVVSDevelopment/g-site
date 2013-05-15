@@ -11,16 +11,16 @@
     {{? it.description}}<meta name="description" content="{{=it.description}}" />{{?}}
     {{? it.keywords}}<meta name="keywords" content="{{=it.keywords}}" />{{?}}
     {{? it.admin}}
-        <link rel="stylesheet" type="text/css" href="/static/css/admin.min.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/{{=it.version || ""}}admin.min.css"/>
     {{??}}
-        <link rel="stylesheet" type="text/css" href="/static/css/app.min.css"/>
+        <link rel="stylesheet" type="text/css" href="/static/css/{{=it.version || ""}}app.min.css"/>
         <link rel="stylesheet" type="text/css" href="/static/css/site-settings.css"/>
         <script src="//connect.facebook.net/en_US/all.js"></script>
     {{?}}
     <script type="text/javascript">
         var api = "{{=it.api}}";
     </script>
-    <script type="text/javascript" src="/static/js/app.head.js"></script>
+    <script type="text/javascript" src="/static/js/{{=it.version || ""}}app.head.js"></script>
 </head>
 <body>
     {{=it.body}}

@@ -28,26 +28,18 @@ crypto        = require 'crypto'
 logentries    = require 'node-logentries'
 localStrategy = require('passport-local').Strategy
 
-#models
-games     = require './models/games'
+
+#register models
 sites     = require './models/sites'
+games        = require './models/games'
 
 #controllers
-admin     = require './controllers/adminpage'
-index     = require './controllers/homepage'
+admin        = require './controllers/admin'
+index        = require './controllers/index'
+static_files = require './controllers/static'
 
 #logger
 log = logentries.logger token:'703440f5-1d7b-4523-885c-76516d11102c'
-###
-log.debug "debug test"
-log.info "info test"
-log.notice "notice test"
-log.warning "warning test"
-log.err "err test"
-log.crit "crit test"
-log.emerg "ermerg test"
-log.log "test end"
-###
 
 app = express()
 startServer = ()->
@@ -89,18 +81,19 @@ startServer = ()->
           mongoose.model('sites').getByDomain domain, (err, domain)->
             if !err? and domain?
               domain = domain.toJSON()
-              domain.hash = crypto.createHash('md5').update(JSON.stringify(domain)).digest "hex"
+              domain.hash = crypto.createHash('md5').update(JSON.stringify domain ).digest "hex"
               _.extend req.ctx, domain
-              app.mem.set key, JSON.stringify(domain)
+              app.mem.set key, JSON.stringify domain
               next()
             else
               log.warning "domain #{req.headers.host} not found in sites db"
               res.send 404
 
-    #if site suspended
+
     app.use (req, res, next)->
       req.ctx.locale = req.ctx.language
-      if req.ctx.enable or (req.url.match "^\/admin")? or (req.headers.referer?.match "\/admin")?
+      #if site suspended
+      if req.ctx.enable or (req.url.match "^\/admin")? or (req.user is 'admin' and (req.url.match "^\/api")?)
         next()
       else
         res.send 404
@@ -130,6 +123,7 @@ startServer = ()->
   #app.get '/games/:slug', index.gamepage
   app.get '/', isInCache, index.homepage
   app.get '/static/css/site-settings.css', isInCache, index.site_css
+  #app.get '/static/:folder/:filename', isInCache, static_files.get_file
   app.get '/games/:slug', isInCache, index.gamepage
 
 

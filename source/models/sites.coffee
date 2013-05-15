@@ -62,6 +62,6 @@ Sites.statics.put = (req, res)->
   else
     res.json err:'Not authenticated'
 
-#exports.methods = ["get","post","delete","put","patch"]
+
 exports.model = mongoose.model 'sites', Sites
 exports.methods = ["post", "put"]

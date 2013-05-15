@@ -112,8 +112,6 @@ Games.statics.put = (req, res)->
     else
       return res.send err:err
 
-
-gm = (mongoose.model 'games', Games)
 ###
 i = 0
 while i<123
@@ -132,7 +130,5 @@ while i<123
   i++
 ###
 
-
 exports.model = mongoose.model 'games', Games
-#exports.methods = ["get","post","delete","put","patch"]
 exports.methods = ["get","put"]

@@ -18,6 +18,6 @@ window.fbAsyncInit = function() {
 <script src="/static/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     var locale = {};
-    $.getJSON('/static/locales/{{=it.locale}}.json', function(data) {locale = data;});
+    $.getJSON('/static/locales/{{=it.version || ""}}{{=it.locale}}.json', function(data) {locale = data;});
 </script>
-<script type="text/javascript" src="/static/js/app.body.js"></script>
+<script type="text/javascript" src="/static/js/{{=it.version || ""}}app.body.js"></script>
