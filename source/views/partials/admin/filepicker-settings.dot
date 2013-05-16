@@ -1,0 +1,7 @@
+type="filepicker-dragdrop"
+data-fp-drag-text="or drop image here"
+data-fp-mimetype="image/*"
+data-fp-button-class="btn"
+data-fp-multiple="false"
+data-fp-store-location="S3"
+data-fp-store-path="/"

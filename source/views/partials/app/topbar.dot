@@ -26,9 +26,9 @@
                     })
                 } }}
                 <ul>
-                <li><a href="/" onclick="changeLocale(this);" data-lang="{{=it.locale}}"><img src="/static/img/language/{{=it.locale}}.png"></a></li>
+                <li><a href="/" onclick="changeLocale(this);" data-lang="{{=it.locale}}"><img src="/public/img/language/{{=it.locale}}.png"></a></li>
                 {{~locales :locale}}
-                <li><a href="/" onclick="changeLocale(this);" data-lang="{{=locale}}"><img src="/static/img/language/{{=locale}}.png"></a></li>
+                <li><a href="/" onclick="changeLocale(this);" data-lang="{{=locale}}"><img src="/public/img/language/{{=locale}}.png"></a></li>
                 {{~}}
                 </ul>
                 <script>

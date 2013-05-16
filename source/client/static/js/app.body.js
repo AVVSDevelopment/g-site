@@ -69,6 +69,9 @@ Game = (function(_super) {
 
 })(Backbone.Model);
 
+
+/*=========================================================*/
+/*=========================================================*/
 var GamesCollection, _ref,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
@@ -122,6 +125,9 @@ GamesCollection = (function(_super) {
 
 })(Backbone.Collection);
 
+
+/*=========================================================*/
+/*=========================================================*/
 var GamePageView, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -243,6 +249,9 @@ GamePageView = (function(_super) {
 
 })(Backbone.View);
 
+
+/*=========================================================*/
+/*=========================================================*/
 var GameView, _ref,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,
@@ -276,6 +285,9 @@ GameView = (function(_super) {
 
 })(Backbone.View);
 
+
+/*=========================================================*/
+/*=========================================================*/
 var GamesView, _ref,
   __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
@@ -325,6 +337,9 @@ GamesView = (function(_super) {
 
 })(Backbone.View);
 
+
+/*=========================================================*/
+/*=========================================================*/
 var App, _ref,
   __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
   __hasProp = {}.hasOwnProperty,

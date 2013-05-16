@@ -12,18 +12,17 @@
     "walk": "2.x.x",
     "i18n": "0.x.x",
     "async": "0.x.x",
+    "knox": "0.x.x",
     "passport": "0.x.x",
     "passport-local": "0.x.x",
     "nodetime":"*",
-    "node-logentries": "x.0.0"
-  },
-  "devDependencies": {
+    "node-logentries": "x.0.0",
     "grunt": "0.4.x",
-    "grunt-contrib-watch": "*",
     "grunt-contrib-uglify": "*",
     "grunt-contrib-less": "*",
     "grunt-contrib-cssmin": "*",
     "grunt-contrib-coffee": "*",
+    "grunt-contrib-concat": "*",
     "grunt-dotjs": "*"
   },
   "engines": {

@@ -9,6 +9,6 @@ static_controller =
       fingerprint = fingerprint[0]
       filename = filename.replace /^([0-9a-f]{32})/, ""
     console.log folder, fingerprint, filename
-    res.sendfile "./source/static/#{folder}/#{filename}"
+    res.sendfile "./source/public/#{folder}/#{filename}"
 
 module.exports = static_controller

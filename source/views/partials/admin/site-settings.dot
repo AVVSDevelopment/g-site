@@ -1,4 +1,7 @@
 {{# def.load("/views/partials/admin/topbar.dot") }}
+<script type="text/javascript">
+    filepicker.setKey('{{=it.env.FILEPICKER_API_KEY}}');
+</script>
 <div class="container">
     <div class="row">
         <div class="span12">
@@ -104,7 +107,7 @@
                         <div class="control-group">
                             <label class="control-label" for="inputLogo">Select logo image</label>
                             <div class="controls">
-                                <input class="input-xlarge" id="inputLogo" name="logo_url" placeholder="fileinput" type="text">
+                                <input id="inputLogo" name="logo_url" value="{{=it.logo_url || ""}}" {{# def.load("/views/partials/admin/filepicker-settings.dot") }}/>
                             </div>
                         </div>
                         <div class="control-group">
@@ -144,7 +147,7 @@
                         <div class="control-group">
                             <label class="control-label" for="inputBackgroundImage">Select background image</label>
                             <div class="controls">
-                                <input class="input-xlarge" name="background.url" id="inputBackgroundImage" placeholder="fileinput" type="text" value="{{=it.site.background.url||""}}">
+                                <input id="inputBackgroundImage" name="background.url" value="{{=it.background.url || ""}}" {{# def.load("/views/partials/admin/filepicker-settings.dot") }}/>
                             </div>
                         </div>
                         <div class="form-actions">

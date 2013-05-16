@@ -4,11 +4,11 @@
 {{ it.toolbar.stop_color = it.toolbar.stop_color || "#11729f"; }}
 {{ it.background.color = it.background.color || "#093D62"; }}
 
-body {
+body{
     background-color: {{=it.background.color}};
 }
 
-.navbar-inner {
+.navbar-inner{
     background-color: {{=it.toolbar.start_color}};
     background-image: -webkit-linear-gradient(top, {{=it.toolbar.start_color}}, {{=it.toolbar.stop_color}});
     background-image: -moz-linear-gradient(top, {{=it.toolbar.start_color}}, {{=it.toolbar.stop_color}});
@@ -18,22 +18,22 @@ body {
 }
 
 
-.search-bar .search-query {
+.search-bar .search-query{
     background-color: {{=it.background.color}};
 }
 
-.typeahead.dropdown-menu li > a {
+.typeahead.dropdown-menu li > a{
     background-color: {{=it.toolbar.stop_color}};
 }
 
-.typeahead.dropdown-menu li > a:hover {
+.typeahead.dropdown-menu li > a:hover{
     background-color: {{=it.toolbar.start_color}};
 }
-#GamePage {
+#GamePage{
     background-color: {{=it.toolbar.stop_color}};
 }
 
-#GamePage .game-page-body > div .top {
+#GamePage .game-page-body > div .top{
     background-color: {{=it.toolbar.start_color}};
     background-image: -webkit-linear-gradient(top, {{=it.toolbar.start_color}}, {{=it.toolbar.stop_color}});
     background-image: -moz-linear-gradient(top, {{=it.toolbar.start_color}}, {{=it.toolbar.stop_color}});
@@ -42,7 +42,7 @@ body {
     background-image: linear-gradient(top, {{=it.toolbar.start_color}}, {{=it.toolbar.stop_color}});
 }
 
-#GamePage .game-page-body > div .top .typicn:hover {
+#GamePage .game-page-body > div .top .typicn:hover{
     background-color: {{=it.toolbar.start_color}};
     background-image: -webkit-linear-gradient(top, {{=it.toolbar.stop_color}}, {{=it.toolbar.start_color}});
     background-image: -moz-linear-gradient(top, {{=it.toolbar.stop_color}}, {{=it.toolbar.start_color}});
