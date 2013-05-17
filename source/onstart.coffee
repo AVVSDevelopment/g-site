@@ -54,8 +54,7 @@ exports.connectToMemcache = (app, cb)->
 #run grunt to compile new js and css files
 exports.runGrunt = (app, cb)->
   #console.log require 'grunt'
-  #grunt = cp.exec "sh node_modules/.bin/grunt dev", (err,stdout,stderr)->
-  grunt = cp.exec "ls node_modules/.bin", (err,stdout,stderr)->
+  grunt = cp.exec "node_modules/.bin/grunt dev", (err,stdout,stderr)->
     app.log.info stdout
     console.log stdout
     if err?
