@@ -54,7 +54,7 @@ exports.connectToMemcache = (app, cb)->
 #run grunt to compile new js and css files
 exports.runGrunt = (app, cb)->
   #console.log require 'grunt'
-  grunt = cp.exec "node_modules/.bin/grunt dev --no-color", (err,stdout,stderr)->
+  grunt = cp.exec "./node_modules/.bin/grunt dev --no-color", (err,stdout,stderr)->
     app.log.info stdout
     if err?
       app.log.err  "grunt                  - FAILED!"
