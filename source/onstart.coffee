@@ -75,10 +75,10 @@ exports.uploadStaticToS3 = (app, cb)->
   folders = ['js', 'css', 'fonts']
   console.log "start walker"
   async.each folders, (folder, cb1)->
-    walker = walk.walk "#{root}\\public\\#{folder}", followLinks:false
+    walker = walk.walk "#{root}/public/#{folder}", followLinks:false
     walker.on "names", (root, files)->
       async.each files, (file, cb2)->
-        fs.readFile "#{root}\\#{file}", (err, buf)->
+        fs.readFile "#{root}/#{file}", (err, buf)->
           console.log "prepare req", err, buf
           name = file.replace /^([0-9a-f]{32}\.)/, ""
           dotIndex = name.lastIndexOf '.'
@@ -105,9 +105,6 @@ exports.uploadStaticToS3 = (app, cb)->
           req.end buf
           #cb2()
       , cb1
-    walker.on "end", ()->
-      console.log arguments
-      console.log " worker end"    
   , (err)->
     if err?
       app.log.err err
