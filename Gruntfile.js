@@ -2,6 +2,10 @@
 module.exports = function(grunt) {
 
     grunt.initConfig({
+        clean:[
+            "source/public/css",
+            "source/public/js"
+        ],
         less: {
             production: {
                 options: {
@@ -89,6 +93,17 @@ module.exports = function(grunt) {
                 src : ["source/client/static/js/bootstrap.min.js", "source/client/static/js/app.body.js"],
                 dest: "source/public/js/app.body.js"
             }
+        },
+        rev: {
+            options: {
+                algorithm: 'md5',
+                length: 32
+            },
+            assets: {
+                files: {
+                    src: ['source/public/js/*.*', 'source/public/css/*.*']
+                }
+            }
         }
     });
 
@@ -98,9 +113,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-coffee');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-rev');
 
-    grunt.registerTask('default', ['less', 'cssmin', 'coffee', 'uglify']);
-    grunt.registerTask('dev', ['less', 'cssmin', 'coffee', 'concat']);
+    grunt.registerTask('default', ['clean', 'less', 'cssmin', 'coffee', 'uglify', 'rev']);
+    grunt.registerTask('dev', ['clean', 'less', 'cssmin', 'coffee', 'concat', 'rev']);
 };
 
 

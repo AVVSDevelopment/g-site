@@ -7,6 +7,7 @@ crypto    = require 'crypto'
 cp        = require 'child_process'
 fs        = require 'fs'
 knox      = require 'knox'
+async     = require 'async'
 
 
 #generate route for RESTful api
@@ -53,36 +54,57 @@ exports.connectToMemcache = (app, cb)->
 
 #run grunt to compile new js and css files
 exports.runGrunt = (app, cb)->
-  #console.log require 'grunt'
-  grunt = cp.exec "node_modules/.bin/grunt dev --no-color", (err,stdout,stderr)->
+  grunt = cp.exec "sh node_modules/.bin/grunt dev --no-color", (err,stdout,stderr)->
     app.log.info stdout
     if err?
-      app.log.err  "grunt                  - FAILED!"
+      app.log.err "grunt                  - FAILED!"
       app.log.err stderr
       app.log.err err
-      console.log stderr
-      console.log err
     else
-      app.log.info  "grunt                  - Ok!"
+      app.log.info "grunt                  - Ok!"
     cb()
 
 #upload to S3
 exports.uploadStaticToS3 = (app, cb)->
-  ###
   client = knox.createClient
     key: process.env.AWS_ACCESS_KEY_ID
     secret: process.env.AWS_SECRET_ACCESS_KEY
     bucket: process.env.AWS_STORAGE_BUCKET_NAME_STATIC
 
-  fs.readFile './source/static/js/admin.body.js', (err, buf)->
-    req = client.put '/static/js/admin.body.js',
-      'Content-Length': buf.length
-      'Content-Type': 'application/javascript'
-      'x-amz-acl': 'public-read'
-    req.on 'response', (res)->
-      if res.statusCode is 200
-        console.log 'saved to %s', req.url
-    req.end buf
-  ###
-  #app.log.info  "upload   static to S3    - Ok!"
-  cb()
+  app.file = {}
+  folders = ['js', 'css', 'fonts']
+
+  async.each folders, (folder, cb1)->
+    walker = walk.walk "#{root}\\public\\#{folder}", followLinks:false
+    walker.on "names", (root, files)->
+      async.each files, (file, cb2)->
+        fs.readFile "#{root}\\#{file}", (err, buf)->
+          name = file.replace /^([0-9a-f]{32}\.)/, ""
+          dotIndex = name.lastIndexOf '.'
+          ext = if dotIndex > 0 then name.substr 1 + dotIndex else null
+          if ext is 'css'
+            contentType ='text/css'
+          else if ext is 'js'
+            contentType = 'application/javascript'
+          else if ext in ['png', 'jpeg', 'gif', 'bmp']
+            contentType = 'image/#{ext}'
+          else
+            contentType = 'text/plain'
+          req = client.put "public/#{folder}/#{file}",
+            'Content-Length': buf.length
+            'Content-Type': contentType
+            'x-amz-acl': 'public-read'
+          req.on 'response', (res)->
+            if res.statusCode is 200
+              app.file[name] = req.url
+            else
+              app.file[name] = ""
+            cb2()
+          req.end buf
+          #cb2()
+      , cb1
+  , (err)->
+    if err?
+      app.log.err err
+    console.log app.file
+    cb()

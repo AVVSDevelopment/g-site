@@ -12,17 +12,17 @@
     {{? it.description}}<meta name="description" content="{{=it.description}}" />{{?}}
     {{? it.keywords}}<meta name="keywords" content="{{=it.keywords}}" />{{?}}
     {{? it.admin}}
-        <link rel="stylesheet" type="text/css" href="/public/css/{{=it.version || ""}}admin.min.css"/>
+        <link rel="stylesheet" type="text/css" href="{{=it.file['admin.min.css']}}"/>
         <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
     {{??}}
-        <link rel="stylesheet" type="text/css" href="/public/css/{{=it.version || ""}}app.min.css"/>
+        <link rel="stylesheet" type="text/css" href="{{=it.file['app.min.css']}}"/>
         <link rel="stylesheet" type="text/css" href="/public/css/site-settings.css"/>
         <script src="//connect.facebook.net/en_US/all.js"></script>
     {{?}}
     <script type="text/javascript">
         var api = "{{=it.api}}";
     </script>
-    <script type="text/javascript" src="/public/js/{{=it.version || ""}}app.head.js"></script>
+    <script type="text/javascript" src="{{=it.file['app.head.js']}}"></script>
 </head>
 <body>
     {{=it.body}}

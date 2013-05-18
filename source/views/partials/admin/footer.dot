@@ -1,1 +1,1 @@
-<script type="text/javascript" src="/public/js/admin.body.js"></script>
+<script type="text/javascript" src="{{=it.file['admin.body.js']}}"></script>
