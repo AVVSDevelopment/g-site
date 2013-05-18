@@ -73,13 +73,12 @@ exports.uploadStaticToS3 = (app, cb)->
 
   app.file = {}
   folders = ['js', 'css', 'fonts']
-  console.log "start walker"
+
   async.each folders, (folder, cb1)->
     walker = walk.walk "#{root}/public/#{folder}", followLinks:false
     walker.on "names", (root, files)->
       async.each files, (file, cb2)->
         fs.readFile "#{root}/#{file}", (err, buf)->
-          console.log "prepare req", err, buf
           name = file.replace /^([0-9a-f]{32}\.)/, ""
           dotIndex = name.lastIndexOf '.'
           ext = if dotIndex > 0 then name.substr 1 + dotIndex else null
@@ -96,7 +95,6 @@ exports.uploadStaticToS3 = (app, cb)->
             'Content-Type': contentType
             'x-amz-acl': 'public-read'
           req.on 'response', (res)->
-            console.log "response"  
             if res.statusCode is 200
               app.file[name] = req.url
             else

@@ -51,7 +51,7 @@ module.exports = function(grunt) {
                     "source/public/js/app.head.js" : [
                         "source/client/static/js/jquery-1.9.1.min.js", "source/client/static/js/jquery.cookie.js",
                         "source/client/static/js/underscore.js", "source/client/static/js/backbone.js",
-                        "source/client/static/js/infiniScroll.js", "source/client/static/js/dot.min.js",
+                        "source/client/static/js/infiniScroll.js", "source/client/static/js/doT.min.js",
                         "source/client/static/js/swfobject.js"
                     ]
                 }
@@ -77,7 +77,7 @@ module.exports = function(grunt) {
                 src :[
                     "source/client/static/js/jquery-1.9.1.min.js", "source/client/static/js/jquery.cookie.js",
                     "source/client/static/js/underscore.js", "source/client/static/js/backbone.js",
-                    "source/client/static/js/infiniScroll.js", "source/client/static/js/dot.min.js",
+                    "source/client/static/js/infiniScroll.js", "source/client/static/js/doT.min.js",
                     "source/client/static/js/swfobject.js"
                 ],
                 dest: "source/public/js/app.head.js"
