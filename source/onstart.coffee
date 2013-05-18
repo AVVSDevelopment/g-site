@@ -66,7 +66,6 @@ exports.runGrunt = (app, cb)->
 
 #upload to S3
 exports.uploadStaticToS3 = (app, cb)->
-  console.log "start uploading"
   client = knox.createClient
     key: process.env.AWS_ACCESS_KEY_ID
     secret: process.env.AWS_SECRET_ACCESS_KEY
@@ -106,6 +105,9 @@ exports.uploadStaticToS3 = (app, cb)->
           req.end buf
           #cb2()
       , cb1
+    walker.on "end", ()->
+      console.log arguments
+      console.log " worker end"    
   , (err)->
     if err?
       app.log.err err
