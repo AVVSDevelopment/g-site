@@ -1,2 +1,4 @@
 node_modules/
 .idea/
+source/public/js
+source/public/css
