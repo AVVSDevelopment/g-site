@@ -10,6 +10,7 @@ knox      = require 'knox'
 async     = require 'async'
 
 
+
 #generate route for RESTful api
 exports.createApi = (app, cb)->
   app.models = {}
@@ -49,6 +50,12 @@ exports.connectToMongo = (app, cb)->
 #memcache
 exports.connectToMemcache = (app, cb)->
   app.mem = memjs.Client.create(undefined, expires:60*60)
+  app.mem.flush (err, info)->
+    unless err
+      app.log.info  "flush memcache         - Ok!"
+    else
+      app.log.err  "flush memcache         - ERROR!"
+      app.log.err err, info
   app.log.info  "connection to memcache - Ok!"
   cb()
 
@@ -72,7 +79,7 @@ exports.uploadStaticToS3 = (app, cb)->
     bucket: process.env.AWS_STORAGE_BUCKET_NAME_STATIC
 
   app.file = {}
-  folders = ['js', 'css', 'fonts']
+  folders = ['js', 'css', 'fonts', 'img/UI', 'img/language', 'img/bootstrap-colorpicker']
 
   async.each folders, (folder, cb1)->
     walker = walk.walk "#{root}/public/#{folder}", followLinks:false
@@ -96,15 +103,20 @@ exports.uploadStaticToS3 = (app, cb)->
             'x-amz-acl': 'public-read'
           req.on 'response', (res)->
             if res.statusCode is 200
-              app.file[name] = req.url
+              app.file[name] = "http://#{process.env.AWS_CLOUDFRONT_STATIC}/public/#{folder}/#{file}"
             else
-              app.file[name] = ""
+              app.log.err "Loading #{folder}/#{file} - ERROR!"
+              app.log.err "#{folder}/#{file} will be served from heroku"
+              app.file[name] = "/public/#{folder}/#{file}"
             cb2()
           req.end buf
-          #cb2()
       , cb1
   , (err)->
     if err?
+      app.log.err "Load static files to S3 - ERROR!"
       app.log.err err
+    else
+      app.log.info "Load static files to S3 - Ok!"
+    app.log.info app.file
     console.log app.file
     cb()

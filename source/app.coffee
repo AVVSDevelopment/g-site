@@ -45,7 +45,6 @@ games        = require './models/games'
 #controllers
 admin        = require './controllers/admin'
 index        = require './controllers/index'
-static_files = require './controllers/static'
 
 #logger
 app.log = logentries.logger token: process.env.LOGENTRIES_KEY
@@ -74,10 +73,8 @@ startServer = ()->
     app.use passport.initialize()
     app.use passport.session()
     app.use i18n.init
+
     app.use (req, res, next)->
-      #######LOGGING#######
-      #console.log req.url
-      #####################
       req.ctx = {}
       req.ctx.__ = i18n.__
       req.ctx.getCatalog = i18n.getCatalog
@@ -85,33 +82,47 @@ startServer = ()->
       req.ctx.api = '/api/v1.alpha'
       req.ctx.env = process.env
       req.ctx.file = app.file
-      domain = req.headers.host.replace(/^www\./, "")#.replace /^search\./, ""
-      domain = domain.replace "localhost:5000", "g-sites.herokuapp.com" #for development
-      key = domain
-      app.mem.get key, (err, val)->
-        if !err and val
-          _.extend req.ctx, JSON.parse val
-          next()
-        else
-          mongoose.model('sites').getByDomain domain, (err, domain)->
-            if !err? and domain?
-              domain = domain.toJSON()
-              domain.hash = crypto.createHash('md5').update(JSON.stringify domain ).digest "hex"
-              _.extend req.ctx, domain
-              app.mem.set key, JSON.stringify domain
-              next()
-            else
-              app.log.warning "domain #{req.headers.host} not found in sites db"
-              res.send 404
+      next()
 
+
+    if process.env.NODE_ENV is "dev"
+      app.use (req, res, next)->
+        domainName = req.headers.host.replace(/^www\./, "").replace "localhost:5000", "g-sites.herokuapp.com"
+        mongoose.model('sites').getByDomain domainName, (err, domain)->
+          if !err? and domain?
+            domain = domain.toJSON()
+            domain.hash = crypto.createHash('md5').update(JSON.stringify domain ).digest "hex"
+            _.extend req.ctx, domain
+            next()
+          else
+            app.log.warning "domain #{req.headers.host} not found in sites db"
+            res.send 404
+    else
+      app.use (req, res, next)->
+        #domainName = req.headers.host.replace(/^www\./, "")
+        domainName = req.headers.host.replace(/^www\./, "").replace "localhost:5000", "g-sites.herokuapp.com"
+        app.mem.get domainName, (err, val)->
+          if !err and val
+            _.extend req.ctx, JSON.parse val
+            next()
+          else
+            mongoose.model('sites').getByDomain domainName, (err, domain)->
+              if !err? and domain?
+                domain = domain.toJSON()
+                domain.hash = crypto.createHash('md5').update(JSON.stringify domain ).digest "hex"
+                _.extend req.ctx, domain
+                app.mem.set domainName, JSON.stringify domain
+                next()
+              else
+                app.log.warning "domain #{req.headers.host} not found in sites db"
+                res.send 404
 
     app.use (req, res, next)->
       req.ctx.locale = req.ctx.language
-      #if site suspended
       if req.ctx.enable or (req.url.match "^\/admin")? or (req.user is 'admin' and (req.url.match "^\/api")?)
         next()
       else
-        res.send 404
+        res.send 404 #if site suspended
 
     async.auto
       api:        (cb) -> require('./onstart').createApi app, cb
@@ -134,14 +145,9 @@ startServer = ()->
   app.get '/admin/login', redirectIfAuthenticated, admin.login
   app.get '/admin/logout', admin.logout
 
-  #app.get '/', index.homepage
-  #app.get '/public/css/site-settings.css', index.site_css
-  #app.get '/games/:slug', index.gamepage
-  app.get '/', isInCache, index.homepage
-  app.get '/public/css/site-settings.css', isInCache, index.site_css
-  app.get '/games/:slug', isInCache, index.gamepage
-  #app.get '/static/:folder/:filename', isInCache, static_files.get_file
-
+  app.get '/', isInCache, index.homepage, addToCache
+  app.get '/public/css/site-settings.css', isInCache, index.site_css, addToCache
+  app.get '/games/:slug', isInCache, index.gamepage, addToCache
 
 
 
@@ -161,9 +167,6 @@ passport.serializeUser (user, done)->
 passport.deserializeUser (id, done)->
   done null, id
 
-
-
-#Other middleware
 ensureAuthenticated = (req, res, next) ->
   if req.isAuthenticated()
     return next()
@@ -174,16 +177,29 @@ redirectIfAuthenticated = (req, res, next)->
     return next()
   res.redirect '/admin/'
 
-isInCache = (req, res, next)->
-  app.mem.get "#{req.ctx.locale}/#{req.ctx.hash}#{req.url}", (err, val)->
-    if !err and val
-      extension = req.url.split '.'
-      if extension?[extension.length-1] is 'css'
-        res.set 'Content-Type', 'text/css'
+
+
+
+
+#Cache middleware
+if process.env.NODE_ENV is "dev"
+  isInCache = (req,res,next)->next()
+  addToCache = ->
+else
+  isInCache = (req, res, next)->
+    app.mem.get "#{req.ctx.locale}/#{req.ctx.hash}#{req.url}", (err, val)->
+      if !err and val
+        extension = req.url.split '.'
+        if extension?[extension.length-1] is 'css'
+          res.set 'Content-Type', 'text/css'
+        else
+          res.set 'Content-Type', 'text/html'
+        res.send val
       else
-        res.set 'Content-Type', 'text/html'
-      res.send val
-    else
-      next()
+        next()
+
+  addToCache = (req, res)->
+    if res.saveToCache? or req.isAuthenticated()
+      app.mem.set "#{req.ctx.locale}/#{req.ctx.hash}#{req.url}", res.saveToCache
 
 startServer()
