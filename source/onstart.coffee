@@ -118,5 +118,4 @@ exports.uploadStaticToS3 = (app, cb)->
     else
       app.log.info "Load static files to S3 - Ok!"
     app.log.info app.file
-    console.log app.file
     cb()
