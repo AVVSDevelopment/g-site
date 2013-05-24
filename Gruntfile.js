@@ -4,7 +4,10 @@ module.exports = function(grunt) {
     grunt.initConfig({
         clean:[
             "source/public/css",
-            "source/public/js"
+            "source/public/js",
+            "source/public/img/UI",
+            "source/public/img/language",
+            "source/public/img/bootstrap-colorpicker"
         ],
         less: {
             production: {
@@ -94,6 +97,14 @@ module.exports = function(grunt) {
                 dest: "source/public/js/app.body.js"
             }
         },
+        copy: {
+            main: {
+                files: [
+                    {expand: true, cwd: 'source/client/static/img/',
+                        src: ['UI/*', 'language/*', 'bootstrap-colorpicker/*'], dest: 'source/public/img/'}
+                ]
+            }
+        },
         rev: {
             options: {
                 algorithm: 'md5',
@@ -101,13 +112,14 @@ module.exports = function(grunt) {
             },
             assets: {
                 files: {
-                    src: ['source/public/js/*.*', 'source/public/css/*.*']
+                    src: ['source/public/js/*.*', 'source/public/css/*.*',
+                        'source/public/img/UI/*.*', 'source/public/img/language/*.*']
                 }
             }
         }
     });
 
-
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-coffee');
@@ -116,8 +128,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-rev');
 
-    grunt.registerTask('default', ['clean', 'less', 'cssmin', 'coffee', 'uglify', 'rev']);
-    grunt.registerTask('dev', ['clean', 'less', 'cssmin', 'coffee', 'concat', 'rev']);
+    grunt.registerTask('default', ['clean', 'less', 'cssmin', 'coffee', 'uglify', 'copy', 'rev']);
+    grunt.registerTask('dev', ['clean', 'less', 'cssmin', 'coffee', 'concat', 'copy', 'rev']);
 };
 
 
