@@ -26,9 +26,9 @@
                     })
                 } }}
                 <ul>
-                <li><a href="/" onclick="changeLocale(this);" data-lang="{{=it.locale}}"><img src="/public/img/language/{{=it.locale}}.png"></a></li>
+                <li><a href="/" onclick="changeLocale(this);" data-lang="{{=it.locale}}"><img src="{{=it.file[it.locale + '.png']}}"></a></li>
                 {{~locales :locale}}
-                <li><a href="/" onclick="changeLocale(this);" data-lang="{{=locale}}"><img src="/public/img/language/{{=locale}}.png"></a></li>
+                <li><a href="/" onclick="changeLocale(this);" data-lang="{{=locale}}"><img src="{{=it.file[locale +'.png']}}"></a></li>
                 {{~}}
                 </ul>
                 <script>
@@ -42,7 +42,7 @@
             </div>
             <div class="search-bar">
                 <input type="text" class="search-query" placeholder="{{=it.__('Find a game')}}" data-provide="typeahead">
-                <a href="#" class="search-icon"><img src="http://cdn0.kizi.com/assets/collections/magnifier-87877397619c7e96580debc04f2f9c84.png"></a>
+                <a href="#" class="search-icon"><img src="{{=it.file['search_icon.png']}}"></a>
             </div>
         </div>
     </div>

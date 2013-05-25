@@ -10,6 +10,7 @@ knox      = require 'knox'
 async     = require 'async'
 
 
+
 #generate route for RESTful api
 exports.createApi = (app, cb)->
   app.models = {}
@@ -78,7 +79,7 @@ exports.uploadStaticToS3 = (app, cb)->
     bucket: process.env.AWS_STORAGE_BUCKET_NAME_STATIC
 
   app.file = {}
-  folders = ['js', 'css', 'fonts']
+  folders = ['js', 'css', 'fonts', 'img/UI', 'img/language', 'img/bootstrap-colorpicker']
 
   async.each folders, (folder, cb1)->
     walker = walk.walk "#{root}/public/#{folder}", followLinks:false
