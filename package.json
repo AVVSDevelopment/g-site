@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "g-site",
   "version": "0.0.1",
   "author": "Nikita Lvov",
@@ -20,6 +20,7 @@
     "grunt": "0.4.x",
     "grunt-cli": "*",
     "grunt-rev": "*",
+    "grunt-contrib-copy": "*",
     "grunt-contrib-clean": "*",
     "grunt-contrib-uglify": "*",
     "grunt-contrib-less": "*",
