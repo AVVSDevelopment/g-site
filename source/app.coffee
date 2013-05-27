@@ -94,7 +94,7 @@ startServer = ()->
       next()
 
 
-    if process.env.USE_MEMCACHE
+    unless process.env.USE_MEMCACHE.localeCompare 'true' is 0
       app.use (req, res, next)->
         domainName = req.headers.host.replace(/^www\./, "").replace "localhost:5000", "g-sites.herokuapp.com"
         mongoose.model('sites').getByDomain domainName, (err, domain)->
@@ -191,7 +191,7 @@ redirectIfAuthenticated = (req, res, next)->
 
 
 #Cache middleware
-unless process.env.USE_MEMCACHE
+unless process.env.USE_MEMCACHE.localeCompare 'true' is 0
   isInCache = (req,res,next)->next()
   addToCache = ->
 else

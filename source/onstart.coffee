@@ -102,10 +102,7 @@ exports.uploadStaticToS3 = (app, cb)->
       else
         contentType = 'text/plain'
 
-      unless process.env.UPLOAD_STATIC_TO_S3
-        app.file[name] = "/#{folder}/#{fileStats.name}"
-        next()
-      else
+      if process.env.UPLOAD_STATIC_TO_S3.localeCompare 'true' is 0
         req = client.put "#{folder}/#{fileStats.name}",
           'Content-Length': buf.length
           'Content-Type': contentType
@@ -119,6 +116,9 @@ exports.uploadStaticToS3 = (app, cb)->
             app.file[name] = "/#{folder}/#{fileStats.name}"
           next()
         req.end buf
+      else
+        app.file[name] = "/#{folder}/#{fileStats.name}"
+        next()
 
   walker.on "end", ->
     app.log.info "Load static files to S3 - Ok!"
