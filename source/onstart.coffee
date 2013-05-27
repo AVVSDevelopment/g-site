@@ -102,7 +102,7 @@ exports.uploadStaticToS3 = (app, cb)->
       else
         contentType = 'text/plain'
 
-      if process.env.UPLOAD_STATIC_TO_S3
+      unless process.env.UPLOAD_STATIC_TO_S3
         app.file[name] = "/#{folder}/#{fileStats.name}"
         next()
       else
