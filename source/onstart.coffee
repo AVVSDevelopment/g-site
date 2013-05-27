@@ -89,6 +89,7 @@ exports.uploadStaticToS3 = (app, cb)->
   walker = walk.walk "#{root}/public/", options
   walker.on "file", (root, fileStats, next)->
     fs.readFile "#{root}/#{fileStats.name}", (err, buf)->
+      console.log root 
       folder = path.normalize(root).replace(path.normalize(__dirname + "\\"), "").replace /\\/g, "/"
       name = fileStats.name.replace /^([0-9a-f]{32}\.)/, ""
       dotIndex = name.lastIndexOf '.'
