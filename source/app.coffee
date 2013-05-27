@@ -5,8 +5,8 @@ process.env.MEMCACHIER_SERVERS      = process.env.MEMCACHIER_SERVERS    || "mc2.
 process.env.MEMCACHIER_USERNAME     = process.env.MEMCACHIER_USERNAME   || "bb3435"
 process.env.MEMCACHIER_PASSWORD     = process.env.MEMCACHIER_PASSWORD   || "00b4bfbba300aa89e4bc"
 process.env.MONGOLAB_URI            = process.env.MONGOLAB_URI          || 'mongodb://gsite_app:temp_passw0rd@ds041327.mongolab.com:41327/heroku_app14575890'
-process.env.FILEPICKER_API_KEY      = process.env.FILEPICKER_API_KEY    || 'AgykdYRA2RAmToPuJhQosz'
-process.env.FILEPICKER_API_SECRET   = process.env.FILEPICKER_API_SECRET || 'F6FYMAT5ZBFUVJL67O4MX5G52U'
+process.env.FILEPICKER_API_KEY      = process.env.FILEPICKER_API_KEY    || 'AHM0McfCNSO6RKHvEADdqz'
+process.env.FILEPICKER_API_SECRET   = process.env.FILEPICKER_API_SECRET || '7HDSNPSHV5GBHJU6EDPBMVNT3A'
 process.env.AWS_ACCESS_KEY_ID       = process.env.AWS_ACCESS_KEY_ID     || 'AKIAITI4VR6ZZFFCJ5FA'
 process.env.AWS_SECRET_ACCESS_KEY   = process.env.AWS_SECRET_ACCESS_KEY || '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'
 process.env.AWS_CLOUDFRONT_IMG      = process.env.AWS_CLOUDFRONT_IMG    || 'd1zjm5k21y5rcp.cloudfront.net'
@@ -15,12 +15,21 @@ process.env.AWS_STORAGE_BUCKET_NAME = process.env.AWS_STORAGE_BUCKET_NAME || 'gs
 process.env.AWS_STORAGE_BUCKET_NAME_IMG = process.env.AWS_STORAGE_BUCKET_NAME_IMG || 'gsites-img'
 process.env.AWS_STORAGE_BUCKET_NAME_STATIC = process.env.AWS_STORAGE_BUCKET_NAME_STATIC || 'gsites-static'
 
+if process.env.NODE_ENV is "dev"
+  process.env.UPLOAD_STATIC_TO_S3 = false
+  process.env.USE_MEMCACHE = false
+else
+  process.env.UPLOAD_STATIC_TO_S3 = true
+  process.env.USE_MEMCACHE = true
+
 
 #profiler
 if process.env.NODETIME_ACCOUNT_KEY
   require('nodetime').profile
     accountKey: process.env.NODETIME_ACCOUNT_KEY
     appName: 'g-sites'
+
+
 
 #requires
 root          = __dirname
@@ -85,7 +94,7 @@ startServer = ()->
       next()
 
 
-    if process.env.NODE_ENV is "dev"
+    if process.env.USE_MEMCACHE
       app.use (req, res, next)->
         domainName = req.headers.host.replace(/^www\./, "").replace "localhost:5000", "g-sites.herokuapp.com"
         mongoose.model('sites').getByDomain domainName, (err, domain)->
@@ -182,7 +191,7 @@ redirectIfAuthenticated = (req, res, next)->
 
 
 #Cache middleware
-if process.env.NODE_ENV is "dev"
+unless process.env.USE_MEMCACHE
   isInCache = (req,res,next)->next()
   addToCache = ->
 else
@@ -197,6 +206,8 @@ else
         res.send val
       else
         next()
+
+
 
   addToCache = (req, res)->
     if res.saveToCache? or req.isAuthenticated()

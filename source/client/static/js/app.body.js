@@ -413,7 +413,8 @@ App = (function(_super) {
     $('body').removeClass("no-scroll");
     $('#GamePage').hide();
     $('#GamePageBackdrop').hide();
-    return this.gamePageView.deleteSwfObject();
+    this.gamePageView.deleteSwfObject();
+    return $(window).resize();
   };
 
   App.prototype.gamepage = function(game_link) {

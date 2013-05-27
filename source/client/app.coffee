@@ -26,7 +26,7 @@ class App extends Backbone.Router
     if margin>40 then margin = 0
     $(".content").css "margin-left", margin
 
-  #Init full screen of games, toolbar must appear
+  #Init full screen of games, scrollbar must appear
   initFullScreen: ()=>
     $(window).scroll()
     if $("body").height() > $(window).height() then return
@@ -46,6 +46,7 @@ class App extends Backbone.Router
     $('#GamePage').hide()
     $('#GamePageBackdrop').hide()
     @gamePageView.deleteSwfObject()
+    $(window).resize()
 
   gamepage: (game_link)->
     $('#GamePageBackdrop').show()

@@ -16,6 +16,9 @@ body.no-scroll #GamePageBackdrop {
   padding: 10px 20px 10px 5px;
   font-size: 20px;
 }
+.navbar-inner #logo img {
+  max-height: 43px;
+}
 .navbar-inner #userpanel,
 .navbar-inner #sitepanel {
   box-sizing: border-box;

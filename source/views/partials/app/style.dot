@@ -6,6 +6,9 @@
 
 body{
     background-color: {{=it.background.color}};
+    {{?it.background.url}}
+    background-image: url('{{=it.background.url}}');
+    {{?}}
 }
 
 .navbar-inner{

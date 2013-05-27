@@ -8,6 +8,7 @@ cp        = require 'child_process'
 fs        = require 'fs'
 knox      = require 'knox'
 async     = require 'async'
+path      = require 'path'
 
 
 
@@ -73,49 +74,54 @@ exports.runGrunt = (app, cb)->
 
 #upload to S3
 exports.uploadStaticToS3 = (app, cb)->
+  app.file = {}
+
+
   client = knox.createClient
     key: process.env.AWS_ACCESS_KEY_ID
     secret: process.env.AWS_SECRET_ACCESS_KEY
     bucket: process.env.AWS_STORAGE_BUCKET_NAME_STATIC
 
-  app.file = {}
-  folders = ['js', 'css', 'fonts', 'img/UI', 'img/language', 'img/bootstrap-colorpicker']
+  options =
+    followLinks:false
+    filters: ["locales"]
 
-  async.each folders, (folder, cb1)->
-    walker = walk.walk "#{root}/public/#{folder}", followLinks:false
-    walker.on "names", (root, files)->
-      async.each files, (file, cb2)->
-        fs.readFile "#{root}/#{file}", (err, buf)->
-          name = file.replace /^([0-9a-f]{32}\.)/, ""
-          dotIndex = name.lastIndexOf '.'
-          ext = if dotIndex > 0 then name.substr 1 + dotIndex else null
-          if ext is 'css'
-            contentType ='text/css'
-          else if ext is 'js'
-            contentType = 'application/javascript'
-          else if ext in ['png', 'jpeg', 'gif', 'bmp']
-            contentType = 'image/#{ext}'
+  walker = walk.walk "#{root}/public/", options
+  walker.on "file", (root, fileStats, next)->
+    fs.readFile "#{root}/#{fileStats.name}", (err, buf)->
+      folder = path.normalize(root).replace(path.normalize(__dirname + "\\"), "").replace /\\/g, "/"
+      name = fileStats.name.replace /^([0-9a-f]{32}\.)/, ""
+      dotIndex = name.lastIndexOf '.'
+      ext = if dotIndex > 0 then name.substr 1 + dotIndex else null
+      if ext is 'css'
+        contentType ='text/css'
+      else if ext is 'js'
+        contentType = 'application/javascript'
+      else if ext in ['png', 'jpeg', 'gif', 'bmp']
+        contentType = "image/#{ext}"
+      else
+        contentType = 'text/plain'
+
+      if process.env.UPLOAD_STATIC_TO_S3
+        app.file[name] = "/#{folder}/#{fileStats.name}"
+        next()
+      else
+        req = client.put "#{folder}/#{fileStats.name}",
+          'Content-Length': buf.length
+          'Content-Type': contentType
+          'x-amz-acl': 'public-read'
+        req.on 'response', (res)->
+          if res.statusCode is 200
+            app.file[name] = "http://#{process.env.AWS_CLOUDFRONT_STATIC}/#{folder}/#{fileStats.name}"
           else
-            contentType = 'text/plain'
-          req = client.put "public/#{folder}/#{file}",
-            'Content-Length': buf.length
-            'Content-Type': contentType
-            'x-amz-acl': 'public-read'
-          req.on 'response', (res)->
-            if res.statusCode is 200
-              app.file[name] = "http://#{process.env.AWS_CLOUDFRONT_STATIC}/public/#{folder}/#{file}"
-            else
-              app.log.err "Loading #{folder}/#{file} - ERROR!"
-              app.log.err "#{folder}/#{file} will be served from heroku"
-              app.file[name] = "/public/#{folder}/#{file}"
-            cb2()
-          req.end buf
-      , cb1
-  , (err)->
-    if err?
-      app.log.err "Load static files to S3 - ERROR!"
-      app.log.err err
-    else
-      app.log.info "Load static files to S3 - Ok!"
+            app.log.err "Loading #{folder}/#{fileStats.name} - ERROR!"
+            app.log.err "#{folder}/#{fileStats.name} will be served from heroku"
+            app.file[name] = "/#{folder}/#{fileStats.name}"
+          next()
+        req.end buf
+
+  walker.on "end", ->
+    app.log.info "Load static files to S3 - Ok!"
     app.log.info app.file
+    console.log app.file
     cb()

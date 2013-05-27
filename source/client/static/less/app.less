@@ -1,3 +1,5 @@
+//topbar height
+@topbar_h: 63px;
 //padding between game images
 @game_img_padding: 4px;
 //bigger padding between game images
@@ -39,12 +41,15 @@ body.no-scroll {
     display: block;
     padding: 10px 20px 10px 5px;
     font-size: 20px;
+    img {
+      max-height: @topbar_h - 20px;
+    }
   }
   #userpanel, #sitepanel {
     .border-box;
     display: block;
     padding: 10px;
-    height: 63px;
+    height: @topbar_h;
     div {
       float: left;
       margin: 0 10px 0 0;
@@ -164,7 +169,7 @@ body.no-scroll {
 
 
 .content{
-  padding: 68px @game_img_padding 0px @game_img_padding;
+  padding: @topbar_h + @game_img_padding + 1px  @game_img_padding 0px @game_img_padding;
 }
 
 #games {
@@ -208,7 +213,7 @@ body.no-scroll {
 
 #GamePageBackdrop{
   position:fixed;
-  top: 63px;
+  top: @topbar_h;
   bottom:0px;
   right:0px;
   left:0px;
