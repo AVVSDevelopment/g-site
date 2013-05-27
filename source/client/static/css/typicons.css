@@ -2,7 +2,7 @@
 	font-family: 'Typicons';
 	src: url('../../public/fonts/typicons-regular-webfont.eot');
 	src: url('../../public/fonts/typicons-regular-webfont.eot?#iefix') format('embedded-opentype'),
-		/*url('../../public/fonts/typicons-regular-webfont.woff') format('woff'),*/
+		url('../../public/fonts/typicons-regular-webfont.woff') format('woff'),
 		url('../../public/fonts/typicons-regular-webfont.ttf') format('truetype'),
 		url('../../public/fonts/typicons-regular-webfont.svg#TypiconsRegular') format('svg');
 	font-weight: normal;

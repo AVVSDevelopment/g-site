@@ -107,11 +107,11 @@
                         <div class="control-group">
                             <label class="control-label" for="inputLogo">Select logo image</label>
                             <div class="controls">
-                                <input id="inputLogo" name="logo_url" value="{{=it.logo_url || ""}}" {{# def.load("/views/partials/admin/filepicker-settings.dot") }}/>
+                                <input id="inputLogo" name="logo_url" value="{{=it.site.logo_url || ""}}" {{# def.load("/views/partials/admin/filepicker-settings.dot") }}/>
                                 <br>
                                 <div class="preview">
-                                    {{?it.logo_url}}
-                                    <i class="icon-remove icon-white"></i><img src="{{=it.logo_url}}"/>
+                                    {{?it.site.logo_url}}
+                                    <i class="icon-remove icon-white"></i><img src="{{=it.site.logo_url}}"/>
                                     {{?}}
                                 </div>
                             </div>
@@ -153,11 +153,11 @@
                         <div class="control-group">
                             <label class="control-label" for="inputBackgroundImage">Select background image</label>
                             <div class="controls">
-                                <input id="inputBackgroundImage" name="background.url" value="{{=it.background.url || ""}}" {{# def.load("/views/partials/admin/filepicker-settings.dot") }}/>
+                                <input id="inputBackgroundImage" name="background.url" value="{{=it.site.background.url || ""}}" {{# def.load("/views/partials/admin/filepicker-settings.dot") }}/>
                                 <br>
                                 <div class="preview">
-                                    {{?it.background.url}}
-                                    <i class="icon-remove icon-white"></i><img src="{{=it.background.url}}"/>
+                                    {{?it.site.background.url}}
+                                    <i class="icon-remove icon-white"></i><img src="{{=it.site.background.url}}"/>
                                     {{?}}
                                 </div>
 
