@@ -1,5 +1,6 @@
 class App extends Backbone.Router
-  initialize: ()->
+  initialize: ->
+    @bind 'route', @_trackPageview
     @games = new GamesCollection()
     #init games collection from html
     _.each $('.game'), (game_el)->
@@ -20,28 +21,33 @@ class App extends Backbone.Router
     @initFullScreen()
 
   #center games div
-  center_games: ()=>
+  center_games: =>
     if $("body").height() < $(window).height() then @initFullScreen() #for situation from tiny to large screen resize
     margin = ($(window).width() - $("#games").width() - 10)/2
     if margin>40 then margin = 0
     $(".content").css "margin-left", margin
 
   #Init full screen of games, scrollbar must appear
-  initFullScreen: ()=>
+  initFullScreen: =>
     $(window).scroll()
     if $("body").height() > $(window).height() then return
     setTimeout @initFullScreen, 100
 
+  _trackPageview: ->
+    url = Backbone.history.getFragment()
+    if not /^\//.test(url) and url isnt ""
+      url = "/" + url
+    ga('send', 'pageview', url);
 
   routes:{
     "games/:game_link": "gamepage"
     "": "index"
   }
 
-  init: ()->
+  init: ->
     return
 
-  index: ()->
+  index: ->
     $('body').removeClass "no-scroll"
     $('#GamePage').hide()
     $('#GamePageBackdrop').hide()
@@ -53,16 +59,16 @@ class App extends Backbone.Router
     slug = game_link.substr(game_link.lastIndexOf('/') + 1)
     @gamePageView.model = new Game {slug:slug}
     @gamePageView.model.fetch
-      success: ()=>
+      success: =>
         @gamePageView.model.fetchPopularAndSimilar
-          success:()=>
+          success: =>
             $('#GamePage').replaceWith @gamePageView.render()
             @gamePageView.setupSwfObject()
             $('#GamePage').show()
             $('body').addClass "no-scroll"
-          error: ()->
+          error: ->
             $('#GamePageBackdrop').hide()
-      error: ()->
+      error: ->
         $('#GamePageBackdrop').hide()
 
 
