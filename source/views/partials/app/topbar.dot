@@ -5,6 +5,11 @@
             <img src="{{=it.logo_url}}">
         </a>
         {{?}}
+        <button
+                data-tracking-category="Mycategory"
+                data-tracking-action="MyAction"
+                data-tracking-label="Mylabel"
+                data-tracking-value=4>Fire event</button>
         <div id="userpanel" class="pull-left">
             <div class="user-block">
                 <div class="avatar small">

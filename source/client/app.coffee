@@ -90,6 +90,14 @@ $ () ->
       app.navigate uri, {trigger:true}
       return false
 
+  $(document).delegate "*[data-tracking-action]", "click", (e)->
+    ga 'send', 'event',
+      $(this).attr("data-tracking-category"),
+      $(this).attr("data-tracking-action"),
+      $(this).attr("data-tracking-label"),
+      $(this).attr("data-tracking-value")
+
+
   $('.search-bar .search-query').typeahead
     source: app.games.search
     matcher: ()-> true
