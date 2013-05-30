@@ -144,7 +144,7 @@ GamePageView = (function(_super) {
 
   GamePageView.prototype.templateStr = '<div class="game-page-body">\
         <div class="games-list popular">\
-          <div class="top">{{=locale["Popular games"]}}</div>\
+          <div class="top">{{=locale["Popular games"] || "Popular games"}}</div>\
           <div class="panel-content">\
             {{~it.popular :game}}\
             <div class="game">\
@@ -175,7 +175,7 @@ GamePageView = (function(_super) {
           </div>\
         </div>\
         <div class="games-list similar">\
-          <div class="top">{{=locale["Similar games"]}}</div>\
+          <div class="top">{{=locale["Similar games"] || "Similar games"}}</div>\
           <div class="panel-content">\
             {{~it.similar :game}}\
             <div class="game">\
@@ -188,7 +188,7 @@ GamePageView = (function(_super) {
           </div>\
         </div>\
         <div class="ad">\
-          <div class="top">{{=locale["Advertisement"]}}</div>\
+          <div class="top">{{=locale["Advertisement"] || "Advertisement"}}</div>\
           <div class="panel-content"></div>\
         </div>\
       </div>\
@@ -355,6 +355,7 @@ App = (function(_super) {
   }
 
   App.prototype.initialize = function() {
+    this.bind('route', this._trackPageview);
     this.games = new GamesCollection();
     _.each($('.game'), function(game_el) {
       var game, gameView, slug;
@@ -400,6 +401,16 @@ App = (function(_super) {
       return;
     }
     return setTimeout(this.initFullScreen, 100);
+  };
+
+  App.prototype._trackPageview = function() {
+    var url;
+
+    url = Backbone.history.getFragment();
+    if (!/^\//.test(url) && url !== "") {
+      url = "/" + url;
+    }
+    return ga('send', 'pageview', url);
   };
 
   App.prototype.routes = {
@@ -478,6 +489,9 @@ $(function() {
       });
       return false;
     }
+  });
+  $(document).delegate("*[data-tracking-action]", "click", function(e) {
+    return ga('send', 'event', $(this).attr("data-tracking-category"), $(this).attr("data-tracking-action"), $(this).attr("data-tracking-label"), $(this).attr("data-tracking-value"));
   });
   return $('.search-bar .search-query').typeahead({
     source: app.games.search,

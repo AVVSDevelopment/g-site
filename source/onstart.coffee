@@ -27,17 +27,13 @@ exports.createApi = (app, cb)->
 
 #generate locales for i18n
 exports.createLocales = (app, cb)->
-  app.locales = []
-  walker = walk.walk root + "/public/locales", followLinks:false
-  walker.on "names", (root, modelNames)->
-    modelNames.forEach (localeName)->
-      app.locales.push localeName.replace /\.[^/.]+$/, ""
-  walker.on "end", ()->
-    i18n.configure
-      locales: app.locales
-      directory: './source/public/locales'
-    app.log.info "search for locales     - Ok!"
-    cb()
+  app.locales = ['en','en-us','en-gb','ru','de','es','es-es','es-mx','es-co','es-ar','es-pe','es-ve','zh','fr','ja','ar','pt','pt-br','pl','it','tr','nl','fa','cs','sv','id','el','ro','vi','hu','th','da','ko','sk','fi','bg','no','he','lt','hr','sr','sl','uk']
+  app.locales.sort()
+  i18n.configure
+    locales: app.locales
+    directory: './source/public/locales'
+  app.log.info "setup locales          - Ok!"
+  cb()
 
 #mongo connection
 exports.connectToMongo = (app, cb)->

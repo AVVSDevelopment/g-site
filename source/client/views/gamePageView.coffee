@@ -2,7 +2,7 @@ class GamePageView extends Backbone.View
   id: "GamePage"
   templateStr:'<div class="game-page-body">
         <div class="games-list popular">
-          <div class="top">{{=locale["Popular games"]}}</div>
+          <div class="top">{{=locale["Popular games"] || "Popular games"}}</div>
           <div class="panel-content">
             {{~it.popular :game}}
             <div class="game">
@@ -33,7 +33,7 @@ class GamePageView extends Backbone.View
           </div>
         </div>
         <div class="games-list similar">
-          <div class="top">{{=locale["Similar games"]}}</div>
+          <div class="top">{{=locale["Similar games"] || "Similar games"}}</div>
           <div class="panel-content">
             {{~it.similar :game}}
             <div class="game">
@@ -46,7 +46,7 @@ class GamePageView extends Backbone.View
           </div>
         </div>
         <div class="ad">
-          <div class="top">{{=locale["Advertisement"]}}</div>
+          <div class="top">{{=locale["Advertisement"] || "Advertisement"}}</div>
           <div class="panel-content"></div>
         </div>
       </div>

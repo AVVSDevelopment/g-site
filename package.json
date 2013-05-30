@@ -15,6 +15,8 @@
     "knox": "0.x.x",
     "passport": "0.x.x",
     "passport-local": "0.x.x",
+    "simple_blitline_node": "2.x.x",
+    "googleapis": "0.2.9-alpha",
     "nodetime":"*",
     "node-logentries": "x.0.0",
     "grunt": "0.4.x",
