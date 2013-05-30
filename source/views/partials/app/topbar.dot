@@ -31,9 +31,9 @@
                     })
                 } }}
                 <ul>
-                <li><a href="/" onclick="changeLocale(this);" data-lang="{{=it.locale}}"><img src="{{=it.file[it.locale + '.png']}}"></a></li>
+                <li><a href="/" onclick="changeLocale(this);" data-lang="{{=it.locale}}"><img src=""></a></li>
                 {{~locales :locale}}
-                <li><a href="/" onclick="changeLocale(this);" data-lang="{{=locale}}"><img src="{{=it.file[locale +'.png']}}"></a></li>
+                <li><a href="/" onclick="changeLocale(this);" data-lang="{{=locale}}"><img src=""></a></li>
                 {{~}}
                 </ul>
                 <script>
