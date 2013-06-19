@@ -173,7 +173,8 @@ body.no-scroll {
 }
 
 #games {
-  display: inline;
+  //display: inline;
+  text-align: center;
   margin: 0 auto;
   line-height: 0px;
   .imagesInRow(2);
@@ -231,9 +232,6 @@ body.no-scroll {
   .border-radius(6px);
   .drop-shadow(0, 3px, 7px, rgba(0, 0, 0, 0.3));
   .background-clip(padding-box);
-
-  /* -- */
-  
 
   .game-page-body{
     padding: 0px;
@@ -318,14 +316,13 @@ body.no-scroll {
   }
   @base_size: 2 * @gp_games_list_w + @gp_ad_w + 8 * @gp_padding + 3;
   @modal_max_w: @base_size + @gp_game_wmax + 2 * @gp_margin;
-
   @media (min-width: @modal_max_w) {
     @modal_size: @base_size + @gp_game_wmax;
     width: @modal_size;
     .fb-comments{
       width: 770px;
     }
-    .game-page-body{      
+    .game-page-body{
       height: @gp_game_hmax + @gp_panel_top_h + 2 * @gp_padding;
     }
     .game-window{
