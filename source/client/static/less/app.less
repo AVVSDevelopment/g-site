@@ -233,15 +233,11 @@ body.no-scroll {
   .background-clip(padding-box);
 
   /* -- */
-
-  @base_size: 2 * @gp_games_list_w + @gp_ad_w + 8 * @gp_padding + 3;
-  @modal_max_w: @base_size + @gp_game_wmax + 2 * @gp_margin;
+  
 
   .game-page-body{
     padding: 0px;
     border-bottom: 1px solid rgba(0,0,0,.3);
-    height: @gp_game_hmax + @gp_panel_top_h + 2 * @gp_padding;
-    
     > div {
       float: left;
       height: 100%;
