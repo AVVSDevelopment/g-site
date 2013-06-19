@@ -74,7 +74,7 @@ class App extends Backbone.Router
 
 
 $ () ->
-  window.app = new App()
+  app = new App()
   $(window).resize app.center_games
   setTimeout app.center_games, 200
 
