@@ -315,6 +315,7 @@ body.no-scroll {
   }
   @base_size: 2 * @gp_games_list_w + @gp_ad_w + 8 * @gp_padding + 3;
   @modal_max_w: @base_size + @gp_game_wmax + 2 * @gp_margin;
+
   @media (min-width: @modal_max_w) {
     @modal_size: @base_size + @gp_game_wmax;
     width: @modal_size;
@@ -322,6 +323,7 @@ body.no-scroll {
       width: 770px;
     }
     .game-page-body{
+      height: 500px;
       height: @gp_game_hmax + @gp_panel_top_h + 2 * @gp_padding;
     }
     .game-window{
