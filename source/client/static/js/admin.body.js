@@ -2,7 +2,6 @@ var addPicToPreview, buttonError, buttonSuccess, getDomain, trimInput;
 
 getDomain = function() {
   var domain;
-
   domain = window.location.pathname.split("/");
   return domain[domain.length - 1];
 };
@@ -28,7 +27,6 @@ buttonError = function(o, cb) {
 $(".toggle-site").click(function(e) {
   var enabled,
     _this = this;
-
   if ($(this).hasClass("disabled")) {
     return false;
   }
@@ -76,7 +74,6 @@ $(".toggle-site").click(function(e) {
 $(".save").click(function(e) {
   var changes,
     _this = this;
-
   if ($(this).hasClass("disabled")) {
     return false;
   }

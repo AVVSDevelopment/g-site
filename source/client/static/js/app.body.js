@@ -12,7 +12,6 @@ Game = (function(_super) {
 
   Game.prototype.url = function() {
     var base;
-
     base = "/api/v1.alpha/games/";
     if (this.has("_id")) {
       return base + this.get("_id");
@@ -27,7 +26,6 @@ Game = (function(_super) {
 
   Game.prototype.fetchPopularAndSimilar = function(cb) {
     var _this = this;
-
     return $.ajax({
       url: this.url() + "?popular=5",
       type: 'GET',
@@ -81,7 +79,8 @@ GamesCollection = (function(_super) {
   __extends(GamesCollection, _super);
 
   function GamesCollection() {
-    this.search = __bind(this.search, this);    _ref = GamesCollection.__super__.constructor.apply(this, arguments);
+    this.search = __bind(this.search, this);
+    _ref = GamesCollection.__super__.constructor.apply(this, arguments);
     return _ref;
   }
 
@@ -101,7 +100,6 @@ GamesCollection = (function(_super) {
       success: function(games) {
         return cb(_.map(games, function(game) {
           var item;
-
           item = new Game(game);
           item.toString = function() {
             return JSON.stringify(item.toJSON());
@@ -206,7 +204,6 @@ GamePageView = (function(_super) {
 
   GamePageView.prototype.initialize = function() {
     var slug;
-
     slug = location.pathname.split("/");
     slug = slug[slug.length - 1];
     if (slug !== "") {
@@ -219,7 +216,6 @@ GamePageView = (function(_super) {
 
   GamePageView.prototype.render = function() {
     var context;
-
     context = this.model.toJSON();
     this.$el.html(this.template(context));
     return this.$el;
@@ -261,7 +257,8 @@ GameView = (function(_super) {
   __extends(GameView, _super);
 
   function GameView() {
-    this.render = __bind(this.render, this);    _ref = GameView.__super__.constructor.apply(this, arguments);
+    this.render = __bind(this.render, this);
+    _ref = GameView.__super__.constructor.apply(this, arguments);
     return _ref;
   }
 
@@ -320,7 +317,6 @@ GamesView = (function(_super) {
 
   GamesView.prototype.appendGame = function(game, games, options) {
     var gameview;
-
     gameview = new GameView({
       model: game
     });
@@ -350,7 +346,8 @@ App = (function(_super) {
 
   function App() {
     this.initFullScreen = __bind(this.initFullScreen, this);
-    this.center_games = __bind(this.center_games, this);    _ref = App.__super__.constructor.apply(this, arguments);
+    this.center_games = __bind(this.center_games, this);
+    _ref = App.__super__.constructor.apply(this, arguments);
     return _ref;
   }
 
@@ -359,7 +356,6 @@ App = (function(_super) {
     this.games = new GamesCollection();
     _.each($('.game'), function(game_el) {
       var game, gameView, slug;
-
       game = new Game;
       slug = $(game_el).find('a').attr('href');
       game.set({
@@ -384,7 +380,6 @@ App = (function(_super) {
 
   App.prototype.center_games = function() {
     var margin;
-
     if ($("body").height() < $(window).height()) {
       this.initFullScreen();
     }
@@ -405,7 +400,6 @@ App = (function(_super) {
 
   App.prototype._trackPageview = function() {
     var url;
-
     url = Backbone.history.getFragment();
     if (!/^\//.test(url) && url !== "") {
       url = "/" + url;
@@ -431,7 +425,6 @@ App = (function(_super) {
   App.prototype.gamepage = function(game_link) {
     var slug,
       _this = this;
-
     $('#GamePageBackdrop').show();
     slug = game_link.substr(game_link.lastIndexOf('/') + 1);
     this.gamePageView.model = new Game({
@@ -462,10 +455,8 @@ App = (function(_super) {
 })(Backbone.Router);
 
 $(function() {
-  var app,
-    _this = this;
-
-  app = new App();
+  var _this = this;
+  window.app = new App();
   $(window).resize(app.center_games);
   setTimeout(app.center_games, 200);
   Backbone.history.start({
@@ -474,7 +465,6 @@ $(function() {
   });
   $(document).delegate("a", "click", function(e) {
     var href, uri;
-
     if (e.currentTarget.getAttribute("nobackbone")) {
       return;
     }
@@ -503,7 +493,6 @@ $(function() {
     },
     highlighter: function(game) {
       var gv;
-
       gv = new GameView({
         model: game
       });
@@ -511,7 +500,6 @@ $(function() {
     },
     updater: function(itemString) {
       var item;
-
       item = JSON.parse(itemString);
       app.navigate('/games/' + item.slug, {
         trigger: true

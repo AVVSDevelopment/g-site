@@ -1,17 +1,22 @@
 //topbar height
 @topbar_h: 63px;
+
 //padding between game images
 @game_img_padding: 3px;
+
 //bigger padding between game images
 @game_img_padding_big: 6px;
+
 //minimum size of game image
 @game_imgsize_min: 140px;
+
 //maximum size of game image
 @game_imgsize_max: 160px;
 
 //padding on game page
 @gp_padding: 5px;
 @gp_margin: 10px;
+
 //blocks sizes on game page
 @gp_games_list_w: 140px;
 @gp_ad_w: 160px;
@@ -23,8 +28,20 @@
 
 
 
+  @base_size: 2 * @gp_games_list_w + @gp_ad_w + 8 * (@gp_padding + 3);
+  @modal_max_w: @base_size + @gp_game_wmax + 2;
+
+
+
 body {
   color: white;
+}
+
+.testBlockA {
+  //width: 140px;  
+  width: @modal_max_w;
+  height: @base_size;
+
 }
 
 body.no-scroll {
@@ -304,7 +321,6 @@ body.no-scroll {
           padding: 0px 12px 5px 12px !important;
           display: block;
           .name{
-            bottom:-85%;
           }
         }
       }
@@ -314,9 +330,10 @@ body.no-scroll {
       border-right:none;
     }
   }
-  @base_size: 2 * @gp_games_list_w + @gp_ad_w + 8 * @gp_padding + 3;
-  @modal_max_w: @base_size + @gp_game_wmax + 2 * @gp_margin;
-  @media (min-width: @modal_max_w) {
+
+
+
+  @media (min-width: 1280px) {
     @modal_size: @base_size + @gp_game_wmax;
     width: @modal_size;
     .fb-comments{
