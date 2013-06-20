@@ -1,22 +1,17 @@
 //topbar height
 @topbar_h: 63px;
-
 //padding between game images
-@game_img_padding: 3px;
-
+@game_img_padding: 4px;
 //bigger padding between game images
-@game_img_padding_big: 6px;
-
+@game_img_padding_big: 8px;
 //minimum size of game image
 @game_imgsize_min: 140px;
-
 //maximum size of game image
 @game_imgsize_max: 160px;
 
 //padding on game page
 @gp_padding: 5px;
 @gp_margin: 10px;
-
 //blocks sizes on game page
 @gp_games_list_w: 140px;
 @gp_ad_w: 160px;
@@ -28,15 +23,9 @@
 
 
 
-
-
-
-
 body {
   color: white;
 }
-
-
 
 body.no-scroll {
   overflow: hidden;
@@ -184,8 +173,7 @@ body.no-scroll {
 }
 
 #games {
-  //display: inline;
-  text-align: center;
+  display: inline;
   margin: 0 auto;
   line-height: 0px;
   .imagesInRow(2);
@@ -325,18 +313,9 @@ body.no-scroll {
       border-right:none;
     }
   }
-
-
   @base_size: 2 * @gp_games_list_w + @gp_ad_w + 8 * @gp_padding + 3;
-  @modal_max_w: @base_size + @gp_game_wmax + 2;
-  @modal_min_w: @base_size + 2;
-
-
-  
-
-
-
-  @media (min-width: @modal_min_w) {
+  @modal_max_w: @base_size + @gp_game_wmax + 2 * @gp_margin;
+  @media (min-width: @modal_max_w) {
     @modal_size: @base_size + @gp_game_wmax;
     width: @modal_size;
     .fb-comments{
@@ -385,7 +364,6 @@ body.no-scroll {
   .game{
     display: inline-block;
     padding: @game_img_padding;
-
     .border-box();
     > a {
       overflow: hidden;
@@ -481,9 +459,9 @@ body.no-scroll {
 }
 
 .drop-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
-  -webkit-box-shadow:	@x @y @blur @spread rgba(0, 0, 0, @alpha);
-  -moz-box-shadow:	@x @y @blur @spread rgba(0, 0, 0, @alpha);
-  box-shadow:		@x @y @blur @spread rgba(0, 0, 0, @alpha);
+  -webkit-box-shadow: @x @y @blur @spread rgba(0, 0, 0, @alpha);
+  -moz-box-shadow:  @x @y @blur @spread rgba(0, 0, 0, @alpha);
+  box-shadow:   @x @y @blur @spread rgba(0, 0, 0, @alpha);
 }
 
 .background-clip(@p:padding-box){
@@ -491,36 +469,3 @@ body.no-scroll {
   -moz-background-clip: @p;
   background-clip: @p;
 }
-
-
-body {
-
-  @base_size: (2 * @gp_games_list_w + @gp_ad_w + 8 * @gp_padding + 3);
-  @modal_max_w: (@base_size + @gp_game_wmax);
-
-
-  @media (@modal_max_w) {
-    @base_size: 2 * @gp_games_list_w + @gp_ad_w + 8 * @gp_padding + 3;
-    @modal_max_w: @base_size + @gp_game_wmax + 2;
-    
-    .testBlockA {  
-        width: @modal_max_w;
-        height: 100px;
-
-    }
-  }
-}
-
-    
-/*@media (max-width: 1034px) {
-  .testBlockA {  
-    width: @modal_max_w;
-    height: @base_size;
-
-  }
-
-}*/
-
-
-
-
