@@ -602,7 +602,7 @@ body.no-scroll #GamePageBackdrop {
 #GamePage .fb-comments span iframe {
   width: 100% !important;
 }
-@media (max-width: 1283px) {
+@media (1283px) {
   body .testBlockA {
     width: 1285px;
     height: 100px;

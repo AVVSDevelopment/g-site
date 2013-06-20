@@ -495,8 +495,8 @@ body.no-scroll {
 
 body {
 
-  @base_size: 2 * @gp_games_list_w + @gp_ad_w + 8 * @gp_padding + 3;
-  @modal_max_w: @base_size + @gp_game_wmax;
+  @base_size: (2 * @gp_games_list_w + @gp_ad_w + 8 * @gp_padding + 3);
+  @modal_max_w: (@base_size + @gp_game_wmax);
 
 
   @media (@modal_max_w) {
