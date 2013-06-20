@@ -1,5 +1,3 @@
-#! /app/bin/node
-
 var authorize, base64Encode, readPrivateKey, urlEscape;
 
 ({
@@ -121,3 +119,5 @@ base64Encode = function(obj) {
 readPrivateKey = function() {
   return fs.readFileSync(process.env.GA_KEY_PATH, 'utf8');
 };
+
+update_game_analytics();

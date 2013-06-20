@@ -97,3 +97,6 @@ base64Encode = (obj)->
 
 readPrivateKey = ->
   fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
+
+
+update_game_analytics()
