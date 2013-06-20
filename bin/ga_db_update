@@ -1,3 +1,5 @@
+#! /app/bin/node
+
 var authorize, base64Encode, readPrivateKey, urlEscape;
 
 ({
