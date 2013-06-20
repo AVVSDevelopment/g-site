@@ -28,8 +28,7 @@
 
 
 
-  @base_size: 2 * @gp_games_list_w + @gp_ad_w + 8 * (@gp_padding + 3);
-  @modal_max_w: @base_size + @gp_game_wmax + 2;
+
 
 
 
@@ -37,12 +36,7 @@ body {
   color: white;
 }
 
-.testBlockA {
-  //width: 140px;  
-  width: @modal_max_w;
-  height: @base_size;
 
-}
 
 body.no-scroll {
   overflow: hidden;
@@ -321,6 +315,7 @@ body.no-scroll {
           padding: 0px 12px 5px 12px !important;
           display: block;
           .name{
+            bottom:-85%;
           }
         }
       }
@@ -332,8 +327,16 @@ body.no-scroll {
   }
 
 
+  @base_size: 2 * @gp_games_list_w + @gp_ad_w + 8 * @gp_padding + 3;
+  @modal_max_w: @base_size + @gp_game_wmax + 2;
+  @modal_min_w: @base_size + 2;
 
-  @media (min-width: 1280px) {
+
+  
+
+
+
+  @media (min-width: @modal_min_w) {
     @modal_size: @base_size + @gp_game_wmax;
     width: @modal_size;
     .fb-comments{
@@ -488,3 +491,36 @@ body.no-scroll {
   -moz-background-clip: @p;
   background-clip: @p;
 }
+
+
+body {
+
+  @base_size: 2 * @gp_games_list_w + @gp_ad_w + 8 * @gp_padding + 3;
+  @modal_max_w: @base_size + @gp_game_wmax;
+
+
+  @media (max-width:1283px) {
+    @base_size: 2 * @gp_games_list_w + @gp_ad_w + 8 * @gp_padding + 3;
+    @modal_max_w: @base_size + @gp_game_wmax + 2;
+    
+    .testBlockA {  
+        width: @modal_max_w;
+        height: 100px;
+
+    }
+  }
+}
+
+    
+/*@media (max-width: 1034px) {
+  .testBlockA {  
+    width: @modal_max_w;
+    height: @base_size;
+
+  }
+
+}*/
+
+
+
+

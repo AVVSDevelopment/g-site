@@ -1,10 +1,6 @@
 body {
   color: white;
 }
-.testBlockA {
-  width: 1306px;
-  height: 504px;
-}
 body.no-scroll {
   overflow: hidden;
 }
@@ -557,13 +553,16 @@ body.no-scroll #GamePageBackdrop {
   padding: 0px 12px 5px 12px !important;
   display: block;
 }
+#GamePage .game-page-body .games-list .panel-content .game .name {
+  bottom: -85%;
+}
 #GamePage .game-page-body .ad {
   width: 170px;
   border-right: none;
 }
-@media (min-width: 1280px) {
+@media (min-width: 2 * 140px + 160px + 8 * 5px + 3 + 2) {
   #GamePage {
-    width: 1304px;
+    width: 1283px;
   }
   #GamePage .fb-comments {
     width: 770px;
@@ -575,9 +574,9 @@ body.no-scroll #GamePageBackdrop {
     width: 810px;
   }
 }
-@media (max-width: 2 * 140px + 160px + 8 * (5px + 3) + 800px + 2) {
+@media (max-width: 2 * 140px + 160px + 8 * 5px + 3 + 800px + 2) {
   #GamePage {
-    width: 1144px;
+    width: 1123px;
   }
   #GamePage .fb-comments {
     width: 761px;
@@ -603,3 +602,17 @@ body.no-scroll #GamePageBackdrop {
 #GamePage .fb-comments span iframe {
   width: 100% !important;
 }
+@media (max-width: 1283px) {
+  body .testBlockA {
+    width: 1285px;
+    height: 100px;
+  }
+}
+/*@media (max-width: 1034px) {
+  .testBlockA {  
+    width: @modal_max_w;
+    height: @base_size;
+
+  }
+
+}*/
