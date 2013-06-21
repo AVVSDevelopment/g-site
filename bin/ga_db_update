@@ -1,9 +1,9 @@
 #! /app/bin/node
 
-var authorize, base64Encode, readPrivateKey, urlEscape;
+var update_game_analytics, authorize, base64Encode, readPrivateKey, urlEscape;
 
-({
-  update_game_analytics: function() {
+
+  update_game_analytics = function() {
     return authorize(function(err, data) {
       var requestConfig;
       if (!err) {
@@ -62,8 +62,8 @@ var authorize, base64Encode, readPrivateKey, urlEscape;
         return console.log(err);
       }
     });
-  }
-});
+  };
+
 
 authorize = function(cb) {
   var authClaimSet, authHeader, cipher, jwt, now, signature, signatureInput,

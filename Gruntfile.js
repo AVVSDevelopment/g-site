@@ -44,8 +44,7 @@ module.exports = function(grunt) {
                     'source/client/static/js/app.body.js':["source/client/models/*.coffee", "source/client/collections/*.coffee",
                         "source/client/views/**/**.coffee", "source/client/app.coffee"
                     ],
-                    'source/client/static/js/admin.body.js':["source/client/admin.coffee"],
-                    'bin/ga_db_update':["bin/ga_db_update.coffee"]
+                    'source/client/static/js/admin.body.js':["source/client/admin.coffee"]                   
                 }
             }
         },
