@@ -10,8 +10,8 @@ request = require ('request');
 qs = require ('querystring');
 googleapis = require ('googleapis');
 mongoose = require ('mongoose');
-sites        = require ('../source/models/sites');
-games        = require ('../source/models/games');
+sites        = require ('/source/models/sites');
+games        = require ('/source/models/games');
 /*sites = mongoose.model ('sites');
 games = mongoose.model ('games');*/
 
