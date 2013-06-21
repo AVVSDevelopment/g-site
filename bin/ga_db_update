@@ -1,6 +1,17 @@
 #! /app/bin/node
 
-var update_game_analytics, authorize, base64Encode, readPrivateKey, urlEscape;
+
+var update_game_analytics, authorize, base64Encode, readPrivateKey, urlEscape,_ ,fs, crypto, request, qs, googleapis, mongoose, sites, games;
+
+_ = require 'underscore'
+fs = require 'fs'
+crypto = require 'crypto'
+request = require 'request'
+qs = require 'querystring'
+googleapis = require 'googleapis'
+mongoose = require 'mongoose'
+sites = mongoose.model 'sites'
+games = mongoose.model 'games'
 
 
   update_game_analytics = function() {
