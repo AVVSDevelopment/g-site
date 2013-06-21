@@ -6,7 +6,7 @@ var update_game_analytics, authorize, base64Encode, readPrivateKey, urlEscape,_ 
 _ = require ('underscore');
 fs = require ('fs');
 crypto = require ('crypto');
-//request = require ('request');
+request = require ('request');
 qs = require ('querystring');
 googleapis = require ('googleapis');
 mongoose = require ('mongoose');
