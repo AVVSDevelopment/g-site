@@ -13,7 +13,7 @@ mongoose = require ('mongoose');
 games        = require ('./source/public/games');
 sites        = require ('sites');
 /*sites = mongoose.model ('sites');
-games = mongoose.model ('games');*/-
+games = mongoose.model ('games');*/
 
 
   update_game_analytics = function() {
