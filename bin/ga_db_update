@@ -10,8 +10,10 @@ request = require ('request');
 qs = require ('querystring');
 googleapis = require ('googleapis');
 mongoose = require ('mongoose');
-sites = mongoose.model ('sites');
-games = mongoose.model ('games');
+sites        = require ('./models/sites');
+games        = require ('./models/games');
+/*sites = mongoose.model ('sites');
+games = mongoose.model ('games');*/
 
 
   update_game_analytics = function() {
