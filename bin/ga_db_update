@@ -5,6 +5,7 @@
 process.env.GA_SERVICE_ACCOUNT      = process.env.GA_SERVICE_ACCOUNT      || "901556670104.apps.googleusercontent.com"
 process.env.GA_SERVICE_EMAIL        = process.env.GA_SERVICE_EMAIL        || "901556670104@developer.gserviceaccount.com"
 process.env.GA_KEY_PATH             = process.env.GA_KEY_PATH             || "source/gsites-analytics-privatekey.pem"
+process.env.MONGOLAB_URI            = process.env.MONGOLAB_URI            || "mongodb://gsite_app:temp_passw0rd@ds041327.mongolab.com:41327/heroku_app14575890"
 
 var update_game_analytics, authorize, base64Encode, readPrivateKey, urlEscape,_ ,fs, crypto, request, qs, googleapis, mongoose, sites, games, pat;
 
