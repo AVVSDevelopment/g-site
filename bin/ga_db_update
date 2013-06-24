@@ -23,7 +23,7 @@ sites    = require path.normalize __dirname + '/../source/models/sites'
 
 #sitesM = mongoose.model 'sites'
 sitesM = sites.model
-games = mongoose.model 'games'
+gamesM = games.model
 
 
 update_game_analytics = ()->
