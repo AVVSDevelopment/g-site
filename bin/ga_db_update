@@ -52,7 +52,7 @@ update_game_analytics = ()->
                 console.log 'site ' + site
                 unless err
                   games.getAllBySiteId site._id, (err, games)->
-                  console.log 'game ' + games
+                    console.log 'game ' + games
                     unless err
                       _.each games, (game)->
                         _.each data.rows, (stat)->
