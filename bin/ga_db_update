@@ -24,7 +24,7 @@ sites = mongoose.model 'sites'
 games = mongoose.model 'games'
 
 
-test = ()->
+testA = ()->
   console.log "i'm run"
   console.log sites
 
@@ -123,4 +123,4 @@ readPrivateKey = ->
   fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
 
 
-update_game_analytics()
+testA()
