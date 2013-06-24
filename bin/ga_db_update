@@ -24,7 +24,7 @@ sites = mongoose.model ('sites');
 games = mongoose.model ('games');
 
 
-test = functuion(){
+test = function(){
   console.log("i'm run");
   console.log(sites);
 }
