@@ -20,7 +20,8 @@ mongoose = require 'mongoose'
 games    = require path.normalize __dirname + '/../source/models/games'
 sites    = require path.normalize __dirname + '/../source/models/sites'
 
-sitesM = mongoose.model 'sites'
+#sitesM = mongoose.model 'sites'
+sitesM = sites.model
 games = mongoose.model 'games'
 
 
