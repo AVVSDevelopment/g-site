@@ -40,12 +40,10 @@ Sites.statics.getByDomain = function(domain, cb) {
     domain: domain
   }, cb);
 
-
-  console.log(res);
-
-  return this.findOne({
+  return res;
+  /*return this.findOne({
     domain: domain
-  }, cb);
+  }, cb);*/
 };
 
 Sites.statics.getAll = function(cb) {
