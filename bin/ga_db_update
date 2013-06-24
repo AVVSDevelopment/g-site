@@ -49,8 +49,9 @@ update_game_analytics = ()->
             domains = _.map domains, (it) -> it[0]
             _.each domains, (domainName)->
               dn =  domainName.replace "www.", ""
-            sitesM.getByDomain dn, (a,b)->
-              console.log 'here'
+              
+              sitesM.getByDomain dn, (a,b)->
+                console.log 'here'
 
               
 
