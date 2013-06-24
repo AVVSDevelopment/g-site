@@ -12,7 +12,7 @@ qs = require ('querystring');
 googleapis = require ('googleapis');
 mongoose = require ('mongoose');
 games        = require (path.normalize(__dirname + '/../source/models/games'));
-sites        = require ('sites');
+sites        = require (path.normalize(__dirname + '/../source/models/sites'));
 /*sites = mongoose.model ('sites');
 games = mongoose.model ('games');*/
 
