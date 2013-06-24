@@ -67,9 +67,9 @@ update_game_analytics = ()->
                       console.log err
                 else
                   console.log err
+            mongoose.connection.close()  
       else
         console.log err
-    mongoose.connection.close()  
 
 authorize = (cb)->
   now = parseInt Date.now() / 1000, 10
