@@ -67,7 +67,7 @@ update_game_analytics = ()->
                       console.log err
                 else
                   console.log err
-            mongoose.connection.close()  
+          mongoose.connection.close()  
       else
         console.log err
 
