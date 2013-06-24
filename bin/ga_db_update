@@ -17,6 +17,7 @@ request = require 'request'
 qs = require 'querystring'
 googleapis = require 'googleapis'
 mongoose = require 'mongoose'
+
 games    = require path.normalize __dirname + '/../source/models/games'
 sites    = require path.normalize __dirname + '/../source/models/sites'
 
@@ -50,7 +51,7 @@ update_game_analytics = ()->
             domains = _.map domains, (it) -> it[0]
             _.each domains, (domainName)->
               dn =  domainName.replace "www.", ""
-              
+              console.log('a');
               sitesM.getByDomain dn, ()->
                 console.log 'cb'
 
@@ -129,4 +130,5 @@ readPrivateKey = ->
   fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
 
 
-update_game_analytics()
+mongoose.connect process.env.MONGOLAB_URI, ()->
+  update_game_analytics()
