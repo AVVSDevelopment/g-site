@@ -129,6 +129,4 @@ readPrivateKey = ->
   fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
 
 
-
-test()
 update_game_analytics()
