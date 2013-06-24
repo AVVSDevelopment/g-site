@@ -24,11 +24,11 @@ sites = mongoose.model 'sites'
 games = mongoose.model 'games'
 
 
-test: ()->
+test = ()->
   console.log "i'm run"
   console.log sites
 
-update_game_analytics: ()->
+update_game_analytics = ()->
     authorize (err, data)->
       unless err
         #Query the number of total visits for a month
@@ -69,12 +69,6 @@ update_game_analytics: ()->
                   console.log err
       else
         console.log err
-
-
-
-
-
-
 
 authorize = (cb)->
   now = parseInt Date.now() / 1000, 10
@@ -128,4 +122,5 @@ base64Encode = (obj)->
 readPrivateKey = ->
   fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
 
-update_game_analytics
+
+update_game_analytics()
