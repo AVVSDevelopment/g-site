@@ -51,7 +51,7 @@ update_game_analytics = ()->
               dn =  domainName.replace "www.", ""
               
               sitesM.getByDomain dn, ()->
-                console.log 'a'
+                console.log 'cb'
 
               
 
