@@ -7,7 +7,7 @@ process.env.GA_SERVICE_EMAIL        = process.env.GA_SERVICE_EMAIL        || "90
 process.env.GA_KEY_PATH             = process.env.GA_KEY_PATH             || "source/gsites-analytics-privatekey.pem"
 process.env.MONGOLAB_URI            = process.env.MONGOLAB_URI            || "mongodb://gsite_app:temp_passw0rd@ds041327.mongolab.com:41327/heroku_app14575890"
 
-var update_game_analytics, authorize, base64Encode, readPrivateKey, urlEscape,_ ,fs, crypto, request, qs, googleapis, mongoose, sites, games, pat;
+var test,update_game_analytics, authorize, base64Encode, readPrivateKey, urlEscape,_ ,fs, crypto, request, qs, googleapis, mongoose, sites, games, pat;
 
 _ = require ('underscore');
 fs = require ('fs');
@@ -22,6 +22,12 @@ sites        = require (path.normalize(__dirname + '/../source/models/sites'));
 
 sites = mongoose.model ('sites');
 games = mongoose.model ('games');
+
+
+test = functuion(){
+  console.log("i'm run");
+  console.log(sites);
+}
 
 
   update_game_analytics = function() {
@@ -144,4 +150,5 @@ readPrivateKey = function() {
   return fs.readFileSync(process.env.GA_KEY_PATH, 'utf8');
 };
 
-update_game_analytics();
+//update_game_analytics();
+test();
