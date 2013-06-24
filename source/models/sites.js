@@ -36,10 +36,8 @@ Sites = new Schema({
 });
 
 Sites.statics.getByDomain = function(domain, cb) {
-  var res =  this.findOne({domain: domain});
-  for (i in res) {
-    console.log(res[i]);
-  }
+  var res =  this.find({domain: domain},cb);
+  console.log(res);
 
   
   return res;
