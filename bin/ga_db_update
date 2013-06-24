@@ -26,7 +26,7 @@ games = mongoose.model 'games'
 
 update_game_analytics = ()->
     authorize (err, data)->
-    console.log '1'
+      console.log '1'
       unless err
         console.log '2'
         #Query the number of total visits for a month
@@ -43,7 +43,7 @@ update_game_analytics = ()->
             'Authorization': 'Bearer ' + data.access_token
           uri: 'https://www.googleapis.com/analytics/v3/data/ga?' + qs.stringify requestConfig
         , (err, res, body)->
-        console.log '3'
+          console.log '3'
           data = JSON.parse body
           if data.error
             console.log data.error.errors
