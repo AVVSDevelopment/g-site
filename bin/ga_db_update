@@ -54,7 +54,7 @@ update_game_analytics = ()->
               sitesM.getByDomain dn, (err, site)->
                 console.log 'hee'
                 unless err
-                  games.getAllBySiteId site._id, (err, games)->                    
+                  gamesM.getAllBySiteId site._id, (err, games)->                    
                     unless err
                       _.each games, (game)->
                         _.each data.rows, (stat)->
