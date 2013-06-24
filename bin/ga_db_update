@@ -1,16 +1,17 @@
 #! /app/bin/node
 
 
-var update_game_analytics, authorize, base64Encode, readPrivateKey, urlEscape,_ ,fs, crypto, request, qs, googleapis, mongoose, sites, games;
+var update_game_analytics, authorize, base64Encode, readPrivateKey, urlEscape,_ ,fs, crypto, request, qs, googleapis, mongoose, sites, games, pat;
 
 _ = require ('underscore');
 fs = require ('fs');
+path = require ('path'),
 crypto = require ('crypto');
 request = require ('request');
 qs = require ('querystring');
 googleapis = require ('googleapis');
 mongoose = require ('mongoose');
-games        = require (__dirname + '/../source/models/games');
+games        = require (path.normalize(__dirname + '/../source/models/games'));
 sites        = require ('sites');
 /*sites = mongoose.model ('sites');
 games = mongoose.model ('games');*/
