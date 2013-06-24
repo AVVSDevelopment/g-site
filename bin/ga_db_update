@@ -52,7 +52,7 @@ update_game_analytics = ()->
               z = sitesM.getByDomain dn, (a,b)->
                 return b
 
-              console.log z
+              console.log z()
 
 
 
