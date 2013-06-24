@@ -51,13 +51,13 @@ update_game_analytics = ()->
             domains = _.map domains, (it) -> it[0]
             _.each domains, (domainName)->
               dn =  domainName.replace "www.", ""              
-              sitesM.getByDomain dn, (err, site)->
-                console.log 'hee'
+              sitesM.getByDomain dn, (err, site)->                
                 unless err
                   gamesM.getAllBySiteId site._id, (err, games)->                    
                     unless err
                       _.each games, (game)->
                         _.each data.rows, (stat)->
+                          console.log stat
                           if (stat[0] is domainName) and (stat[1] is "/games/#{game.slug}")
                             game.pageviews = stat[2]
                             game.avg_time = stat[3]
@@ -69,6 +69,7 @@ update_game_analytics = ()->
                   console.log err
       else
         console.log err
+        mongoose.connection.close()
 
 authorize = (cb)->
   now = parseInt Date.now() / 1000, 10
