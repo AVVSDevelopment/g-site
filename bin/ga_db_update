@@ -69,7 +69,7 @@ update_game_analytics = ()->
                   console.log err
       else
         console.log err
-      mongoose.connection.close()
+      
 
 authorize = (cb)->
   now = parseInt Date.now() / 1000, 10
@@ -126,3 +126,5 @@ readPrivateKey = ->
 
 mongoose.connect process.env.MONGOLAB_URI, ()->
   update_game_analytics()
+  
+mongoose.connection.close()
