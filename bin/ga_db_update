@@ -7,148 +7,128 @@ process.env.GA_SERVICE_EMAIL        = process.env.GA_SERVICE_EMAIL        || "90
 process.env.GA_KEY_PATH             = process.env.GA_KEY_PATH             || "source/gsites-analytics-privatekey.pem"
 process.env.MONGOLAB_URI            = process.env.MONGOLAB_URI            || "mongodb://gsite_app:temp_passw0rd@ds041327.mongolab.com:41327/heroku_app14575890"
 
-var test,update_game_analytics, authorize, base64Encode, readPrivateKey, urlEscape,_ ,fs, crypto, request, qs, googleapis, mongoose, sites, games, pat;
-
-_ = require ('underscore');
-fs = require ('fs');
-path = require ('path'),
-crypto = require ('crypto');
-request = require ('request');
-qs = require ('querystring');
-googleapis = require ('googleapis');
-mongoose = require ('mongoose');
-games        = require (path.normalize(__dirname + '/../source/models/games'));
-sites        = require (path.normalize(__dirname + '/../source/models/sites'));
-
-sites = mongoose.model ('sites');
-games = mongoose.model ('games');
 
 
-test = function(){
-  console.log("i'm run");
-  console.log(sites);
-}
+_ = require 'underscore'
+fs = require 'fs'
+path = require 'path'
+crypto = require 'crypto'
+request = require 'request'
+qs = require 'querystring'
+googleapis = require 'googleapis'
+mongoose = require 'mongoose'
+games    = require path.normalize __dirname + '/../source/models/games'
+sites    = require path.normalize __dirname + '/../source/models/sites'
+
+sites = mongoose.model 'sites'
+games = mongoose.model 'games'
 
 
-  update_game_analytics = function() {
-    return authorize(function(err, data) {
-      var requestConfig;
-      if (!err) {
-        requestConfig = {
-          'ids': 'ga:73030585',
-          'start-date': '2013-02-01',
-          'end-date': '2013-06-01',
-          'metrics': 'ga:pageviews,ga:timeOnPage,ga:bounces',
+test: ()->
+  console.log "i'm run"
+  console.log sites
+
+update_game_analytics: ()->
+    authorize (err, data)->
+      unless err
+        #Query the number of total visits for a month
+        requestConfig =
+          'ids': 'ga:73030585'
+          'start-date': '2013-02-01'
+          'end-date': '2013-06-01'
+          'metrics': 'ga:pageviews,ga:timeOnPage,ga:bounces'
           'dimensions': 'ga:hostname,ga:pagePath'
-        };
-        return request({
-          method: 'GET',
-          headers: {
+
+        request
+          method: 'GET'
+          headers:
             'Authorization': 'Bearer ' + data.access_token
-          },
-          uri: 'https://www.googleapis.com/analytics/v3/data/ga?' + qs.stringify(requestConfig)
-        }, function(err, res, body) {
-          var domains;
-          data = JSON.parse(body);
-          if (data.error) {
-            return console.log(data.error.errors);
-          } else {
-            domains = _.uniq(data.rows, false, function(it) {
-              return it[0];
-            });
-            domains = _.map(domains, function(it) {
-              return it[0];
-            });
-            return _.each(domains, function(domainName) {
-              return sites.getByDomain(domainName.replace("www.", ""), function(err, site) {
-                if (!err) {
-                  return games.getAllBySiteId(site._id, function(err, games) {
-                    if (!err) {
-                      return _.each(games, function(game) {
-                        return _.each(data.rows, function(stat) {
-                          console.log('here'+stat);
-                          if ((stat[0] === domainName) && (stat[1] === ("/games/" + game.slug))) {
-                            game.pageviews = stat[2];
-                            game.avg_time = stat[3];
-                            game.bounce_rate = stat[4];
-                            return game.save();
-                          }
-                        });
-                      });
-                    } else {
-                      return console.log(err);
-                    }
-                  });
-                } else {
-                  return console.log(err);
-                }
-              });
-            });
-          }
-        });
-      } else {
-        return console.log(err);
-      }
-    });
-  };
+          uri: 'https://www.googleapis.com/analytics/v3/data/ga?' + qs.stringify requestConfig
+        , (err, res, body)->
+          data = JSON.parse body
+          if data.error
+            console.log data.error.errors
+          else
+            domains = _.uniq data.rows, false, (it)->it[0]
+            domains = _.map domains, (it) -> it[0]
+            _.each domains, (domainName)->
+              sites.getByDomain (domainName.replace "www.", ""), (err, site)->
+                unless err
+                  games.getAllBySiteId site._id, (err, games)->
+                    unless err
+                      _.each games, (game)->
+                        _.each data.rows, (stat)->
+                          if (stat[0] is domainName) and (stat[1] is "/games/#{game.slug}")
+                            game.pageviews = stat[2]
+                            game.avg_time = stat[3]
+                            game.bounce_rate = stat[4]
+                            game.save()
+                    else
+                      console.log err
+                else
+                  console.log err
+      else
+        console.log err
 
 
-authorize = function(cb) {
-  var authClaimSet, authHeader, cipher, jwt, now, signature, signatureInput,
-    _this = this;
-  now = parseInt(Date.now() / 1000, 10);
-  authHeader = {
-    alg: 'RS256',
+
+
+
+
+
+authorize = (cb)->
+  now = parseInt Date.now() / 1000, 10
+
+  authHeader =
+    alg: 'RS256'
     typ: 'JWT'
-  };
-  authClaimSet = {
-    iss: process.env.GA_SERVICE_EMAIL,
-    scope: 'https://www.googleapis.com/auth/analytics.readonly',
-    aud: 'https://accounts.google.com/o/oauth2/token',
-    iat: now,
-    exp: now + 60
-  };
-  signatureInput = base64Encode(authHeader) + '.' + base64Encode(authClaimSet);
-  cipher = crypto.createSign('RSA-SHA256');
-  cipher.update(signatureInput);
-  signature = cipher.sign(readPrivateKey(), 'base64');
-  jwt = signatureInput + '.' + urlEscape(signature);
-  return request({
-    method: 'POST',
-    headers: {
+
+  authClaimSet =
+    iss  : process.env.GA_SERVICE_EMAIL
+    scope: 'https://www.googleapis.com/auth/analytics.readonly'
+    aud  : 'https://accounts.google.com/o/oauth2/token'
+    iat  : now
+    exp  : now + 60
+
+  #Setup JWT source
+  signatureInput = base64Encode(authHeader) + '.' + base64Encode authClaimSet
+
+  #Generate JWT
+  cipher = crypto.createSign 'RSA-SHA256'
+  cipher.update signatureInput
+  signature = cipher.sign readPrivateKey(), 'base64'
+  jwt = signatureInput + '.' + urlEscape signature
+
+  #Send request to authorize this application
+  request
+    method: 'POST'
+    headers:
       'Content-Type': 'application/x-www-form-urlencoded'
-    },
-    uri: 'https://accounts.google.com/o/oauth2/token',
-    body: 'grant_type=' + escape('urn:ietf:params:oauth:grant-type:jwt-bearer') + '&assertion=' + jwt
-  }, function(err, res, body) {
-    var gaResult;
-    if (err) {
-      console.log(err);
-      return cb(new Error(err));
-    } else {
-      gaResult = JSON.parse(body);
-      if (gaResult.error) {
-        return cb(new Error(gaResult.error));
-      } else {
-        return cb(null, gaResult);
-      }
-    }
-  });
-};
+    uri: 'https://accounts.google.com/o/oauth2/token'
+    body: 'grant_type=' + escape('urn:ietf:params:oauth:grant-type:jwt-bearer') +
+    '&assertion=' + jwt
+  , (err, res, body)=>
+    if err
+      console.log err
+      cb new Error err
+    else
+      gaResult = JSON.parse body
+      if gaResult.error
+        cb new Error gaResult.error
+      else
+        cb null, gaResult
 
-urlEscape = function(source) {
-  return source.replace(/\+/g, '-').replace(/\//g, '_').replace(/\=+$/, '');
-};
+urlEscape = (source)->
+  source.replace(/\+/g, '-').replace(/\//g, '_').replace /\=+$/, ''
 
-base64Encode = function(obj) {
-  var encoded;
-  encoded = new Buffer(JSON.stringify(obj), 'utf8').toString('base64');
-  return urlEscape(encoded);
-};
+base64Encode = (obj)->
+  encoded = new Buffer(JSON.stringify(obj), 'utf8').toString 'base64'
+  urlEscape encoded
 
-readPrivateKey = function() {
-  return fs.readFileSync(process.env.GA_KEY_PATH, 'utf8');
-};
+readPrivateKey = ->
+  fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
 
-//update_game_analytics();
-test();
+
+
+test()
+update_game_analytics()
