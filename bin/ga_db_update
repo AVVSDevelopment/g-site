@@ -60,6 +60,7 @@ games = mongoose.model ('games');
                     if (!err) {
                       return _.each(games, function(game) {
                         return _.each(data.rows, function(stat) {
+                          console.log('here'+stat);
                           if ((stat[0] === domainName) && (stat[1] === ("/games/" + game.slug))) {
                             game.pageviews = stat[2];
                             game.avg_time = stat[3];
