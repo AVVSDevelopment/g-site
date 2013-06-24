@@ -35,15 +35,10 @@ Sites = new Schema({
   }
 });
 
-Sites.statics.getByDomain = function(domain, cb) {
-  var res =  this.find({domain: domain},cb);
-  console.log(res);
-
-  
-  return res;
-  /*return this.findOne({
+Sites.statics.getByDomain = function(domain, cb) {  
+  return this.findOne({
     domain: domain
-  }, cb);*/
+  }, cb);
 };
 
 Sites.statics.getAll = function(cb) {
