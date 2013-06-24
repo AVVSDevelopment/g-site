@@ -20,7 +20,7 @@ mongoose = require 'mongoose'
 games    = require path.normalize __dirname + '/../source/models/games'
 sites    = require path.normalize __dirname + '/../source/models/sites'
 
-sites = mongoose.model 'sites'
+sitesM = mongoose.model 'sites'
 games = mongoose.model 'games'
 
 
@@ -49,7 +49,7 @@ update_game_analytics = ()->
             domains = _.map domains, (it) -> it[0]
             _.each domains, (domainName)->
               dn =  domainName.replace "www.", ""
-              sites.getByDomain dn, (err, site)->  
+              sitesM.getByDomain dn, (err, site)->  
                 console.log 'here '
                 unless err
                   games.getAllBySiteId site._id, (err, games)->                    
