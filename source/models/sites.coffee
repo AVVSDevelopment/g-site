@@ -27,6 +27,7 @@ Sites = new Schema
     color: String
 
 Sites.statics.getByDomain = (domain, cb)->
+  console.log 'run'
   @findOne {domain}, cb
 
 Sites.statics.getAll = (cb)->
