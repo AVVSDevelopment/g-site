@@ -48,6 +48,10 @@ Games = new Schema({
   site: Schema.Types.ObjectId
 });
 
+Games.statics.getAllBySiteId = function(id, cb){
+  return this.find ({site:id}, cb);
+}
+
 Games.statics.getBySlugOrId = function(id, ctx, cb) {
   var oid;
   oid = (id != null ? id.match("^[0-9A-Fa-f]+$") : void 0) ? new ObjectId(id) : null;
