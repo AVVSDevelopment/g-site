@@ -51,22 +51,24 @@ update_game_analytics = ()->
             domains = _.map domains, (it) -> it[0]
             _.each domains, (domainName)->
               dn =  domainName.replace "www.", ""              
-              sitesM.getByDomain dn, (err, site)->
-                unless err
-                  gamesM.getAllBySiteId site._id, (err, games)->                    
-                    unless err
-                      _.each games, (game)->
-                        _.each data.rows, (stat)->
-                          if (stat[0] is domainName) and (stat[1] is "/games/#{game.slug}")
-                            game.pageviews = stat[2]
-                            game.avg_time = stat[3]
-                            game.bounce_rate = stat[4]                            
-                            game.save (err, data)->
-                              mongoose.connection.close()
-                    else
-                      console.log err
-                else
-                  console.log err
+              mongoose.connect process.env.MONGOLAB_URI, ()->
+                sitesM.getByDomain dn, (err, site)->
+                  unless err
+                    gamesM.getAllBySiteId site._id, (err, games)->                    
+                      unless err
+                        _.each games, (game)->
+                          _.each data.rows, (stat)->
+                            if (stat[0] is domainName) and (stat[1] is "/games/#{game.slug}")
+                              game.pageviews = stat[2]
+                              game.avg_time = stat[3]
+                              game.bounce_rate = stat[4]     
+                              console.log('a');                       
+                              game.save ()->
+                                mongoose.connection.close()
+                      else
+                        console.log err
+                  else
+                    console.log err
       else
         console.log err      
 
@@ -124,5 +126,5 @@ readPrivateKey = ->
   fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
 
 
-mongoose.connect process.env.MONGOLAB_URI, ()->
-  update_game_analytics()
+
+update_game_analytics()
