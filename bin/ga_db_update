@@ -17,6 +17,8 @@ request = require 'request'
 qs = require 'querystring'
 googleapis = require 'googleapis'
 mongoose = require 'mongoose'
+
+mongoose.connect process.env.MONGOLAB_URI
 db = mongoose.connection
 db.on 'error', console.error.bind console, 'connection error:'
 
