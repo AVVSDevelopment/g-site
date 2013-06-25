@@ -57,11 +57,9 @@ update_game_analytics = ()->
           else
             domains = _.uniq data.rows, false, (it)->it[0]
             domains = _.map domains, (it) -> it[0]
-            _.each domains, (domainName,i)->              
-              dn =  domainName.replace "www.", ""     
-              console.log dn
-              sitesM.getByDomain dn, (err, site)->
-                console.log site            
+            _.each domains, (domainName,i)->                   
+              sitesM.getByDomain domainName.replace "www.", "", (err, site)->
+                console.log 'here: ' + site            
                 unless err
                   gamesM.getAllBySiteId site._id, (err, games)->                    
                     unless err
