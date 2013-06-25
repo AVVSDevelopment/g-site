@@ -57,11 +57,6 @@ update_game_analytics = (callback)->
             domains = _.uniq data.rows, false, (it)->it[0]
             domains = _.map domains, (it) -> it[0]            
             _.each domains, (domainName,i)->
-             
-             if (i is 1)
-              console.log 'here: ' + i
-              mongoose.connection.close()
-
               dn =  domainName.replace "www.", ""                          
               sitesM.getByDomain dn, (err, site)->
                 unless err
@@ -81,7 +76,10 @@ update_game_analytics = (callback)->
                     else
                       console.log err
                 else
-                  console.log err              
+                  console.log err           
+              if (i is 1)
+                console.log 'here: ' + i
+                mongoose.connection.close()   
       else
         console.log err      
     
