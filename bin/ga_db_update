@@ -58,6 +58,10 @@ update_game_analytics = (callback)->
             domains = _.map domains, (it) -> it[0]
             console.log domains.length
             _.each domains, (domainName,i)->
+              if i is 2
+                console.log i
+                mongoose.connection.close()
+
               dn =  domainName.replace "www.", ""                          
               sitesM.getByDomain dn, (err, site)->
                 unless err
@@ -77,9 +81,7 @@ update_game_analytics = (callback)->
                     else
                       console.log err
                 else
-                  console.log err
-              if i is 2                
-                mongoose.connection.close()
+                  console.log err              
       else
         console.log err      
     
