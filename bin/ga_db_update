@@ -127,4 +127,4 @@ readPrivateKey = ->
 
 
 mongoose.connect process.env.MONGOLAB_URI, ()->
-  update_game_analytics(mongoose.disconnect())
+  update_game_analytics mongoose.connection.close
