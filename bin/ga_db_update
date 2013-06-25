@@ -125,4 +125,4 @@ readPrivateKey = ->
 
 
 mongoose.connect process.env.MONGOLAB_URI, ()->
-  update_game_analytics
+  update_game_analytics()
