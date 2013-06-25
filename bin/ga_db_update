@@ -70,7 +70,8 @@ update_game_analytics = (callback)->
                             calls.push ()->
                               game.pageviews = stat[2]
                               game.avg_time = stat[3]
-                              game.bounce_rate = stat[4]                                                        
+                              game.bounce_rate = stat[4]
+                              console.log 'here'
                               game.save()
                     else
                       console.log err
