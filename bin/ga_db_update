@@ -33,7 +33,7 @@ sitesM = sites.model
 gamesM = games.model
 
 
-update_game_analytics = (callback)->
+update_game_analytics = ()->
     authorize (err, data)->
       unless err
         #Query the number of total visits for a month
