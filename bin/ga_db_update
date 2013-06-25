@@ -26,7 +26,7 @@ sitesM = sites.model
 gamesM = games.model
 
 
-update_game_analytics = (callback)->
+update_game_analytics = ()->
     authorize (err, data)->
       unless err
         #Query the number of total visits for a month
@@ -62,15 +62,13 @@ update_game_analytics = (callback)->
                             game.avg_time = stat[3]
                             game.bounce_rate = stat[4]                            
                             game.save (err, data)->
-                              console.log err, data
+                              mongoose.connection.close()
                     else
                       console.log err
                 else
                   console.log err
       else
-        console.log err
-
-      callback()
+        console.log err      
 
 
 authorize = (cb)->
@@ -127,4 +125,4 @@ readPrivateKey = ->
 
 
 mongoose.connect process.env.MONGOLAB_URI, ()->
-  update_game_analytics mongoose.connection.close
+  update_game_analytics
