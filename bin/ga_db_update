@@ -18,6 +18,7 @@ qs = require 'querystring'
 googleapis = require 'googleapis'
 mongoose = require 'mongoose'
 
+
 games    = require path.normalize __dirname + '/../source/models/games'
 sites    = require path.normalize __dirname + '/../source/models/sites'
 
@@ -50,8 +51,7 @@ update_game_analytics = ()->
             domains = _.uniq data.rows, false, (it)->it[0]
             domains = _.map domains, (it) -> it[0]
             _.each domains, (domainName)->
-              dn =  domainName.replace "www.", ""              
-              #mongoose.connect process.env.MONGOLAB_URI, ()->
+              dn =  domainName.replace "www.", ""                          
               sitesM.getByDomain dn, (err, site)->
                 unless err
                   gamesM.getAllBySiteId site._id, (err, games)->                    
@@ -124,6 +124,5 @@ base64Encode = (obj)->
 readPrivateKey = ->
   fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
 
-
-
-update_game_analytics()
+mongoose.connect process.env.MONGOLAB_URI, () ->
+  update_game_analytics()
