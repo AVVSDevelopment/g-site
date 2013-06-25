@@ -56,6 +56,7 @@ update_game_analytics = (callback)->
           else
             domains = _.uniq data.rows, false, (it)->it[0]
             domains = _.map domains, (it) -> it[0]
+            console.log domains.length
             _.each domains, (domainName)->
               dn =  domainName.replace "www.", ""                          
               sitesM.getByDomain dn, (err, site)->
