@@ -68,12 +68,11 @@ update_game_analytics = (callback)->
                           if (stat[0] is domainName) and (stat[1] is "/games/#{game.slug}")                             
                             game.pageviews = stat[2]
                             game.avg_time = stat[3]
-                            game.bounce_rate = stat[4]     
-                            console.log(game);                       
+                            game.bounce_rate = stat[4]                                                        
                             game.save (err,data)->
                               if err
                                 mongoose.connection.close()                            
-                          if i == maxIterations 
+                          if i is 117 
                             mongoose.connection.close()
                     else
                       console.log err
