@@ -58,9 +58,9 @@ update_game_analytics = (callback)->
             domains = _.map domains, (it) -> it[0]
             console.log domains.length
             _.each domains, (domainName,i)->
-              if i is 2
-                console.log i
-                mongoose.connection.close()
+             
+              console.log i
+              #mongoose.connection.close()
 
               dn =  domainName.replace "www.", ""                          
               sitesM.getByDomain dn, (err, site)->
