@@ -69,8 +69,9 @@ update_game_analytics = (callback)->
                                 game.avg_time = stat[3]
                                 game.bounce_rate = stat[4]     
                                 console.log(game);                       
-                                game.save()
-                                mongoose.connection.close()                            
+                                game.save (err,data)->
+                                  console.log err
+                                  mongoose.connection.close()                            
                     else
                       console.log err
                 else
