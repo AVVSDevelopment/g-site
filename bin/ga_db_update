@@ -79,7 +79,7 @@ update_game_analytics = (callback)->
                 else
                   console.log err
               if i is 2 
-                console.log(i);
+                console.log i
                 mongoose.connection.close()
       else
         console.log err      
