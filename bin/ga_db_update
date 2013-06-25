@@ -26,7 +26,7 @@ sitesM = sites.model
 gamesM = games.model
 
 
-update_game_analytics = ()->
+update_game_analytics = (callback)->
     authorize (err, data)->
       unless err
         #Query the number of total visits for a month
@@ -69,6 +69,8 @@ update_game_analytics = ()->
                   console.log err
       else
         console.log err
+
+      callback()
 
 
 authorize = (cb)->
@@ -125,4 +127,4 @@ readPrivateKey = ->
 
 
 mongoose.connect process.env.MONGOLAB_URI, ()->
-  update_game_analytics()
+  update_game_analytics(mongoose.disconnect())
