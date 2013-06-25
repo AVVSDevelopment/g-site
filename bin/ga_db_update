@@ -28,8 +28,8 @@ db.on 'error', console.error.bind console, 'connection error:'###
 games    = require path.normalize __dirname + '/../source/models/games'
 sites    = require path.normalize __dirname + '/../source/models/sites'
 
-sitesM = mongoose.model 'sites'
-#sitesM = sites.model
+#sitesM = mongoose.model 'sites'
+sitesM = sites.model
 gamesM = games.model
 
 
@@ -57,7 +57,8 @@ update_game_analytics = ()->
           else
             domains = _.uniq data.rows, false, (it)->it[0]
             domains = _.map domains, (it) -> it[0]
-            _.each domains, (domainName,i)->                   
+            _.each domains, (domainName,i)->   
+            console.log sitesM.getByDomain
               sitesM.getByDomain domainName.replace "www.", "", (err, site)->
                 console.log 'here: ' + site            
                 unless err
