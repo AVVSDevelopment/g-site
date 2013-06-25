@@ -75,7 +75,7 @@ update_game_analytics = (callback)->
                       console.log err
                 else
                   console.log err 
-            async.parallel calls (err,result)->
+            async.parallel calls, (err,result)->
               if err
                 console.log err
               console.log 'success'
