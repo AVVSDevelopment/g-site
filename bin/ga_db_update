@@ -129,6 +129,7 @@ base64Encode = (obj)->
 readPrivateKey = ->
   fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
 
+update_game_analytics()
 ###mongoose.connect process.env.MONGOLAB_URI, () ->
   update_game_analytics () -> 
     mongoose.connection.close()###
