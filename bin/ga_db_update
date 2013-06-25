@@ -71,7 +71,7 @@ update_game_analytics = (callback)->
                                 console.log(game);                       
                                 game.save (err,data)->
                                   console.log err
-                                  mongoose.connection.close()                            
+                                  #mongoose.connection.close()                            
                     else
                       console.log err
                 else
