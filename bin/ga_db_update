@@ -76,10 +76,7 @@ update_game_analytics = (callback)->
                     else
                       console.log err
                 else
-                  console.log err           
-              if (i is 1)
-                console.log 'here: ' + i
-                mongoose.connection.close()   
+                  console.log err                         
       else
         console.log err      
     
@@ -136,18 +133,6 @@ base64Encode = (obj)->
 
 readPrivateKey = ->
   fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
-
-###saveAll = (docs,callback)->
-  count = 0;
-  docs.forEach(function(doc){
-      doc.save(function(err){
-          count++;
-          if( count == docs.length ){
-             callback();
-          }
-      });
-  });
-}###
 
 #update_game_analytics()
 mongoose.connect process.env.MONGOLAB_URI, () ->
