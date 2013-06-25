@@ -67,10 +67,11 @@ update_game_analytics = (callback)->
                       _.each games, (game,i)->                        
                         _.each data.rows, (stat)->                          
                           if (stat[0] is domainName) and (stat[1] is "/games/#{game.slug}")                             
-                            game.pageviews = stat[2]
-                            game.avg_time = stat[3]
-                            game.bounce_rate = stat[4]                                                        
-                            calls.push game.save()
+                            calls.push ()->
+                              game.pageviews = stat[2]
+                              game.avg_time = stat[3]
+                              game.bounce_rate = stat[4]                                                        
+                              game.save()
                     else
                       console.log err
                 else
