@@ -63,14 +63,16 @@ update_game_analytics = (callback)->
                             game.avg_time = stat[3]
                             game.bounce_rate = stat[4]     
                             console.log('a');                       
-                            game.save()
-                            callback()
+                            game.save()                            
                     else
                       console.log err
                 else
                   console.log err
       else
         console.log err      
+    setTimeout ()->
+      callback()
+    ,7000
 
 
 authorize = (cb)->
