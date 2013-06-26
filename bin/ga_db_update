@@ -59,6 +59,7 @@ update_game_analytics = ()->
             domains = _.map domains, (it) -> it[0]
             _.each domains, (domainName,i)->   
               dn = domainName.replace "www.", ""
+              console.log sitesM
               sitesM.getByDomain dn, (err, site)->
                 console.log 'here: ' + site            
                 unless err
@@ -142,8 +143,9 @@ readPrivateKey = ->
   fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
 
 #update_game_analytics()
-mongoose.connect process.env.MONGOLAB_URI, (err)->
+db = mongoose.connect process.env.MONGOLAB_URI, (err)->
  if err 
     throw err
  update_game_analytics()
+console.log db
   #mongoose.connection.close()
