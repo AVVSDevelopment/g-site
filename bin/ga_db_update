@@ -142,7 +142,7 @@ readPrivateKey = ->
   fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
 
 #update_game_analytics()
-mongoose.connect process.env.MONGOLAB_URI, (err)=>
+mongoose.connect process.env.MONGOLAB_URI, (err)->
  if err 
     throw err
  update_game_analytics()
