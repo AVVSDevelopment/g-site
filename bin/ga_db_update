@@ -58,8 +58,8 @@ update_game_analytics = ()->
             domains = _.uniq data.rows, false, (it)->it[0]
             domains = _.map domains, (it) -> it[0]
             _.each domains, (domainName,i)->   
-              console.log sitesM.getByDomain
-              sitesM.getByDomain domainName.replace "www.", "", (err, site)->
+             dn = domainName.replace "www.", ""
+              sitesM.getByDomain dn, (err, site)->
                 console.log 'here: ' + site            
                 unless err
                   gamesM.getAllBySiteId site._id, (err, games)->                    
@@ -142,7 +142,8 @@ readPrivateKey = ->
   fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
 
 #update_game_analytics()
-mongoose.connect process.env.MONGOLAB_URI, (err,conn)->
-  console.log err, conn
-  update_game_analytics()
+mongoose.connect process.env.MONGOLAB_URI, (err)=>
+ if err 
+    throw err
+ update_game_analytics()
   #mongoose.connection.close()
