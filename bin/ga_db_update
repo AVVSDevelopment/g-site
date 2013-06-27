@@ -67,7 +67,7 @@ update_game_analytics = ()->
                         _.each data.rows, (stat)->
                           if (stat[0] is domainName) and (stat[1] is "/games/#{game.slug}")
                             calls.push ()->
-                            console.log 'here2'                           
+                              console.log 'here2'                           
                               game.pageviews = stat[2]
                               game.avg_time = stat[3]
                               game.bounce_rate = stat[4]
