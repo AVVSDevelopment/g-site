@@ -71,14 +71,14 @@ update_game_analytics = ()->
                               game.pageviews = stat[2]
                               game.avg_time = stat[3]
                               game.bounce_rate = stat[4]
-                              game.save()                           
+                              game.save()   
+                      console.log 'runned ' + calls                                                
                     else
                       console.log err
                 else
                   console.log err            
       else
         console.log err
-    console.log 'runned ' + calls
     #mongoose.connection.close()
 
 
