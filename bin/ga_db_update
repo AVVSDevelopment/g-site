@@ -33,9 +33,10 @@ sitesM = sites.model
 gamesM = games.model
 
 
+calls = []
+
 update_game_analytics = ()->
     authorize (err, data)->
-      calls = []
       unless err
         #Query the number of total visits for a month
         requestConfig =
@@ -75,12 +76,11 @@ update_game_analytics = ()->
                       console.log err
                 else
                   console.log err            
-            console.log 'here: ' + calls
-            ###async.parallel calls, ()->
-                console.log 'runned'
-                mongoose.connection.close()###
       else
         console.log err
+    async.parallel calls, ()->
+      console.log 'runned ' + calls
+      mongoose.connection.close()
 
 
 
