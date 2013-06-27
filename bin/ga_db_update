@@ -67,6 +67,7 @@ update_game_analytics = ()->
                             game.pageviews = stat[2]
                             game.avg_time = stat[3]
                             game.bounce_rate = stat[4]
+                            console.log('here');
                             game.save()
                     else
                       console.log err
