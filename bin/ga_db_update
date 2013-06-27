@@ -51,6 +51,7 @@ update_game_analytics = ()->
           uri: 'https://www.googleapis.com/analytics/v3/data/ga?' + qs.stringify requestConfig
         , (err, res, body)->
           data = JSON.parse body
+          calls = []
           if data.error
             console.log data.error.errors
           else
@@ -64,15 +65,22 @@ update_game_analytics = ()->
                       _.each games, (game)->
                         _.each data.rows, (stat)->
                           if (stat[0] is domainName) and (stat[1] is "/games/#{game.slug}")
-                            game.pageviews = stat[2]
-                            game.avg_time = stat[3]
-                            game.bounce_rate = stat[4]
-                            console.log('here');
-                            game.save()
+                            calls.push (callback)->
+                              game.pageviews = stat[2]
+                              game.avg_time = stat[3]
+                              game.bounce_rate = stat[4]
+                              console.log('here');
+                              game.save(callback)
                     else
                       console.log err
                 else
                   console.log err
+            async.parallel calls, (err,result)->
+              console.log result
+              if err
+                console.log err
+              console.log 'success'
+              mongoose.connection.close()
       else
         console.log err
 
