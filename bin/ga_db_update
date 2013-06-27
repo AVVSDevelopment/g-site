@@ -147,5 +147,5 @@ db = mongoose.connect process.env.MONGOLAB_URI, (err)->
  if err 
     throw err
  update_game_analytics()
-console.log db
+
   #mongoose.connection.close()
