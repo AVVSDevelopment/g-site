@@ -72,9 +72,9 @@ update_game_analytics = ()->
                               game.avg_time = stat[3]
                               game.bounce_rate = stat[4]
                               game.save()
-                      async.parallel calls, ()->
-                        console.log 'runned ' + calls
-                        mongoose.connection.close()
+                    async.parallel calls, ()->
+                      console.log 'runned ' + calls
+                      mongoose.connection.close()
                     else
                       console.log err
                 else
