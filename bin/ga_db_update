@@ -65,23 +65,15 @@ update_game_analytics = ()->
                       _.each games, (game)->
                         _.each data.rows, (stat)->
                           if (stat[0] is domainName) and (stat[1] is "/games/#{game.slug}")
-                            console.log 'here2'
-                            calls.push ()->
+                            console.log 'here2'                           
                               game.pageviews = stat[2]
                               game.avg_time = stat[3]
                               game.bounce_rate = stat[4]
-                              console.log('here');
-                              game.save
+                              game.save()                           
                     else
                       console.log err
                 else
-                  console.log err
-            async.parallel calls, (err,result)->
-              console.log result
-              if err
-                console.log err
-              console.log 'success'
-              mongoose.connection.close()
+                  console.log err            
       else
         console.log err
 
