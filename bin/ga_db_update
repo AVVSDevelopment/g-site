@@ -66,12 +66,12 @@ update_game_analytics = ()->
                       _.each games, (game)->
                         _.each data.rows, (stat)->
                           if (stat[0] is domainName) and (stat[1] is "/games/#{game.slug}")
-                            calls.push ()->
+                            calls.push (callback)->
                               console.log 'here2'                           
                               game.pageviews = stat[2]
                               game.avg_time = stat[3]
                               game.bounce_rate = stat[4]
-                              game.save()
+                              game.save callback
                       async.parallel calls, ()->
                         console.log 'runned ' + calls
                         mongoose.connection.close()
