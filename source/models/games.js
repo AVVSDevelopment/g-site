@@ -45,7 +45,19 @@ Games = new Schema({
     type: Number,
     "default": 0
   },
-  site: Schema.Types.ObjectId
+  site: Schema.Types.ObjectId,
+  pageviews: {
+    type:Number,
+    "default": 0
+  },
+  avg_time: {
+    type:Number,
+    "default": 0
+  },
+  bounce_rate: {
+    type:Number,
+    "default": 0
+  }
 });
 
 Games.statics.getAllBySiteId = function(id, cb){

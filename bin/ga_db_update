@@ -70,7 +70,7 @@ update_game_analytics = ()->
                               game.avg_time = stat[3]
                               game.bounce_rate = stat[4]
                               console.log('here');
-                              game.save(callback)
+                              game.save callbacks
                     else
                       console.log err
                 else
