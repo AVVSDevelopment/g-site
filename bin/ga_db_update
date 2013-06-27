@@ -78,9 +78,8 @@ update_game_analytics = ()->
                   console.log err            
       else
         console.log err
-    async.parallel calls, ()->
-      console.log 'runned ' + calls
-      mongoose.connection.close()
+    console.log 'runned ' + calls
+    #mongoose.connection.close()
 
 
 
