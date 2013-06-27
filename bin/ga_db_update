@@ -35,6 +35,7 @@ gamesM = games.model
 
 update_game_analytics = ()->
     authorize (err, data)->
+      calls = []
       unless err
         #Query the number of total visits for a month
         requestConfig =
@@ -51,7 +52,6 @@ update_game_analytics = ()->
           uri: 'https://www.googleapis.com/analytics/v3/data/ga?' + qs.stringify requestConfig
         , (err, res, body)->
           data = JSON.parse body
-          calls = []
           if data.error
             console.log data.error.errors
           else
@@ -65,8 +65,8 @@ update_game_analytics = ()->
                       _.each games, (game)->
                         _.each data.rows, (stat)->
                           if (stat[0] is domainName) and (stat[1] is "/games/#{game.slug}")
+                            console.log 'here2'                           
                             calls.push ()->
-                              console.log 'here2'                           
                               game.pageviews = stat[2]
                               game.avg_time = stat[3]
                               game.bounce_rate = stat[4]
@@ -75,6 +75,7 @@ update_game_analytics = ()->
                       console.log err
                 else
                   console.log err            
+            console.log 'here: ' + calls
             async.parallel calls, ()->
                 console.log 'runned'
                 mongoose.connection.close()
