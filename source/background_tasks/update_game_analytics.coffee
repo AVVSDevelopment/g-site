@@ -80,58 +80,26 @@ base64Encode = (obj)->
 readPrivateKey = ->
   fs.readFileSync process.env.GA_KEY_PATH, 'utf8'
 
-process_analytics_data = (raw_game_data, callback)->
-  # flatten arrays and get only unique domains
-  domains = _.uniq raw_game_data, false, (it)->it[0]
-  domains = _.map domains, (it) -> it[0]
+process_analytics_data = (data, callback)->
+  sitesM.find {}, (err, sites)->
+    return callback err if err?
+    sitesByDomain = {}
+    sites.forEach (site)-> sitesByDomain[site.domain] = site
 
-  async.auto {
-    ###
-      Getting all web sites
-    ###
-    sites: (done)->
-      async.map domains, (domain, domain_done) ->
-        domainName =  domain.replace "www.",""
-        sitesM.getByDomain domainName, domain_done
-      , done
-    ###
-      Receiving all games
-    ###
-    games: ["sites", (done, data)->
-      {sites} = data
-      async.map sites, (site, games_done)->
-        gamesM.getAllBySiteId site._id, games_done
-      ,done
-    ],
-    ###
-      Creating calls to update GA
-    ###
-    calls: ["games","sites", (done, data)->
-      # getting all games
-      {games, sites} = data
-      # iterate through games, create calls if domainName and gameSlug corresponds to each other
-      calls = []
-      games_shallow = _.flatten games, true
+    async.forEach data, (details, done)->
+      [gameSpecificDomain, gameSpecificSlug, pageviews, avg_time, bounce_rate] = details
+      # return unless its a game
+      return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
 
-      # iterate over all domains
-      for domainName in domains
-        # iterate over all games
-        for game in games_shallow
-          # iterate over extracted data
-          for rows in raw_game_data
-            [gameSpecificDomain, gameSpecificSlug, pageviews, avg_time, bounce_rate] = rows
-            # if data we have matches this specific game - create a call
-            if gameSpecificDomain is domainName and gameSpecificSlug is "/games/#{game.slug}"
-              game_clone = _.extend {}, game, {pageviews, avg_time, bounce_rate}
-              calls.push (save_completed) -> game_clone.save(save_completed)
+      domainName = gameSpecificDomain.replace "www.",""
+      siteId = sitesByDomain[domainName]._id
 
-      done null, calls
-    ],
-    processCalls: ["calls", (done, data)->
-      {calls} = data
-      async.parallel calls, done
-    ]
-  }, callback
+      extractedSlug = gameSpecificSlug.replace "/games/", ""
+
+      gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, done
+
+    , callback
+
 
 update_game_analytics = (callback) ->
   authorize (err, data) ->
