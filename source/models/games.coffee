@@ -2,7 +2,7 @@ url = require 'url'
 mongoose = require 'mongoose'
 _ = require 'underscore'
 Schema = require '../rest'
-ObjectId = mongoose.Types.ObjectId;
+{ObjectId} = Schema.Types
 
 Games = new Schema
   title:
@@ -40,7 +40,6 @@ Games = new Schema
   bounce_rate:
     type: Number
     default: 0
-
   site: {type: ObjectId, ref: 'sites'}
 
 
