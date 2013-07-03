@@ -86,6 +86,8 @@ process_analytics_data = (data, callback)->
     sitesByDomain = {}
     sites.forEach (site)-> sitesByDomain[site.domain] = site
 
+    console.log sitesByDomain
+
     async.forEach data, (details, done)->
       [gameSpecificDomain, gameSpecificSlug, pageviews, avg_time, bounce_rate] = details
       # return unless its a game
@@ -96,7 +98,11 @@ process_analytics_data = (data, callback)->
 
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
-      gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, done
+      console.log siteId, extractedSlug
+
+      gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
+        console.log arguments
+        done err
 
     , callback
 
