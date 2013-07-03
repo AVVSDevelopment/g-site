@@ -29,9 +29,19 @@ Games = new Schema
     type:Number
     "default": 0
   thumbs_down:
-    type:Number
+    type: Number
     "default": 0
-  site: Schema.Types.ObjectId
+  pageviews:
+    type: Number
+    default: 0
+  avg_time:
+    type: Number
+    default: 0
+  bounce_rate:
+    type: Number
+    default: 0
+
+  site: {type: ObjectId, ref: 'sites'}
 
 
 Games.statics.getBySlugOrId = (id, ctx, cb)->
