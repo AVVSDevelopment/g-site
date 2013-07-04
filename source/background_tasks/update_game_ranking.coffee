@@ -116,7 +116,7 @@ update_game_analytics = (callback) ->
       'ids': 'ga:73030585'
       'start-date': '2013-02-01'
       'end-date': '2013-06-01'
-      'metrics': 'ga:pageviews,ga:timeOnPage,ga:bounces'
+      'metrics': 'ga:timeOnPage,ga:avgTimeOnPage'
       'dimensions': 'ga:hostname,ga:pagePath'
 
     request
