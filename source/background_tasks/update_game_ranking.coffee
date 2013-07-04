@@ -91,6 +91,8 @@ process_analytics_data = (data, callback)->
     async.forEach data, (details, done)->
       [gameSpecificDomain, gameSpecificSlug, pageviews, avg_time, bounce_rate] = details
       console.log "avg_time = " + avg_time
+      console.log "details = " + details
+      
       # return unless its a game
       return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
 
@@ -117,7 +119,7 @@ update_game_analytics = (callback) ->
       'ids': 'ga:73030585'
       'start-date': '2013-02-01'
       'end-date': '2013-07-04'
-      'metrics': 'ga:timeOnPage'
+      'metrics': 'ga:timeOnPage,ga:avgTimeOnPage'
       'dimensions': 'ga:hostname,ga:pagePath'
 
     request
