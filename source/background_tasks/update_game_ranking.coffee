@@ -98,7 +98,7 @@ process_analytics_data = (data, callback)->
 
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
-      gamesM.getBySlugOrId {site: siteId}, (err,result)->
+      gamesM.getAllBySiteId site._id, (err, games)->
         console.log 'here ' + result
         console.log 'err ' + err
       #max_avg_time = gamesM.find {site: siteId, slug: extractedSlug}
