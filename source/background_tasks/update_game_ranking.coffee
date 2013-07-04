@@ -94,23 +94,8 @@ process_analytics_data = (data, callback)->
       return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
 
       domainName = gameSpecificDomain.replace "www.",""
-      console.log sitesByDomain[domainName]._id
-      siteId = sitesByDomain[domainName]._id
-
-      extractedSlug = gameSpecificSlug.replace "/games/", ""
-
-      ###gamesM.find {}, (err,game)->
-        console.log game###
-      ###gamesM.find siteId, (err, games)->
-        console.log 'here ' + result
-        console.log 'err ' + err###
       #max_avg_time = gamesM.find {site: siteId, slug: extractedSlug}
-
-
-
-      #console.log siteId, extractedSlug
-
-      # if avg_time
+   
 
       ###gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, max_avg_time, bounce_rate}, (err)->
         console.log arguments
