@@ -94,17 +94,16 @@ process_analytics_data = (data, callback)->
       return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
 
       domainName = gameSpecificDomain.replace "www.",""
-      console.log sitesByDomain[domainName]._id
       siteId = sitesByDomain[domainName]._id
 
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
       #console.log siteId, extractedSlug
 
-      gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
+      ###gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
         console.log arguments
-        done err
-
+        done err###
+      
     , callback
 
 
@@ -117,7 +116,7 @@ update_game_analytics = (callback) ->
       'ids': 'ga:73030585'
       'start-date': '2013-02-01'
       'end-date': '2013-06-01'
-      'metrics': 'ga:timeOnPage,ga:avgTimeOnPage'
+      'metrics': 'ga:pageviews,ga:timeOnPage,ga:bounces'
       'dimensions': 'ga:hostname,ga:pagePath'
 
     request
