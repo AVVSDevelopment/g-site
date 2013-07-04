@@ -37,6 +37,9 @@ Games = new Schema
   avg_time:
     type: Number
     default: 0
+  max_avg_time:
+    type: Number
+    default: 0
   bounce_rate:
     type: Number
     default: 0
