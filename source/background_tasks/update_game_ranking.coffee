@@ -85,7 +85,6 @@ process_analytics_data = (data, callback)->
     return callback err if err?
     sitesByDomain = {}
     _.each sites, (site)->
-      console.log site
       sitesByDomain[site.domain] = site
 
     #console.log sitesByDomain
@@ -97,6 +96,7 @@ process_analytics_data = (data, callback)->
 
       domainName = gameSpecificDomain.replace "www.",""
       current = sitesByDomain[domainName]
+      console.log current._id;
       siteId = current._id
       #console.log sitesByDomain[domainName]
       extractedSlug = gameSpecificSlug.replace "/games/", ""
