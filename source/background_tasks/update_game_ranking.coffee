@@ -98,11 +98,11 @@ process_analytics_data = (data, callback)->
 
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
-      console.log siteId, extractedSlug
+      #console.log siteId, extractedSlug
 
-      gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
+      ###gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
         console.log arguments
-        done err
+        done err###
 
     , callback
 
@@ -143,4 +143,3 @@ exports.run = ->
       console.info "successfuly updated information about the games"
       # closing mongoose connection
       mongoose.connection.close()
-Status Developer Training Shop Blog About © 2013 GitHub, Inc. Terms Privacy Security Contact 
