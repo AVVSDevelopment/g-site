@@ -84,8 +84,7 @@ process_analytics_data = (data, callback)->
   sitesM.find {}, (err, sites)->
     return callback err if err?
     sitesByDomain = {}
-    _.each sites, (site)->
-      sitesByDomain[site.domain] = site
+    sites.forEach (site)-> sitesByDomain[site.domain] = site
 
     #console.log sitesByDomain
 
@@ -95,17 +94,16 @@ process_analytics_data = (data, callback)->
       return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
 
       domainName = gameSpecificDomain.replace "www.",""
-      current = sitesByDomain[domainName]
-      console.log current._id.toString()
-      #siteId = current.ObjectID
-      #console.log sitesByDomain[domainName]
+      console.log sitesByDomain[domainName]._id
+      siteId = sitesByDomain[domainName]._id
+
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
       #console.log siteId, extractedSlug
 
-      ###gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
+      gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
         console.log arguments
-        done err###
+        done err
 
     , callback
 
@@ -118,8 +116,8 @@ update_game_analytics = (callback) ->
     requestConfig =
       'ids': 'ga:73030585'
       'start-date': '2013-02-01'
-      'end-date': '2013-07-04'
-      'metrics': 'ga:timeOnPage,ga:avgTimeOnPage'
+      'end-date': '2013-06-01'
+      'metrics': 'ga:pageviews,ga:timeOnPage,ga:bounces'
       'dimensions': 'ga:hostname,ga:pagePath'
 
     request
