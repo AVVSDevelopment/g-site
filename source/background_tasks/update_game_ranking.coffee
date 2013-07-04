@@ -96,7 +96,7 @@ process_analytics_data = (data, callback)->
       domainName = gameSpecificDomain.replace "www.",""
       current = sitesByDomain[domainName]
       siteId = current._id
-      console.log sitesByDomain[]
+      console.log sitesByDomain[domainName]
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
       #console.log siteId, extractedSlug
