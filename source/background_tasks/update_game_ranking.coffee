@@ -98,12 +98,12 @@ process_analytics_data = (data, callback)->
 
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
-      #console.log siteId, extractedSlug
+      console.log siteId, extractedSlug
 
       ###gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
         console.log arguments
         done err###
-      
+
     , callback
 
 
