@@ -89,10 +89,7 @@ process_analytics_data = (data, callback)->
     #console.log sitesByDomain
 
     async.forEach data, (details, done)->
-      [gameSpecificDomain, gameSpecificSlug, pageviews, avg_time, max_avg_time, bounce_rate] = details
-      console.log "avg_time = " + avg_time
-      console.log "max_avg_time = " + max_avg_time
-
+      [gameSpecificDomain, gameSpecificSlug, pageviews, avg_time, bounce_rate] = details
       # return unless its a game
       return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
 
@@ -101,9 +98,17 @@ process_analytics_data = (data, callback)->
 
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
+      gamesM.find {site: siteId, slug: extractedSlug}, (err,result)->
+        console.log result
+      #max_avg_time = gamesM.find {site: siteId, slug: extractedSlug}
+
+
+
       #console.log siteId, extractedSlug
 
-      gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
+      # if avg_time
+
+      gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, max_avg_time, bounce_rate}, (err)->
         console.log arguments
         done err
 
