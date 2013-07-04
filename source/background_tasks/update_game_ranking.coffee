@@ -84,9 +84,8 @@ process_analytics_data = (data, callback)->
   sitesM.find {}, (err, sites)->
     return callback err if err?
     sitesByDomain = {}
-    console.log sites[0]
-    console.log sites[1]
-    sites.forEach (site)-> 
+    _.each sites, (site)->
+      console.log site
       sitesByDomain[site.domain] = site
 
     #console.log sitesByDomain
