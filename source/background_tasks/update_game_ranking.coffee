@@ -94,11 +94,12 @@ process_analytics_data = (data, callback)->
       return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
 
       domainName = gameSpecificDomain.replace "www.",""
-      siteId = sitesByDomain[domainName]._id
+      #siteId = sitesByDomain[domainName]._id
+      console.log sitesByDomain[domainName]
 
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
-      console.log siteId, extractedSlug
+      #console.log siteId, extractedSlug
 
       ###gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
         console.log arguments
