@@ -84,8 +84,9 @@ process_analytics_data = (data, callback)->
   sitesM.find {}, (err, sites)->
     return callback err if err?
     sitesByDomain = {}
+    console.log sites[0]
+    console.log sites[1]
     sites.forEach (site)-> 
-      console.log site
       sitesByDomain[site.domain] = site
 
     #console.log sitesByDomain
@@ -98,7 +99,7 @@ process_analytics_data = (data, callback)->
       domainName = gameSpecificDomain.replace "www.",""
       current = sitesByDomain[domainName]
       siteId = current._id
-      console.log sitesByDomain[domainName]
+      #console.log sitesByDomain[domainName]
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
       #console.log siteId, extractedSlug
