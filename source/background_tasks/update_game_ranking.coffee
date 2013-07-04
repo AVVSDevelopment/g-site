@@ -90,7 +90,7 @@ process_analytics_data = (data, callback)->
 
     async.forEach data, (details, done)->
       [gameSpecificDomain, gameSpecificSlug, pageviews, avg_time, bounce_rate] = details
-      console.log "pageviews = " + pageviews
+      console.log "avg_time = " + avg_time
       # return unless its a game
       return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
 
