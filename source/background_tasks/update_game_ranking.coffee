@@ -115,7 +115,7 @@ update_game_analytics = (callback) ->
     requestConfig =
       'ids': 'ga:73030585'
       'start-date': '2013-02-01'
-      'end-date': '2013-06-01'
+      'end-date': '2013-07-03'
       'metrics': 'ga:timeOnPage,ga:avgTimeOnPage'
       'dimensions': 'ga:hostname,ga:pagePath'
 
