@@ -111,7 +111,7 @@ update_game_analytics = (callback) ->
   authorize (err, data) ->
     return callback err if err?
 
-    formatTime(date) ->
+    formatTime = (date) ->
       YY = d.getFullYear
       MM = d.getMonth+1
       DD = d.getDay
