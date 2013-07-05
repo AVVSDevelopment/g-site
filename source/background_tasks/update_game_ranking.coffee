@@ -113,7 +113,7 @@ update_game_analytics = (callback) ->
 
     formatTime = (date) ->
       YY = date.getFullYear()
-      MM = if date.getMonth+1
+      MM = date.getMonth()+1
       DD = date.getDay()
       
       console.log MM
