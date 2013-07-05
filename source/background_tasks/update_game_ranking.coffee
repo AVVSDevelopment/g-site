@@ -114,7 +114,7 @@ process_analytics_data = (data, callback)->
           gamesM.update {slug: "#{extractedSlug}"},{avgTimeOnPage}, (err)->
             done err###
 
-      gamesM.find {max_avg_time: {$exists: true}},{}, (err,res)->
+      gamesM.find {max_avg_time: {$gt: 555}},{}, (err,res)->
         console.log res
         
 
