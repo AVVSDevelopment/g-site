@@ -88,6 +88,7 @@ process_analytics_data = (data, callback)->
 
     #console.log sitesByDomain
 
+      
     async.forEach data, (details, done)->
       [gameSpecificDomain, gameSpecificSlug, timeOnPage, avgTimeOnPage] = details
 
@@ -103,8 +104,8 @@ process_analytics_data = (data, callback)->
       console.log '_siteId: ' + siteId
       console.log '_extractedSlug: ' + extractedSlug
 
-      test = gamesM.find({slug: "#{extractedSlug}"})
-      console.log test
+      gamesM.find ({slug: "#{extractedSlug}"},{}), (err,res)->
+        console.log res,err
 
       ###test = gamesM.find({slug: "#{extractedSlug}"}), (err, res)->
         console.log err[0], res[0]###
