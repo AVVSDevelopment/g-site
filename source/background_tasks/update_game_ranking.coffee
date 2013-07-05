@@ -116,7 +116,7 @@ update_game_analytics = (callback) ->
       MM = if date.getMonth()+1 > 0 and date.getMonth()+1 < 10 then '0' + date.getMonth()+1 else date.getMonth()+1
       DD = date.getDay()
       
-      return YY + '-' + (MM > 0 && MM < 10 ? "0"+ MM : "") + '-' + (DD > 0 && DD < 10 ? "0"+ DD : "")
+      return YY + '-' + MM + '-' + (DD > 0 && DD < 10 ? "0"+ DD : "")
 
     endDate = formatTime new Date
     startDate = formatTime new Date(+new Date - 12096e5)
