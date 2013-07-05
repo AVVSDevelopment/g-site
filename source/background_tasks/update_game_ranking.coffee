@@ -93,10 +93,9 @@ process_analytics_data = (data, callback)->
       # return unless its a game
       return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
 
-      if sitesByDomain[domainName]._id
-        console.log 'yeap'
-      else
-        console.log 'nope'
+     
+      console.log 'yeap'  if sitesByDomain[domainName]._id?
+      
 
       domainName = gameSpecificDomain.replace "www.",""
       #siteId = sitesByDomain[domainName]._id
