@@ -103,7 +103,7 @@ process_analytics_data = (data, callback)->
       console.log '_siteId: ' + siteId
       console.log '_extractedSlug: ' + extractedSlug
 
-      gamesM.find {site: siteId, slug: extractedSlug}, (date, err)->
+      gamesM.find {slug: extractedSlug}, (date, err)->
         console.log '_date: ' + date
 
 
