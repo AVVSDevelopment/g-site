@@ -111,15 +111,15 @@ update_game_analytics = (callback) ->
   authorize (err, data) ->
     return callback err if err?
 
-    endDate = formatTime new Date
-    startDate = formatTime new Date(+new Date - 12096e5)
-
     formatTime(date) ->
       YY = d.getFullYear
       MM = d.getMonth+1
       DD = d.getDay
       
       return YY + '-' + (MM > 0 && MM < 10 ? "0"+ MM : "") + '-' + (DD > 0 && DD < 10 ? "0"+ DD : "")
+
+    endDate = formatTime new Date
+    startDate = formatTime new Date(+new Date - 12096e5)
 
     console.log 'startDate: ' + startDate
 
