@@ -93,12 +93,18 @@ process_analytics_data = (data, callback)->
       # return unless its a game
       return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
 
+      unless sitesByDomain[domainName]._id
+        console.log 'yeap'  
+
+
       domainName = gameSpecificDomain.replace "www.",""
       siteId = sitesByDomain[domainName]._id
 
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
       console.log siteId, extractedSlug
+
+
 
       ###gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
         console.log arguments
@@ -121,22 +127,16 @@ update_game_analytics = (callback) ->
       MM = date.getMonth()+1
       DD = date.getDay()
 
-      console.log addZero MM
-
-      #return YY + '-' + addZero MM + '-' + addZero DD
       return "#{YY}-#{addZero MM}-#{addZero DD}"
 
     endDate = formatTime new Date
     startDate = formatTime new Date(+new Date - 12096e5)
 
-    console.log '_startDate: ' + startDate
-    console.log '_endDate: ' + endDate
-
     #Query the number of total visits for a month
     requestConfig =
       'ids': 'ga:73030585'
-      'start-date': '2013-02-01'
-      'end-date': '2013-07-01'
+      'start-date': "#{startDate}"
+      'end-date': "#{endDate}"
       'metrics': 'ga:timeOnPage,ga:avgTimeOnPage'
       'dimensions': 'ga:hostname,ga:pagePath'
 
