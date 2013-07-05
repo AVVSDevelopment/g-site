@@ -105,10 +105,11 @@ process_analytics_data = (data, callback)->
       console.log '_extractedSlug: ' + extractedSlug
 
       gamesM.find {slug: "#{extractedSlug}"},{}, (err,res)->
-        console.log res[0].title
+        unless res[0].max_avg_time
+          gamesM.update {slug: "#{extractedSlug}"},{avgTimeOnPage}, (err)->
+            done err
 
-      ###test = gamesM.find({slug: "#{extractedSlug}"}), (err, res)->
-        console.log err[0], res[0]###
+
       ###gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
         console.log arguments
         done err###
