@@ -103,7 +103,7 @@ process_analytics_data = (data, callback)->
       console.log '_siteId: ' + siteId
       console.log '_extractedSlug: ' + extractedSlug
 
-      test = gamesM.find({slug: "#{extractedSlug}"})
+      test = gamesM.findOne({slug: "#{extractedSlug}"})
       console.log test, test.max_avg_time
 
 
