@@ -111,6 +111,11 @@ update_game_analytics = (callback) ->
   authorize (err, data) ->
     return callback err if err?
 
+    forceTwoDigits = (val) ->
+      if val < 10
+        return "0#{val}"
+      return val
+
     formatTime = (date) ->
       YY = date.getFullYear()
       MM = date.getMonth()+1
@@ -123,11 +128,6 @@ update_game_analytics = (callback) ->
     endDate = formatTime new Date
     startDate = formatTime new Date(+new Date - 12096e5)
 
-
-    forceTwoDigits = (val) ->
-      if val < 10
-        return "0#{val}"
-      return val
     #console.log 'startDate: ' + startDate
 
     #Query the number of total visits for a month
