@@ -135,8 +135,8 @@ update_game_analytics = (callback) ->
     #Query the number of total visits for a month
     requestConfig =
       'ids': 'ga:73030585'
-      'start-date': '2013-06-28'
-      'end-date': '2013-07-05'
+      'start-date': startDate
+      'end-date': endDate
       'metrics': 'ga:timeOnPage,ga:avgTimeOnPage'
       'dimensions': 'ga:hostname,ga:pagePath'
 
