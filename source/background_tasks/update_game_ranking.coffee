@@ -94,15 +94,15 @@ process_analytics_data = (data, callback)->
       return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
 
       unless sitesByDomain[domainName]._id
-        console.log 'yeap'  
+        console.log 'yeap'
 
 
       domainName = gameSpecificDomain.replace "www.",""
-      siteId = sitesByDomain[domainName]._id
+      #siteId = sitesByDomain[domainName]._id
 
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
-      console.log siteId, extractedSlug
+      #console.log siteId, extractedSlug
 
 
 
