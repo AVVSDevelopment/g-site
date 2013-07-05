@@ -116,6 +116,8 @@ update_game_analytics = (callback) ->
       MM = if (date.getMonth+1) > 0 and (date.getMonth()+1) < 10 then '0' + (date.getMonth()+1) else (date.getMonth()+1)
       DD = date.getDay()
       
+      console.log ((date.getMonth())+1)
+
       return YY + '-' + MM + '-' + (DD > 0 && DD < 10 ? "0"+ DD : "")
 
     endDate = formatTime new Date
