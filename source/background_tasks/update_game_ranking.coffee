@@ -122,7 +122,7 @@ update_game_analytics = (callback) ->
       YY = date.getFullYear()
       DD = addZero date.getDay()
       MM = addZero date.getMonth()+1
-      console.log  DD
+      console.log  date
 
       return YY + "-" + MM + "-" + DD
 
