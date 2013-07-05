@@ -118,17 +118,19 @@ update_game_analytics = (callback) ->
 
     formatTime = (date) ->
       YY = date.getFullYear()
-      MM = date.getMonth()
+      MM = date.getMonth()+1
       DD = date.getDay()
 
-      console.log addZero MM+1
+      console.log addZero MM
 
-      return YY + '-' + addZero MM + '-' + addZero DD
+      #return YY + '-' + addZero MM + '-' + addZero DD
+      return "{YY}#-#{addZero MM}#-#{addZero DD}"
 
     endDate = formatTime new Date
     startDate = formatTime new Date(+new Date - 12096e5)
 
-    console.log 'startDate: ' + startDate
+    console.log '_startDate: ' + startDate
+    console.log '_endDate: ' + endDate
 
     #Query the number of total visits for a month
     requestConfig =
