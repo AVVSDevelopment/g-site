@@ -120,8 +120,8 @@ update_game_analytics = (callback) ->
 
     formatTime = (date) ->
       YY = date.getFullYear()
-      MM = addZero date.getMonth()+1
       DD = addZero date.getDay()
+      MM = addZero date.getMonth()+1
 
       return YY + "-" + MM + "-" + DD
 
