@@ -127,19 +127,18 @@ update_game_analytics = (callback) ->
       MM = date.getMonth()+1
       DD = date.getDay()
 
-      return "#{YY}-#{addZero MM}-#{addZero DD}"
+      return "#{YY-addZero MM-addZero DD}"
 
     endDate = formatTime new Date
     startDate = formatTime new Date((new Date - 12096e5))
 
-    console.log typeOf endDate
-    console.log typeOf startDate
+    console.log startDate
 
     #Query the number of total visits for a month
     requestConfig =
       'ids': 'ga:73030585'
-      'start-date': startDate
-      'end-date': endDate
+      'start-date': "#{startDate}"
+      'end-date': "#{endDate}"
       'metrics': 'ga:timeOnPage,ga:avgTimeOnPage'
       'dimensions': 'ga:hostname,ga:pagePath'
 
