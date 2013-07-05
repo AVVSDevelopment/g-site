@@ -126,7 +126,7 @@ update_game_analytics = (callback) ->
       return "#{YY}" + "-" + "#{MM}" + "-" + "#{DD}"
 
     endDate = formatTime new Date
-    startDate = formatTime new Date((new Date - 12096e5))
+    startDate = formatTime (new Date((new Date - 12096e5)))
 
     console.log 'startDate: ' + startDate
     console.log 'endDate: ' + endDate
