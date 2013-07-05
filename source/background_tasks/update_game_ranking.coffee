@@ -111,7 +111,7 @@ update_game_analytics = (callback) ->
   authorize (err, data) ->
     return callback err if err?
 
-    forceTwoDigits = (val) ->
+    addZero = (val) ->
       if val < 10
         return "0#{val}"
       return val
@@ -120,15 +120,13 @@ update_game_analytics = (callback) ->
       YY = date.getFullYear()
       MM = date.getMonth()+1
       DD = date.getDay()
-      
-      console.log forceTwoDigits MM
 
-      return YY + '-' + forceTwoDigits MM + '-' + (DD > 0 && DD < 10 ? "0"+ DD : "")
+      return YY + '-' + addZero MM + '-' + addZero DD
 
     endDate = formatTime new Date
     startDate = formatTime new Date(+new Date - 12096e5)
 
-    #console.log 'startDate: ' + startDate
+    console.log 'startDate: ' + startDate
 
     #Query the number of total visits for a month
     requestConfig =
