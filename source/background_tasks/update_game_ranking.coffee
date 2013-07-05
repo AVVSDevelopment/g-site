@@ -104,7 +104,7 @@ process_analytics_data = (data, callback)->
       console.log '_extractedSlug: ' + extractedSlug
 
       test = gamesM.find({slug: "#{extractedSlug}"})
-      console.log test[0]
+      console.log test
 
       ###test = gamesM.find({slug: "#{extractedSlug}"}), (err, res)->
         console.log err[0], res[0]###
