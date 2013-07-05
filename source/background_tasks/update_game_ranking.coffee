@@ -98,7 +98,7 @@ process_analytics_data = (data, callback)->
 
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
-      #console.log siteId, extractedSlug
+      console.log siteId, extractedSlug
 
 
 
@@ -118,23 +118,18 @@ update_game_analytics = (callback) ->
         return "0#{val}"
       return val
 
-    formatTime = (date) ->      
+    formatTime = (date) ->
       YY = date.getFullYear()
-      DD = addZero date.getDate()
       MM = addZero date.getMonth()+1
+      DD = addZero date.getDate()
 
-      return YY + "-" + MM + "-" + DD
+      return "#{YY}" + "-" + "#{MM}" + "-" + "#{DD}"
 
     endDate = formatTime new Date
+    startDate = formatTime new Date((new Date - 12096e5))
 
-    date = new Date
-    date = date - 12096e5
-    date = new Date date
-    startDate = formatTime date
-    #new Date((new Date - 12096e5))
-
-    console.log 'startDate: ' + startDate
     console.log 'endDate: ' + endDate
+    console.log 'startDate: ' + startDate
 
     #Query the number of total visits for a month
     requestConfig =
