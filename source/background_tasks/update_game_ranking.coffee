@@ -94,7 +94,7 @@ process_analytics_data = (data, callback)->
       return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
 
      
-      console.log sitesByDomain[domainName]
+      #console.log sitesByDomain[domainName]
       
 
       domainName = gameSpecificDomain.replace "www.",""
@@ -124,10 +124,10 @@ update_game_analytics = (callback) ->
 
     formatTime = (date) ->
       YY = date.getFullYear()
-      MM = date.getMonth()+1
-      DD = date.getDay()
+      MM = addZero date.getMonth()+1
+      DD = addZero date.getDay()
 
-      return "#{YY-addZero MM-addZero DD}"
+      return "#{YY}" + "-" + "#{MM}" + "-" + "#{DD}"
 
     endDate = formatTime new Date
     startDate = formatTime new Date((new Date - 12096e5))
