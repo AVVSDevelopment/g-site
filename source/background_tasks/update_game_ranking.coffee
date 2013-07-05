@@ -112,9 +112,9 @@ update_game_analytics = (callback) ->
     return callback err if err?
 
     formatTime = (date) ->
-      YY = d.getFullYear
-      MM = d.getMonth+1
-      DD = d.getDay
+      YY = date.getFullYear
+      MM = date.getMonth+1
+      DD = date.getDay
       
       return YY + '-' + (MM > 0 && MM < 10 ? "0"+ MM : "") + '-' + (DD > 0 && DD < 10 ? "0"+ DD : "")
 
