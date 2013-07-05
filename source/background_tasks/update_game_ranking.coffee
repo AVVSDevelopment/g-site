@@ -100,8 +100,11 @@ process_analytics_data = (data, callback)->
 
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
+      console.log '_siteId: ' + siteId
+      console.log '_extractedSlug: ' + extractedSlug
+
       gamesM.find {site: siteId, slug: extractedSlug}, (date, err)->
-        console.log date
+        console.log '_date: ' + date
 
 
       ###gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
