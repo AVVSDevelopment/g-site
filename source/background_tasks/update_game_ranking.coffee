@@ -89,7 +89,7 @@ process_analytics_data = (data, callback)->
     #console.log sitesByDomain
 
     async.forEach data, (details, done)->
-      [gameSpecificDomain, gameSpecificSlug, pageviews, max_avg_time, bounce_rate] = details
+      [gameSpecificDomain, gameSpecificSlug, timeOnPage, avgTimeOnPage] = details
       # return unless its a game
       return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
 
@@ -98,7 +98,7 @@ process_analytics_data = (data, callback)->
 
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
-      console.log details, details.timeOnPage
+      console.log timeOnPage
 
 
 
