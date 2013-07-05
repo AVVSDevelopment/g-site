@@ -43,6 +43,9 @@ Games = new Schema
   bounce_rate:
     type: Number
     default: 0
+  score: 
+    type: Number
+    default: 0
   site: {type: ObjectId, ref: 'sites'}
 
 
