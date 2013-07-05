@@ -113,21 +113,21 @@ update_game_analytics = (callback) ->
 
     formatTime = (date) ->
       YY = date.getFullYear()
-      MM = if ((date.getMonth)+1) > 0 and ((date.getMonth())+1) < 10 then '0' + ((date.getMonth())+1).toString() else ((date.getMonth())+1).toString()
+      MM = if date.getMonth+1
       DD = date.getDay()
       
       console.log MM
 
-      return YY + '-' + MM + '-' + (DD > 0 && DD < 10 ? "0"+ DD : "")
+      return YY + '-' + forceTwoDigits MM + '-' + (DD > 0 && DD < 10 ? "0"+ DD : "")
 
     endDate = formatTime new Date
     startDate = formatTime new Date(+new Date - 12096e5)
 
 
-###forceTwoDigits = (val) ->
-  if val < 10
-    return "0#{val}"
-  return val###
+    forceTwoDigits = (val) ->
+      if val < 10
+        return "0#{val}"
+      return val
     #console.log 'startDate: ' + startDate
 
     #Query the number of total visits for a month
