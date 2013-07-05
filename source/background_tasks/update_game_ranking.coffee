@@ -132,8 +132,8 @@ update_game_analytics = (callback) ->
     endDate = formatTime new Date
     startDate = formatTime new Date((new Date - 12096e5))
 
-    console.log endDate
-    console.log startDate
+    console.log typeOf endDate
+    console.log typeOf startDate
 
     #Query the number of total visits for a month
     requestConfig =
