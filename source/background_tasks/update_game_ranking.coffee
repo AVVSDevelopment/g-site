@@ -90,16 +90,18 @@ process_analytics_data = (data, callback)->
 
     async.forEach data, (details, done)->
       [gameSpecificDomain, gameSpecificSlug, timeOnPage, avgTimeOnPage] = details
+
       # return unless its a game
       return done null unless /^\/games\/[a-z0-9_-]+$/i.test(gameSpecificSlug)
+
 
       domainName = gameSpecificDomain.replace "www.",""
       siteId = sitesByDomain[domainName]._id
 
       extractedSlug = gameSpecificSlug.replace "/games/", ""
 
-      console.log timeOnPage
-
+      gamesM.find {site: siteId, slug: extractedSlug}, (date, err)->
+        console.log date
 
 
       ###gamesM.update {site: siteId, slug: extractedSlug}, {pageviews, avg_time, bounce_rate}, (err)->
