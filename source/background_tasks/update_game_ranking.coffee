@@ -121,9 +121,9 @@ update_game_analytics = (callback) ->
       MM = date.getMonth()+1
       DD = date.getDay()
       
-      console.log MM
+      console.log forceTwoDigits MM
 
-      return YY + '-' + forceTwoDigits(MM) + '-' + (DD > 0 && DD < 10 ? "0"+ DD : "")
+      return YY + '-' + forceTwoDigits MM + '-' + (DD > 0 && DD < 10 ? "0"+ DD : "")
 
     endDate = formatTime new Date
     startDate = formatTime new Date(+new Date - 12096e5)
