@@ -123,7 +123,7 @@ update_game_analytics = (callback) ->
       MM = addZero date.getMonth()+1
       DD = addZero date.getDay()
 
-      return "#{YY}" + "-" + "#{MM}" + "-" + "#{DD}"
+      return YY + "-" + MM + "-" + DD
 
     endDate = formatTime new Date
 
